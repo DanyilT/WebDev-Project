@@ -13,14 +13,9 @@ $posts = [
     <title>Social Network (QWERTY) - Home</title>
 </head>
 <body>
-    <header>
-        <h1>Welcome to Our Social Network</h1>
-        <nav>
-            <a href="index.php">Home</a> |
-            <a href="search.php">Search</a> |
-            <a href="products.php">Products</a>
-        </nav>
-    </header>
+
+    <?php include 'header.html'; ?>
+    <?php //require 'header.html'; ?>
 
     <main>
         <section>
@@ -38,8 +33,6 @@ $posts = [
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2025 QWERTY</p>
-    </footer>
+    <?php include 'footer.html'; ?>
 </body>
 </html>
