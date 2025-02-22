@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Social Network (QWERTY) - Search</title>
-</head>
-<body>
-<header>
-    <h1>Search Our Social Network</h1>
-    <nav>
-        <a href="index.php">Home</a> |
-        <a href="search.php">Search</a> |
-        <a href="products.php">Products</a>
-    </nav>
-</header>
+<?php include_once 'layout/header.php'; ?>
 
 <main>
     <section>
@@ -25,8 +11,4 @@
     </section>
 </main>
 
-<footer>
-    <p>&copy; 2025 QWERTY</p>
-</footer>
-</body>
-</html>
+<?php include_once 'layout/footer.php'; ?>
