@@ -1,0 +1,18 @@
+<dialog id="signupModal" class="modal signup">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Sign Up</h2>
+            <span class="close" id="closeSignup">&times;</span>
+        </div>
+        <form action="/lib/process_signup.php" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="#login">Login</a></p>
+    </div>
+</dialog>
