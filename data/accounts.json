@@ -1,0 +1,67 @@
+[
+    {
+        "id": 1,
+        "username": "user1",
+        "password": "qwerty",
+        "name": "User One",
+        "followers": [
+            2,
+            3
+        ],
+        "following": [
+            2
+        ],
+        "posts": {
+            "1": {
+                "title": "First post title",
+                "content": "First post content",
+                "date": "2025-01-01"
+            },
+            "2": {
+                "title": "Second post title",
+                "content": "Second post content",
+                "date": "2025-01-02"
+            }
+        }
+    },
+    {
+        "id": 2,
+        "username": "user2",
+        "password": "qwerty",
+        "name": "User Two",
+        "followers": [
+            1
+        ],
+        "following": [
+            1,
+            3
+        ],
+        "posts": {
+            "3": {
+                "title": "Third post title",
+                "content": "Third post content",
+                "date": "2025-01-03"
+            }
+        }
+    },
+    {
+        "id": 3,
+        "username": "user3",
+        "password": "qwerty",
+        "name": "User Three",
+        "followers": [
+            1,
+            2
+        ],
+        "following": [
+            1
+        ],
+        "posts": {
+            "4": {
+                "title": "Fourth post title",
+                "content": "Fourth post content",
+                "date": "2025-01-04"
+            }
+        }
+    }
+]
