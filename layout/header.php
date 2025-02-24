@@ -11,8 +11,9 @@
         <h1>Welcome to Our Social Network</h1>
         <nav>
             <a href="/index.php">Home</a> |
-            <a href="/search.php">Search</a> |
+            <a href="/search.php">Search</a> | <!-- Sample page -->
             <a href="/account.php">Account</a> |
-            <a href="/accounts.php">Accounts</a>
+            <a href="/posts_new.php">New Post</a> |
+            <a href="/accounts.php">Accounts</a> <!-- Sample page -->
         </nav>
     </header>
