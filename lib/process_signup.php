@@ -33,7 +33,6 @@ function registerUser($username, $password, $name) {
         'following' => [],
         'posts' => []
     ];
-    $json = json_encode($accounts, JSON_PRETTY_PRINT);
-    file_put_contents(ACCOUNTS_FILE_PATH, $json);
+    setAccounts(ACCOUNTS_FILE_PATH, $accounts);
     return true;
 }
