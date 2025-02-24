@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 function createPost($username, $title, $content, $date) {
-    $accounts = getAccounts(ACCOUNTS_FILE_PATH);
+    $accounts = get_accounts(ACCOUNTS_FILE_PATH);
 
     foreach ($accounts as &$account) {
         if ($account['username'] === $username) {
@@ -43,5 +43,5 @@ function createPost($username, $title, $content, $date) {
         }
     }
 
-    setAccounts(ACCOUNTS_FILE_PATH, $accounts);
+    save_accounts(ACCOUNTS_FILE_PATH, $accounts);
 }

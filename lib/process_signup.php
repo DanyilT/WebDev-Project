@@ -18,12 +18,13 @@ if (registerUser($username, $password, $name)) {
 }
 
 function registerUser($username, $password, $name) {
-    $accounts = getAccounts(ACCOUNTS_FILE_PATH);
+    $accounts = get_accounts(ACCOUNTS_FILE_PATH);
     foreach ($accounts as $account) {
         if ($account['username'] === $username) {
             return false;
         }
     }
+
     $accounts[] = [
         'id' => uniqid(),
         'username' => $username,
@@ -33,6 +34,6 @@ function registerUser($username, $password, $name) {
         'following' => [],
         'posts' => []
     ];
-    setAccounts(ACCOUNTS_FILE_PATH, $accounts);
+    save_accounts(ACCOUNTS_FILE_PATH, $accounts);
     return true;
 }

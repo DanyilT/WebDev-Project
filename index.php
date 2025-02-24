@@ -3,7 +3,7 @@ require 'lib/functions.php';
 
 const ACCOUNTS_FILE_PATH = 'data/accounts.json';
 
-$accounts = getAccounts(ACCOUNTS_FILE_PATH);
+$accounts = get_accounts(ACCOUNTS_FILE_PATH);
 
 $posts = [];
 foreach ($accounts as $account) {

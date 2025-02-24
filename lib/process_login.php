@@ -17,7 +17,7 @@ if (validateLogin($username, $password)) {
 }
 
 function validateLogin($username, $password) {
-    $accounts = getAccounts(ACCOUNTS_FILE_PATH);
+    $accounts = get_accounts(ACCOUNTS_FILE_PATH);
     foreach ($accounts as $account) {
         if ($account['username'] === $username && $account['password'] === $password) {
             return true;
