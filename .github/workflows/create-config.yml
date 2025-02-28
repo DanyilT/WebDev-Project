@@ -1,0 +1,30 @@
+name: Create Config
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-config:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Create config.php
+      run: |
+        echo "<?php" > config.php
+        echo "return [" >> config.php
+        echo "    'host' => getenv('DB_HOST')," >> config.php
+        echo "    'dbname' => getenv('DB_NAME')," >> config.php
+        echo "    'user' => getenv('DB_USER')," >> config.php
+        echo "    'password' => getenv('DB_PASSWORD')," >> config.php
+        echo "    'options' => [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]," >> config.php
+        echo "];" >> config.php
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
