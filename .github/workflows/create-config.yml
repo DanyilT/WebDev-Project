@@ -13,6 +13,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Print environment variables
+      run: |
+        echo "DB_HOST=${{ secrets.DB_HOST }}"
+        echo "DB_NAME=${{ secrets.DB_NAME }}"
+        echo "DB_USER=${{ secrets.DB_USER }}"
+        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
+
     - name: Create config.php
       run: |
         echo "<?php" > config.php
