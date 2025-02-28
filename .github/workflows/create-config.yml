@@ -28,3 +28,9 @@ jobs:
         DB_NAME: ${{ secrets.DB_NAME }}
         DB_USER: ${{ secrets.DB_USER }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+    - name: Upload config.php as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: config
+        path: config.php
