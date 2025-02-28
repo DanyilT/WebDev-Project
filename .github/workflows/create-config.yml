@@ -13,21 +13,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Print environment variables
-      run: |
-        echo "DB_HOST=${{ secrets.DB_HOST }}"
-        echo "DB_NAME=${{ secrets.DB_NAME }}"
-        echo "DB_USER=${{ secrets.DB_USER }}"
-        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
-
     - name: Create config.php
       run: |
         echo "<?php" > config.php
         echo "return [" >> config.php
-        echo "    'host' => getenv('DB_HOST')," >> config.php
-        echo "    'dbname' => getenv('DB_NAME')," >> config.php
-        echo "    'user' => getenv('DB_USER')," >> config.php
-        echo "    'password' => getenv('DB_PASSWORD')," >> config.php
+        echo "    'host' => '${{ secrets.DB_HOST }}'," >> config.php
+        echo "    'dbname' => '${{ secrets.DB_NAME }}'," >> config.php
+        echo "    'user' => '${{ secrets.DB_USER }}'," >> config.php
+        echo "    'password' => '${{ secrets.DB_PASSWORD }}'," >> config.php
         echo "    'options' => [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]," >> config.php
         echo "];" >> config.php
       env:
