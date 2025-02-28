@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['username'])) {
-    header('Location: /account.php#login');
+    header('Location: ../account.php#login');
     exit();
 }
 
@@ -16,15 +16,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date = date('d-m-Y-H-i-s');
 
     if (empty($title) || empty($content)) {
-        header('Location: /posts_new.php?error=empty_fields');
+        header('Location: ../posts_new.php?error=empty_fields');
         exit();
     }
 
     createPost($username, $title, $content, $date);
-    header('Location: /index.php');
+    header('Location: ../index.php');
     exit();
 } else {
-    header('Location: /posts_new.php');
+    header('Location: ../posts_new.php');
     exit();
 }
 

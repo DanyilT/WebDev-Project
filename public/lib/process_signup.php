@@ -10,10 +10,10 @@ $name = $_POST['name'];
 
 if (registerUser($username, $password, $name)) {
     $_SESSION['username'] = $username;
-    header('Location: /account.php');
+    header('Location: ../account.php');
     exit();
 } else {
-    header('Location: /account.php?error=registration_failed');
+    header('Location: ../account.php?error=registration_failed');
     exit();
 }
 

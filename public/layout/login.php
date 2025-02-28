@@ -4,7 +4,7 @@
             <h2>Login</h2>
             <span class="close" id="closeLogin">&times;</span>
         </div>
-        <form action="/lib/process_login.php" method="post">
+        <form action="lib/process_login.php" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
             <label for="password">Password:</label>

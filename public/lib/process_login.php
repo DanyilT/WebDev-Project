@@ -9,10 +9,10 @@ $password = $_POST['password'];
 
 if (validateLogin($username, $password)) {
     $_SESSION['username'] = $username;
-    header('Location: /account.php');
+    header('Location: ../account.php');
     exit();
 } else {
-    header('Location: /account.php?error=invalid_credentials');
+    header('Location: ../account.php?error=invalid_credentials');
     exit();
 }
 
