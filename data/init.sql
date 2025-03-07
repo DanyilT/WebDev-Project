@@ -1,3 +1,4 @@
+-- DDL for the database
 -- CREATE DATABASE IF NOT EXISTS qwertyDB;
 USE qwertyDB;
 
