@@ -1,0 +1,14 @@
++-----------------+       +-----------------+       +-----------------+
+|     users       |       |     posts       |       |    comments     |
++-----------------+       +-----------------+       +-----------------+
+| user_id (PK)    |<----- | post_id (PK)    |<----- | comment_id (PK) |
+| username        |       | user_id (FK)    |       | post_id (FK)    |
+| password        |       | title           |       | user_id (FK)    |
+| email           |       | content         |       | content         |
+| name            |       | media           |       | created_at      |
+| bio             |       | likes           |       +-----------------+
+| profile_pic     |       | created_at      |
+| followers       |       +-----------------+
+| following       |
+| created_at      |
++-----------------+
