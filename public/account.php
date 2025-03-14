@@ -18,7 +18,7 @@ session_start();
         <?php else: ?>
             <h1>Welcome to the Account Page</h1>
             <button id="loginBtn">Login</button>
-            <button id="signupBtn">Sign Up</button>
+            <button id="registerBtn">Register</button>
         <?php endif; ?>
     </article>
     <?php if (isset($_SESSION['username'])): ?>
@@ -28,39 +28,39 @@ session_start();
     <?php endif; ?>
 </main>
 
-<!-- Login Modal & Signup Modal -->
+<!-- Login Modal & Register Modal -->
 <?php require_once 'layout/login.php'; ?>
-<?php require_once 'layout/signup.php'; ?>
+<?php require_once 'layout/register.php'; ?>
 
 <?php include_once 'layout/footer.php'; ?>
 
 <script>
     // Get the modals
     var loginModal = document.getElementById("loginModal");
-    var signupModal = document.getElementById("signupModal");
+    var registerModal = document.getElementById("registerModal");
 
     // Get the buttons that open the modals
     var loginBtn = document.getElementById("loginBtn");
-    var signupBtn = document.getElementById("signupBtn");
+    var registerBtn = document.getElementById("registerBtn");
 
     // Get the <span> elements that close the modals
     var closeLogin = document.getElementById("closeLogin");
-    var closeSignup = document.getElementById("closeSignup");
+    var closeRegister = document.getElementById("closeRegister");
 
     // When the user clicks the button, open the modal
     loginBtn.onclick = function() {
         loginModal.style.display = "block";
     }
-    signupBtn.onclick = function() {
-        signupModal.style.display = "block";
+    registerBtn.onclick = function() {
+        registerModal.style.display = "block";
     }
 
     // When the user clicks on <span> (x), close the modal
     closeLogin.onclick = function() {
         loginModal.style.display = "none";
     }
-    closeSignup.onclick = function() {
-        signupModal.style.display = "none";
+    closeRegister.onclick = function() {
+        registerModal.style.display = "none";
     }
 
     // When the user clicks anywhere outside the modal, close it
@@ -68,19 +68,19 @@ session_start();
         if (event.target === loginModal) {
             loginModal.style.display = "none";
         }
-        if (event.target === signupModal) {
-            signupModal.style.display = "none";
+        if (event.target === registerModal) {
+            registerModal.style.display = "none";
         }
     }
 
     // Function to open the modal based on the URL hash
     function openModalBasedOnHash() {
         if (window.location.hash === '#login') {
-            signupModal.style.display = "none";
+            registerModal.style.display = "none";
             loginModal.style.display = "block";
-        } else if (window.location.hash === '#signup') {
+        } else if (window.location.hash === '#register') {
             loginModal.style.display = "none";
-            signupModal.style.display = "block";
+            registerModal.style.display = "block";
         }
         window.location.hash = '';
     }

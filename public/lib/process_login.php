@@ -1,27 +1,26 @@
 <?php
 session_start();
 
-require __DIR__ . '/functions.php';
-const ACCOUNTS_FILE_PATH = __DIR__ . '/../data/accounts.json';
+require '../../src/DBconnect.php';
 
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-if (validateLogin($username, $password)) {
+if (validateLogin($username, $password, $connection)) {
     $_SESSION['username'] = $username;
     header('Location: ../account.php');
-    exit();
 } else {
     header('Location: ../account.php?error=invalid_credentials');
-    exit();
 }
+exit();
 
-function validateLogin($username, $password) {
-    $accounts = get_accounts(ACCOUNTS_FILE_PATH);
-    foreach ($accounts as $account) {
-        if ($account['username'] === $username && $account['password'] === $password) {
-            return true;
-        }
+function validateLogin($username, $password, $connection) {
+    $stmt = $connection->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && password_verify($password, $user['password'])) {
+        return true;
     }
     return false;
 }
