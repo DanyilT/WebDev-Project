@@ -1,0 +1,21 @@
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    /*position: fixed;*/
+    /*bottom: 0;*/
+    width: 100%;
+}
+
+footer .copy {
+    font-size: 1em;
+    color: #ccc;
+}
+
+footer .link {
+    font-size: 0.8em;
+    color: #888;
+    text-decoration: none;
+}
