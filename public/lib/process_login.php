@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require '../../src/DBconnect.php';
 
 $username = $_POST['username'];

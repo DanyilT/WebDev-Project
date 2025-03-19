@@ -1,8 +1,8 @@
-<dialog id="registerModal" class="modal register">
+<dialog id="register-modal" class="modal register">
     <div class="modal-content">
         <div class="modal-header">
             <h2>Sign Up</h2>
-            <span class="close" id="closeRegister">&times;</span>
+            <span id="close-register" class="close">&times;</span>
         </div>
         <form action="lib/process_register.php" method="post">
             <label for="username">Username:</label>
