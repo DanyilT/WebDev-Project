@@ -1,14 +1,20 @@
-<?php include_once 'layout/header.php'; ?>
+<?php
+$title = 'Search';
+$styles = '<link rel="stylesheet" href="css/pages/search.css">';
+include 'layout/header.php';
+?>
 
 <main>
     <section>
-        <h2>Search</h2>
+        <h2>Search Users</h2>
         <form action="search.php" method="get">
-            <label for="search">Search for posts:</label>
-            <input type="text" id="search" name="search" placeholder="Enter search term...">
+            <label for="search">Search for users:</label>
+            <input type="text" id="search" name="search" placeholder="Enter username...">
             <button type="submit">Search</button>
         </form>
     </section>
+
+    <?php require 'lib/make_search.php'; ?>
 </main>
 
-<?php include_once 'layout/footer.php'; ?>
+<?php include 'layout/footer.php'; ?>
