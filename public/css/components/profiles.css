@@ -1,0 +1,75 @@
+@import 'button.css';
+
+/* Profiles styles */
+.profile {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+}
+
+.profile .username {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.profile .profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid #6600ff;
+}
+
+.profile .name {
+    font-size: 18px;
+    color: #333;
+}
+
+.profile .body {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.profile .date {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+}
+
+.profile .follow-ers-or-ing {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.profile .follow-btn, .profile .unfollow-btn {
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.profile .follow-btn {
+    background: #6600ff;
+    color: white;
+}
+
+.profile .follow-btn:hover {
+    background: #330066;
+    transition: 0.2s;
+}
+
+.profile .unfollow-btn {
+    background: #999;
+    color: black;
+}
+
+.profile .unfollow-btn:hover {
+    background: #555;
+    transition: 0.2s;
+}

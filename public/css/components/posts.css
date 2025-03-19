@@ -1,0 +1,47 @@
+/* Posts styles */
+.post {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #6600ff;
+}
+
+.post .username {
+    font-size: 16px;
+    font-family: 'Comic Sans MS', sans-serif;
+    color: #6600ff;
+}
+
+.post .title {
+    margin: 0;
+    color: #333;
+}
+
+.post hr {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+.post .body {
+    font-size: 14px;
+    color: #444;
+}
+
+.post .media {
+    /* Not handling this yet */
+}
+
+.post .likes {
+    /* Not handling this yet */
+}
+
+.post .date {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+}

@@ -1,0 +1,47 @@
+/* Modals styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 10vh;
+}
+
+.modal .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.modal .modal-header h2 {
+    margin: 0;
+}
+
+.modal .close {
+    color: #aaa;
+    font-size: 2em;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.modal .close:hover, .close:focus {
+    color: black;
+    transition: color 0.3s;
+}
