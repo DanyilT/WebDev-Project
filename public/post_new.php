@@ -6,7 +6,11 @@ if (!isset($_SESSION['username'])) {
 }
 ?>
 
-<?php include_once 'layout/header.php'; ?>
+<?php
+$title = 'Create Post';
+$styles = '<link rel="stylesheet" href="css/pages/post_new.css">';
+include 'layout/header.php';
+?>
 
 <main>
     <section>
@@ -25,4 +29,4 @@ if (!isset($_SESSION['username'])) {
     </section>
 </main>
 
-<?php include_once 'layout/footer.php'; ?>
+<?php include 'layout/footer.php'; ?>

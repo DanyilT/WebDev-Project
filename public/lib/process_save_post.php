@@ -1,47 +1,37 @@
 <?php
 session_start();
+require '../../src/DBconnect.php';
 
 if (!isset($_SESSION['username'])) {
     header('Location: ../account.php#login');
     exit();
 }
 
-require __DIR__ . '/functions.php';
-const ACCOUNTS_FILE_PATH = __DIR__ . '/../data/accounts.json';
+$username = $_SESSION['username'];
+$title = $_POST['title'];
+$content = $_POST['content'];
+$media = null;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_SESSION['username'];
-    $title = isset($_POST['title']) ? $_POST['title'] : '';
-    $content = isset($_POST['content']) ? $_POST['content'] : '';
-    $date = date('d-m-Y-H-i-s');
-
-    if (empty($title) || empty($content)) {
-        header('Location: ../posts_new.php?error=empty_fields');
-        exit();
-    }
-
-    createPost($username, $title, $content, $date);
-    header('Location: ../index.php');
-    exit();
+if (savePost($username, $title, $content, null, $connection)) {
+    echo "Post saved successfully.";
+    header('Location: ../profile.php?username=' . $username);
 } else {
-    header('Location: ../posts_new.php');
-    exit();
+    echo "Failed to save post.";
 }
+exit();
 
-function createPost($username, $title, $content, $date) {
-    $accounts = get_accounts(ACCOUNTS_FILE_PATH);
+function savePost($username, $title, $content, $media, $connection) {
+    $stmt = $connection->prepare("SELECT user_id FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $userId = $stmt->fetchColumn();
 
-    foreach ($accounts as &$account) {
-        if ($account['username'] === $username) {
-            $postId = uniqid();
-            $account['posts'][$postId] = [
-                'title' => $title,
-                'content' => $content,
-                'date' => $date
-            ];
-            break;
-        }
+    if (!$userId) {
+        echo "User not found.";
+        return false;
     }
 
-    save_accounts(ACCOUNTS_FILE_PATH, $accounts);
+    // Insert post into the database
+    $stmt = $connection->prepare("INSERT INTO posts (user_id, title, content, media) VALUES (?, ?, ?, ?)");
+    return $stmt->execute([$userId, $title, $content, $media]);
+
 }
