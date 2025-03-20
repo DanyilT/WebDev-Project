@@ -68,7 +68,7 @@ include 'layout/header.php';
         <p id="followers-count" class="follow-ers-or-ing">Followers: <span><?php echo $followersCount; ?></span></p>
         <p id="following-count" class="follow-ers-or-ing">Following: <span><?php echo $followingCount; ?></span></p>
         <?php if ($thisSessionUsername === $username): ?>
-            <form action="lib/process_logout.php" method="post">
+            <form action="lib/process/process_logout.php" method="post">
                 <button type="submit">Logout</button>
             </form>
         <?php else: ?>

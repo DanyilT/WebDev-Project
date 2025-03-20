@@ -15,7 +15,7 @@ include 'layout/header.php';
 <main>
     <section>
         <h2>Create a New Post</h2>
-        <form action="lib/process_save_post.php" method="post">
+        <form action="lib/process/process_save_post.php" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" readonly required> <!-- TODO: Not secure -->
             <label for="title">Title:</label>
