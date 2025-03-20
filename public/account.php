@@ -16,7 +16,7 @@ include 'layout/header.php';
     <article>
         <?php if (isset($_SESSION['username'])): ?>
             <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
-            <form action="lib/process_logout.php" method="post">
+            <form action="lib/process/process_logout.php" method="post">
                 <button type="submit">Logout</button>
             </form>
         <?php else: ?>

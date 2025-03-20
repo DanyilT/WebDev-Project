@@ -1,9 +1,9 @@
 <?php
 session_start();
-require '../../src/DBconnect.php';
+require '../../../src/DBconnect.php';
 
 if (!isset($_SESSION['username'])) {
-    header('Location: ../account.php#login');
+    header('Location: ../../account.php#login');
     exit();
 }
 
@@ -14,7 +14,7 @@ $media = null;
 
 if (savePost($username, $title, $content, null, $connection)) {
     echo "Post saved successfully.";
-    header('Location: ../profile.php?username=' . $username);
+    header('Location: ../../profile.php?username=' . $username);
 } else {
     echo "Failed to save post.";
 }

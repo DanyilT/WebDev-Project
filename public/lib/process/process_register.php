@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../../src/DBconnect.php';
+require '../../../src/DBconnect.php';
 
 $username = $_POST['username'];
 $email = $_POST['email'];
@@ -9,9 +9,9 @@ $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
 if (registerUser($username, $password, $email, $name, $connection)) {
     $_SESSION['username'] = $username;
-    header('Location: ../account.php');
+    header('Location: ../../account.php');
 } else {
-    header('Location: ../account.php?error=registration_failed');
+    header('Location: ../../account.php?error=registration_failed');
 }
 exit();
 

@@ -1,15 +1,15 @@
 <?php
 session_start();
-require '../../src/DBconnect.php';
+require '../../../src/DBconnect.php';
 
 $username = $_POST['username'];
 $password = $_POST['password'];
 
 if (validateLogin($username, $password, $connection)) {
     $_SESSION['username'] = $username;
-    header('Location: ../account.php');
+    header('Location: ../../account.php');
 } else {
-    header('Location: ../account.php?error=invalid_credentials');
+    header('Location: ../../account.php?error=invalid_credentials');
 }
 exit();
 

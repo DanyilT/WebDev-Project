@@ -4,7 +4,7 @@
             <h2>Sign Up</h2>
             <span id="close-register" class="close">&times;</span>
         </div>
-        <form action="lib/process_register.php" method="post">
+        <form action="lib/process/process_register.php" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
             <label for="email">Email:</label>
