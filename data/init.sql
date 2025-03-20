@@ -13,7 +13,8 @@ CREATE TABLE users (
     bio TEXT,
     profile_pic VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_deleted BOOLEAN DEFAULT FALSE
+    is_deleted BOOLEAN DEFAULT FALSE,
+    data_changes_history JSON
 );
 
 CREATE VIEW active_followers AS SELECT * FROM followers WHERE is_following = TRUE;
