@@ -1,3 +1,5 @@
+<!-- TODO: need to show followeing user's posts, and if ends, show all other posts. if not logged in -> show all recent posts -->
+
 <?php
 require 'lib/functions.php';
 
@@ -21,7 +23,7 @@ foreach ($accounts as $account) {
 //    die();
 ?>
 
-<?php include_once 'layout/header.php'; ?>
+<?php include 'layout/header.php'; ?>
 
 <main>
     <section>
@@ -40,4 +42,4 @@ foreach ($accounts as $account) {
     </section>
 </main>
 
-<?php include_once 'layout/footer.php'; ?>
+<?php include 'layout/footer.php'; ?>
