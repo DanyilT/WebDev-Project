@@ -1,4 +1,5 @@
--- DDL for the database
+-- DDL for initializing the database schema
+
 -- CREATE DATABASE IF NOT EXISTS qwertyDB;
 USE qwertyDB;
 
