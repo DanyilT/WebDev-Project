@@ -1,3 +1,5 @@
+<!-- TODO: Allow user edit own account info -->
+
 <?php
 session_start();
 require 'lib/profile/profile_data.php';
