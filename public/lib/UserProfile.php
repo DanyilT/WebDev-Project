@@ -19,6 +19,12 @@ class UserProfile {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getUserPassword($username) {
+        $stmt = $this->connection->prepare("SELECT password FROM active_users WHERE username = ?");
+        $stmt->execute([$username]);
+        return $stmt->fetchColumn();
+    }
+
     public function getFollowers($userId) {
         $stmt = $this->connection->prepare("SELECT u.user_id, u.username FROM active_followers f JOIN users u ON f.follower_id = u.user_id WHERE f.following_id = ?");
         $stmt->execute([$userId]);
