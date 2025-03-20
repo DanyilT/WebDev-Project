@@ -14,3 +14,11 @@ form input, form textarea {
     border: 1px solid #ccc;
     border-radius: 3px;
 }
+
+form select {
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: white;
+}
