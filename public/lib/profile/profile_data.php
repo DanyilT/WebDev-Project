@@ -31,7 +31,7 @@ function isFollowing($connection, $currentUsername, $userId) {
 
 // Fetch user posts
 function getUserPosts($connection, $userId) {
-    $stmt = $connection->prepare("SELECT * FROM posts WHERE user_id = ? ORDER BY created_at DESC");
+    $stmt = $connection->prepare("SELECT * FROM posts WHERE user_id = ? ORDER BY created_at DESC LIMIT 5");
     $stmt->execute([$userId]);
     return $stmt->fetchAll();
 }
