@@ -3,6 +3,7 @@
 -- CREATE DATABASE IF NOT EXISTS qwertyDB;
 USE qwertyDB;
 
+CREATE VIEW active_users AS SELECT * FROM users WHERE is_deleted = FALSE;
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -15,6 +16,7 @@ CREATE TABLE users (
     is_deleted BOOLEAN DEFAULT FALSE
 );
 
+CREATE VIEW active_followers AS SELECT * FROM followers WHERE is_following = TRUE;
 CREATE TABLE followers (
     follower_id INT NOT NULL,
     following_id INT NOT NULL,
@@ -27,6 +29,7 @@ CREATE TABLE followers (
     CHECK (follower_id <> following_id)
 );
 
+CREATE VIEW active_posts AS SELECT * FROM posts WHERE is_deleted = FALSE;
 CREATE TABLE posts (
     post_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -39,6 +42,7 @@ CREATE TABLE posts (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+CREATE VIEW active_comments AS SELECT * FROM comments WHERE is_deleted = FALSE;
 CREATE TABLE comments (
     comment_id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT NOT NULL,

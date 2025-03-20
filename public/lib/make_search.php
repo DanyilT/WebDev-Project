@@ -4,7 +4,7 @@ if (isset($_GET['search'])) {
     try {
         require '../src/DBconnect.php';
 
-        $stmt = $connection->prepare("SELECT * FROM users WHERE username LIKE ? AND is_deleted = FALSE");
+        $stmt = $connection->prepare("SELECT * FROM active_users WHERE username LIKE ?");
         $stmt->execute([$searchTerm]);
         $users = $stmt->fetchAll();
 

@@ -10,14 +10,14 @@ function getUserProfile($connection, $username) {
 
 // Fetch followers counts
 function getFollowersCount($connection, $userId) {
-    $stmt = $connection->prepare("SELECT COUNT(*) as followers FROM followers WHERE following_id = ? AND is_following = TRUE");
+    $stmt = $connection->prepare("SELECT COUNT(*) as followers FROM active_followers WHERE following_id = ?");
     $stmt->execute([$userId]);
     return $stmt->fetchColumn();
 }
 
 // Fetch following counts
 function getFollowingCount($connection, $userId) {
-    $stmt = $connection->prepare("SELECT COUNT(*) as following FROM followers WHERE follower_id = ? AND is_following = TRUE");
+    $stmt = $connection->prepare("SELECT COUNT(*) as following FROM active_followers WHERE follower_id = ?");
     $stmt->execute([$userId]);
     return $stmt->fetchColumn();
 }
