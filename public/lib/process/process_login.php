@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../../../src/DBconnect.php';
+require '../UserProfile.php';
 
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -14,12 +15,6 @@ if (validateLogin($username, $password, $connection)) {
 exit();
 
 function validateLogin($username, $password, $connection) {
-    $stmt = $connection->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->execute([$username]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user && password_verify($password, $user['password'])) {
-        return true;
-    }
-    return false;
+    $userProfile = new UserProfile($connection);
+    return $userProfile->getUserProfile($username) && password_verify($password, $userProfile->getUserPassword($username));
 }

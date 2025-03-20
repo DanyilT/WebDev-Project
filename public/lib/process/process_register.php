@@ -1,11 +1,12 @@
 <?php
 session_start();
 require '../../../src/DBconnect.php';
+require '../UserCreator.php';
 
 $username = $_POST['username'];
 $email = $_POST['email'];
 $name = $_POST['name'];
-$password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+$password = $_POST['password'];
 
 if (registerUser($username, $password, $email, $name, $connection)) {
     $_SESSION['username'] = $username;
@@ -16,14 +17,10 @@ if (registerUser($username, $password, $email, $name, $connection)) {
 exit();
 
 function registerUser($username, $password, $email, $name, $connection) {
-    // Check if the username already exists
-    $stmt = $connection->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->execute([$username]);
-    if ($stmt->fetch(PDO::FETCH_ASSOC)) {
+    $userCreator = new UserCreator($connection);
+    try {
+        return $userCreator->createUser($username, $password, $email, $name);
+    } catch (Exception $e) {
         return false;
     }
-
-    // Insert the new user into the database
-    $stmt = $connection->prepare("INSERT INTO users (username, password, email, name) VALUES (?, ?, ?, ?)");
-    return $stmt->execute([$username, $password, $email, $name]);
 }
