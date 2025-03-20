@@ -1,0 +1,21 @@
+@import '../components/forms.css';
+@import '../components/tables.css';
+
+table th, td {
+    padding: 5px;
+}
+
+form {
+    display: block;
+    padding: 0;
+}
+
+form input, form textarea {
+    padding: 5px;
+    margin-bottom: 0;
+}
+
+form button {
+    margin-top: 0;
+    padding: 5px;
+}
