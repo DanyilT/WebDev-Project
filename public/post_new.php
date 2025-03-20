@@ -17,13 +17,11 @@ include 'layout/header.php';
         <h2>Create a New Post</h2>
         <form action="lib/process/process_save_post.php" method="post">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" readonly required> <!-- TODO: Not secure -->
+            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" readonly required>
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
             <label for="content">Content:</label>
             <textarea id="content" name="content" required></textarea>
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" value="<?php echo date('Y-m-d'); ?>" readonly required> <!-- TODO: Not secure -->
             <button type="submit">Create Post</button>
         </form>
     </section>
