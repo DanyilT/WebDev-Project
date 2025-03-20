@@ -1,5 +1,5 @@
 <?php
-require '../../src/DBconnect.php';
+require '../../../src/DBconnect.php';
 
 $userId = $_GET['user_id'] ?: null;
 if (!$userId) {

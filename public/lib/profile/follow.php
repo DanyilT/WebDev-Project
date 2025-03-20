@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../../src/DBconnect.php';
+require '../../../src/DBconnect.php';
 
 // Check if logged in
 if (!isset($_SESSION['username'])) {

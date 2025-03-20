@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'lib/profile_data.php';
+require 'lib/profile/profile_data.php';
 
 $username = $_GET['username'];
 if (!$username) {
@@ -132,7 +132,7 @@ include 'layout/header.php';
 
         // When the user clicks on the followers/following count, open the modal
         followersBtn.addEventListener('click', function() {
-            fetch('lib/get_followers.php?user_id=<?php echo $userId; ?>')
+            fetch('lib/profile/get_followers.php?user_id=<?php echo $userId; ?>')
                 .then(response => response.json())
                 .then(data => {
                     const followersList = document.getElementById('followers-list');
@@ -149,7 +149,7 @@ include 'layout/header.php';
                 });
         });
         followingBtn.addEventListener('click', function() {
-            fetch('lib/get_following.php?user_id=<?php echo $userId; ?>')
+            fetch('lib/profile/get_following.php?user_id=<?php echo $userId; ?>')
                 .then(response => response.json())
                 .then(data => {
                     const followingList = document.getElementById('following-list');
@@ -187,7 +187,7 @@ include 'layout/header.php';
     // Handle follow/unfollow
     document.getElementById('follow-btn').addEventListener('click', function() {
         const userId = <?php echo json_encode($userId); ?>;
-        fetch('lib/follow.php', {
+        fetch('lib/profile/follow.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
