@@ -1,30 +1,22 @@
 <?php
 session_start();
-require 'lib/profile/profile_data.php';
+require '../src/DBconnect.php';
+require 'lib/UserProfile.php';
 
+$userProfile = new UserProfile($connection);
 $posts = [];
 
 if (isset($_SESSION['username'])) {
-    // TODO: fix - display the same post for all other users' followed posts
-    $user = getUserProfile($connection, $_SESSION['username']);
-    $userId = $user['user_id'];
+    $user = $userProfile->getUserProfile($_SESSION['username']);
+    $following = $userProfile->getFollowings($user['user_id']);
 
-    $stmt = $connection->prepare("SELECT u.user_id, u.username FROM active_followers f JOIN users u ON f.following_id = u.user_id WHERE f.follower_id = ?");
-    $stmt->execute([$userId]);
-    $following = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($following as $followedUser) {
-        $followedUserId = $followedUser['user_id'];
-        $followedUsername = $followedUser['username'];
-        $userPosts = getUserPosts($connection, $followedUserId);
-        foreach ($userPosts as &$post) {
-            $post['username'] = $followedUsername;
-        }
+    foreach ($following as $followed) {
+        $userPosts = $userProfile->getUserPosts($followed['user_id'], 5);
         $posts = array_merge($posts, $userPosts);
     }
 } else {
     // Fetch most recent posts from all users if not logged in
-    $stmt = $connection->prepare("SELECT p.post_id, u.username, p.title, p.content, p.likes, p.created_at FROM posts p JOIN users u ON p.user_id = u.user_id ORDER BY p.created_at DESC LIMIT 5");
+    $stmt = $connection->prepare("SELECT p.post_id, u.username, p.title, p.content, p.likes, p.created_at FROM active_posts p JOIN active_users u ON p.user_id = u.user_id ORDER BY p.created_at DESC LIMIT 5");
     $stmt->execute();
     $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

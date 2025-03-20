@@ -1,6 +1,7 @@
 <?php
 session_start();
-require 'lib/profile/profile_data.php';
+require '../src/DBconnect.php';
+require 'lib/UserProfile.php';
 
 $username = $_GET['username'];
 if (!$username) {
@@ -8,25 +9,21 @@ if (!$username) {
     exit();
 }
 
-// Fetch user profile information
-$user = getUserProfile($connection, $username);
+$userProfile = new UserProfile($connection);
+$user = $userProfile->getUserProfile($username);
+
 if (!$user) {
     echo "User not found.";
     exit();
 }
 
-$userId = $user['user_id'];
-$thisSessionUsername = isset($_SESSION['username']) ? $_SESSION['username'] : null;
-
-// Fetch followers and following counts
-$followersCount = getFollowersCount($connection, $userId);
-$followingCount = getFollowingCount($connection, $userId);
-
-// Check if the current user is following this profile
-$isFollowing = isFollowing($connection, $thisSessionUsername, $userId);
-
-// Fetch user posts
-$posts = getUserPosts($connection, $userId);
+// Fetch user's profile information
+$followers = $userProfile->getFollowers($user['user_id']);
+$followings = $userProfile->getFollowings($user['user_id']);
+$followersCount = $userProfile->getFollowersCount($user['user_id']);
+$followingsCount = $userProfile->getFollowingsCount($user['user_id']);
+$isFollowing = isset($_SESSION['username']) ? $userProfile->isFollowing($userProfile->getUserProfile($_SESSION['username'])['user_id'], $user['user_id']) : false;
+$posts = $userProfile->getUserPosts($user['user_id']);
 ?>
 
 <?php
@@ -38,7 +35,7 @@ include 'layout/header.php';
 <main>
     <section class="profile">
         <h2 class="username">@<?php echo htmlspecialchars($user['username']); ?></h2>
-        <img class="profile-pic" src="<?php echo htmlspecialchars(isset($user['profile_pic']) ? $user['profile_pic'] : 'img/icons/user-profile-default-pic-iconly.png'); ?>" alt="Profile Picture">
+        <img class="profile-pic" src="<?php echo htmlspecialchars(isset($user['profile_pic']) ?: 'img/icons/user-profile-default-pic-iconly.png'); ?>" alt="Profile Picture">
         <p class="name">Name: <?php echo htmlspecialchars($user['name']); ?></p>
         <p class="body">Bio: <?php echo htmlspecialchars($user['bio'] ?: ''); ?></p>
         <p class="date">
@@ -66,14 +63,14 @@ include 'layout/header.php';
         </p>
         <!-- I don't care how you think about this class naming -->
         <p id="followers-count" class="follow-ers-or-ing">Followers: <span><?php echo $followersCount; ?></span></p>
-        <p id="following-count" class="follow-ers-or-ing">Following: <span><?php echo $followingCount; ?></span></p>
-        <?php if ($thisSessionUsername === $username): ?>
+        <p id="following-count" class="follow-ers-or-ing">Following: <span><?php echo $followingsCount; ?></span></p>
+        <?php if (isset($_SESSION['username']) && $_SESSION['username'] === $username): ?>
             <button id="edit-profile-btn">Edit Profile</button>
             <form action="lib/process/process_logout.php" method="post" style="width: 100px; justify-self: center;">
                 <button type="submit">Logout</button>
             </form>
         <?php else: ?>
-            <button class="<?php echo $isFollowing ? 'unfollow-btn' : 'follow-btn'; ?>" id="follow-btn"><?php echo $isFollowing ? 'Unfollow' : 'Follow'; ?></button>
+            <button id="follow-btn" class="<?php echo $isFollowing ? 'unfollow-btn' : 'follow-btn'; ?>" <?php echo !isset($_SESSION['username']) ? 'onclick="if(confirm(\'Please login to follow this user.\')) { window.location.href = \'account.php#login\'; }"' : ''; ?>><?php echo $isFollowing ? 'Unfollow' : 'Follow'; ?></button>
         <?php endif; ?>
     </section>
 
@@ -81,7 +78,7 @@ include 'layout/header.php';
         <h2>Posts</h2>
         <?php foreach ($posts as $post): ?>
             <article class="post">
-                <p class="username">@<?php echo htmlspecialchars($user['username']); ?></p>
+                <p class="username">@<?php echo htmlspecialchars($post['username']); ?></p>
                 <h3 class="title"><?php echo htmlspecialchars($post['title']); ?></h3>
                 <hr>
                 <p class="body"><?php echo htmlspecialchars($post['content']); ?></p>
@@ -100,7 +97,11 @@ include 'layout/header.php';
             <h2>Followers</h2>
             <span id="close-followers" class="close">&times;</span>
         </div>
-        <ul id="followers-list"></ul>
+        <ul id="followers-list">
+            <?php foreach ($followers as $follower): ?>
+                <li><a href="profile.php?username=<?php echo $follower['username']; ?>"><?php echo $follower['username']; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 </dialog>
 
@@ -110,11 +111,15 @@ include 'layout/header.php';
             <h2>Following</h2>
             <span id="close-following" class="close">&times;</span>
         </div>
-        <ul id="following-list"></ul>
+        <ul id="following-list">
+            <?php foreach ($followings as $following): ?>
+                <li><a href="profile.php?username=<?php echo $following['username']; ?>"><?php echo $following['username']; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 </dialog>
 
-<?php if ($thisSessionUsername === $username): ?>
+<?php if ($_SESSION['username'] === $username): ?>
     <dialog id="edit-profile-modal" class="modal edit-profile">
         <div class="modal-content">
             <div class="modal-header">
@@ -204,38 +209,10 @@ include 'layout/header.php';
 
         // When the user clicks on the followers/following count, open the modal
         followersBtn.addEventListener('click', function() {
-            fetch('lib/profile/get_followers.php?user_id=<?php echo $userId; ?>')
-                .then(response => response.json())
-                .then(data => {
-                    const followersList = document.getElementById('followers-list');
-                    followersList.innerHTML = '';
-                    data.forEach(follower => {
-                        const li = document.createElement('li');
-                        const link = document.createElement('a');
-                        link.href = `profile.php?username=${follower.username}`;
-                        link.textContent = follower.username;
-                        li.appendChild(link);
-                        followersList.appendChild(li);
-                    });
-                    followersModal.style.display = 'block';
-                });
+            followersModal.style.display = 'block';
         });
         followingBtn.addEventListener('click', function() {
-            fetch('lib/profile/get_following.php?user_id=<?php echo $userId; ?>')
-                .then(response => response.json())
-                .then(data => {
-                    const followingList = document.getElementById('following-list');
-                    followingList.innerHTML = '';
-                    data.forEach(following => {
-                        const li = document.createElement('li');
-                        const link = document.createElement('a');
-                        link.href = `profile.php?username=${following.username}`;
-                        link.textContent = following.username;
-                        li.appendChild(link);
-                        followingList.appendChild(li);
-                    });
-                    followingModal.style.display = 'block';
-                });
+            followingModal.style.display = 'block';
         });
 
         // When the user clicks on <span> (x), close the modal
@@ -258,8 +235,8 @@ include 'layout/header.php';
 
     // Handle follow/unfollow
     document.getElementById('follow-btn').addEventListener('click', function() {
-        const userId = <?php echo json_encode($userId); ?>;
-        fetch('lib/profile/follow.php', {
+        const userId = <?php echo json_encode($user['user_id']); ?>;
+        fetch('lib/follow.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
