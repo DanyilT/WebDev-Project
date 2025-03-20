@@ -42,6 +42,7 @@
     font-size: 14px;
     color: #555;
     margin: 5px 0;
+    cursor: pointer;
 }
 
 .profile .follow-btn, .profile .unfollow-btn {
