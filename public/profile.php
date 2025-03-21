@@ -35,7 +35,7 @@ include 'layout/header.php';
 <main>
     <section class="profile">
         <h2 class="username">@<?php echo htmlspecialchars($user['username']); ?></h2>
-        <img class="profile-pic" src="<?php echo htmlspecialchars(isset($user['profile_pic']) ?: 'img/icons/user-profile-default-pic-iconly.png'); ?>" alt="Profile Picture">
+        <img class="profile-pic" src="<?php echo htmlspecialchars($user['profile_pic'] ?: 'img/icons/user-profile-default-pic-iconly.png'); ?>" alt="Profile Picture" onerror="this.onerror=null; this.src='img/icons/user-profile-default-pic-iconly.png';">
         <p class="name">Name: <?php echo htmlspecialchars($user['name']); ?></p>
         <p class="body">Bio: <?php echo htmlspecialchars($user['bio'] ?: ''); ?></p>
         <p class="date">
