@@ -17,9 +17,9 @@ if (registerUser($username, $password, $email, $name, $connection)) {
 exit();
 
 function registerUser($username, $password, $email, $name, $connection) {
-    $userCreator = new UserCreator($connection);
+    $userCreator = new UserCreator($connection, $username, $email, $name);
     try {
-        return $userCreator->createUser($username, $password, $email, $name);
+        return $userCreator->createUser($password);
     } catch (Exception $e) {
         return false;
     }
