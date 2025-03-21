@@ -25,8 +25,8 @@ CREATE TABLE followers (
     is_following BOOLEAN DEFAULT TRUE,
     following_history JSON,
     PRIMARY KEY (follower_id, following_id),
-    FOREIGN KEY (follower_id) REFERENCES users(user_id),
-    FOREIGN KEY (following_id) REFERENCES users(user_id),
+    FOREIGN KEY (follower_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (following_id) REFERENCES users(user_id) ON DELETE CASCADE,
     CHECK (follower_id <> following_id)
 );
 
@@ -41,7 +41,7 @@ CREATE TABLE posts (
     likes JSON,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_deleted BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE VIEW active_posts AS SELECT * FROM posts WHERE is_deleted = FALSE;
@@ -54,7 +54,7 @@ CREATE TABLE comments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (post_id) REFERENCES posts(post_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE VIEW active_comments AS SELECT * FROM comments WHERE is_deleted = FALSE;
