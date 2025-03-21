@@ -35,31 +35,31 @@ if (!isset($_SESSION['admin_authenticated'])) {
 }
 
 require '../src/DBconnect.php';
+require 'lib/UserManager.php';
+
+$userManager = new UserManager($connection, null, null, null);
 
 // Handle Create
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create'])) {
-    $stmt = $connection->prepare("INSERT INTO users (username, password, email, name, bio, profile_pic) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->execute([$_POST['username'], password_hash($_POST['password'], PASSWORD_DEFAULT), $_POST['email'], $_POST['name'], $_POST['bio'] ?: null, $_POST['profile_pic'] ?: null]);
+    $userManager = new UserManager($connection, $_POST['username'], $_POST['email'], $_POST['name'], $_POST['bio'] ?: null, $_POST['profile_pic'] ?: null);
+    $userManager->createUser($_POST['password']);
     header('Location: admin_crud.php');
 }
 
 // Handle Update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
-    $stmt = $connection->prepare("UPDATE users SET username = ?, email = ?, name = ?, bio = ?, profile_pic = ?, created_at = ?, is_deleted = ? WHERE user_id = ?");
-    $stmt->execute([$_POST['username'], $_POST['email'], $_POST['name'], $_POST['bio'] ?: null, $_POST['profile_pic'] ?: null, $_POST['created_at'], $_POST['is_deleted'], $_POST['user_id']]);
+    $userManager->updateUser($_POST['user_id'], $_POST['username'], $_POST['email'], $_POST['name'], $_POST['bio'] ?: null, $_POST['profile_pic'] ?: null, $_POST['created_at'], $_POST['is_deleted']);
     header('Location: admin_crud.php');
 }
 
 // Handle Delete
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
-    $stmt = $connection->prepare("DELETE FROM users WHERE user_id = ?");
-    $stmt->execute([$_POST['user_id']]);
+    $userManager->deleteUser($_POST['user_id']);
     header('Location: admin_crud.php');
 }
 
 // Fetch all users
-$stmt = $connection->query("SELECT * FROM users");
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$users = $userManager->getAllUsers();
 ?>
 
 <?php
