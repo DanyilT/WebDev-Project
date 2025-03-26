@@ -3,6 +3,9 @@
 class UserProfile {
     private $connection;
 
+    /**
+     * @param $connection PDO
+     */
     public function __construct($connection) {
         $this->connection = $connection;
     }

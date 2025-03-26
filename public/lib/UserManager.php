@@ -7,6 +7,14 @@ class UserManager extends User {
     private $userCreator;
     private $userProfile;
 
+    /**
+     * @param $connection PDO
+     * @param $username
+     * @param $email
+     * @param $name
+     * @param $bio = null
+     * @param $profile_pic = null
+     */
     public function __construct($connection, $username, $email, $name, $bio = null, $profile_pic = null) {
         parent::__construct($username, $email, $name, $bio, $profile_pic);
         $this->connection = $connection;
