@@ -69,6 +69,27 @@ Ensure your MySQL server is running. You can start it using the following comman
 
 ## Database Initialization
 
+```shell
+mysql -u <your_database_user> -p
+enter password: <your_database_password>
+```
+```shell
+#if exist, drop the database
+DROP DATABASE IF EXISTS qwertyDB;
+```
+```shell
+#create the database
+CREATE DATABASE IF NOT EXISTS qwertyDB;
+```
+```shell
+#creare database tables (schema) -- run the install.php script in another shell (or browser)
+php install.php
+```
+```shell
+#use and populate the database
+source data/populate.sql
+```
+
 1. **Run the database initialization script:**
     - Run the `install.php` script to create the necessary tables and initial data:
         ```sh
