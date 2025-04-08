@@ -1,10 +1,10 @@
 <?php
 
-use Models\Users\UserProfile;
+use Models\User\UserRead;
 
 session_start();
 require '../src/DBconnect.php';
-require '../src/Models/UserProfile.php';
+require '../src/Models/UserRead.php';
 
 $username = $_GET['username'];
 if (!$username) {
@@ -12,8 +12,8 @@ if (!$username) {
     exit();
 }
 
-$userProfile = new UserProfile($connection);
-$user = $userProfile->getUserProfile($username);
+$userRead = new UserRead($connection);
+$user = $userRead->getUserProfile($username);
 
 if (!$user) {
     echo "User not found.";
@@ -21,12 +21,12 @@ if (!$user) {
 }
 
 // Fetch user's profile information
-$followers = $userProfile->getFollowers($user['user_id']);
-$followings = $userProfile->getFollowings($user['user_id']);
-$followersCount = $userProfile->getFollowersCount($user['user_id']);
-$followingsCount = $userProfile->getFollowingsCount($user['user_id']);
-$isFollowing = isset($_SESSION['username']) ? $userProfile->isFollowing($userProfile->getUserProfile($_SESSION['username'])['user_id'], $user['user_id']) : false;
-$posts = $userProfile->getUserPosts($user['user_id']);
+$followers = $userRead->getFollowers($user['user_id']);
+$followings = $userRead->getFollowings($user['user_id']);
+$followersCount = $userRead->getFollowersCount($user['user_id']);
+$followingsCount = $userRead->getFollowingsCount($user['user_id']);
+$isFollowing = isset($_SESSION['username']) ? $userRead->isFollowing($userRead->getUserProfile($_SESSION['username'])['user_id'], $user['user_id']) : false;
+$posts = $userRead->getUserPosts($user['user_id']);
 ?>
 
 <?php

@@ -1,15 +1,16 @@
 <?php
 
-use Models\Users\UserProfile;
+use Models\User\UserRead;
 
 session_start();
 require '../../../src/DBconnect.php';
-require '../../../src/Models/UserProfile.php';
+require '../../../src/Models/UserRead.php';
 
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-if (validateLogin($username, $password, $connection)) {
+if (validateLogin($connection, $username, $password)) {
+    $_SESSION['username'] = strtolower(trim(chr(64) . $username));
     $_SESSION['username'] = $username;
     header('Location: ../../account.php');
 } else {
@@ -17,7 +18,7 @@ if (validateLogin($username, $password, $connection)) {
 }
 exit();
 
-function validateLogin($username, $password, $connection) {
-    $userProfile = new UserProfile($connection);
-    return $userProfile->getUserProfile($username) && password_verify($password, $userProfile->getUserPassword($username));
+function validateLogin($connection, $username, $password) {
+    $userRead = new UserRead($connection);
+    return $userRead->isUsernameExist($username, $connection) && $userRead->getUserProfile($username) && password_verify($password, $userRead->getUserPassword($username));
 }

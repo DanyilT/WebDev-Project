@@ -1,20 +1,20 @@
 <?php
 
-use Models\Users\UserProfile;
+use Models\User\UserRead;
 
 session_start();
 require '../src/DBconnect.php';
-require '../src/Models/UserProfile.php';
+require '../src/Models/UserRead.php';
 
-$userProfile = new UserProfile($connection);
+$userRead = new UserRead($connection);
 $posts = [];
 
 if (isset($_SESSION['username'])) {
-    $user = $userProfile->getUserProfile($_SESSION['username']);
-    $following = $userProfile->getFollowings($user['user_id']);
+    $user = $userRead->getUserProfile($_SESSION['username']);
+    $following = $userRead->getFollowings($user['user_id']);
 
     foreach ($following as $followed) {
-        $userPosts = $userProfile->getUserPosts($followed['user_id'], 5);
+        $userPosts = $userRead->getUserPosts($followed['user_id'], 5);
         $posts = array_merge($posts, $userPosts);
     }
 } else {

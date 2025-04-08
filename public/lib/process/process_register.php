@@ -1,28 +1,28 @@
 <?php
 
-use Models\Users\UserCreator;
+use Models\User\UserCreate;
 
 session_start();
 require '../../../src/DBconnect.php';
-require '../../../src/Models/UserCreator.php';
+require '../../../src/Models/UserCreate.php';
 
 $username = $_POST['username'];
 $email = $_POST['email'];
 $name = $_POST['name'];
 $password = $_POST['password'];
 
-if (registerUser($username, $password, $email, $name, $connection)) {
-    $_SESSION['username'] = $username;
+if (registerUser($connection, $username, $password, $email, $name)) {
+    $_SESSION['username'] = strtolower(trim(chr(64) . $username));
     header('Location: ../../account.php');
 } else {
     header('Location: ../../account.php?error=registration_failed');
 }
 exit();
 
-function registerUser($username, $password, $email, $name, $connection) {
-    $userCreator = new UserCreator($connection, $username, $email, $name);
+function registerUser($connection, $username, $password, $email, $name) {
+    $userCreate = new UserCreate($connection, $username, $password, $email, $name);
     try {
-        return $userCreator->createUser($password);
+        return $userCreate->createUser();
     } catch (Exception $e) {
         return false;
     }
