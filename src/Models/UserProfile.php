@@ -1,5 +1,9 @@
 <?php
 
+namespace Models\Users;
+
+use PDO;
+
 class UserProfile {
     private $connection;
 

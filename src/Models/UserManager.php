@@ -1,4 +1,9 @@
 <?php
+
+namespace Models\Users;
+
+use PDO;
+
 require 'UserCreator.php';
 require 'UserProfile.php';
 

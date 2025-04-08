@@ -1,4 +1,9 @@
 <?php
+
+namespace Models\Users;
+
+use PDO;
+
 require 'User.php';
 
 class UserCreator extends User {

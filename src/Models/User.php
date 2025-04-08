@@ -1,5 +1,6 @@
 <?php
 
+namespace Models\Users;
 abstract class User {
     private $username;
     private $email;
@@ -15,8 +16,7 @@ abstract class User {
      * @param $bio = null
      * @param $profile_pic = null
      */
-    public function __construct($username, $email, $name, $bio = null, $profile_pic = null)
-    {
+    public function __construct($username, $email, $name, $bio = null, $profile_pic = null) {
         $this->username = $username;
         $this->email = $email;
         $this->name = $name;

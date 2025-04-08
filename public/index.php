@@ -1,7 +1,10 @@
 <?php
+
+use Models\Users\UserProfile;
+
 session_start();
 require '../src/DBconnect.php';
-require 'lib/UserProfile.php';
+require '../src/Models/UserProfile.php';
 
 $userProfile = new UserProfile($connection);
 $posts = [];

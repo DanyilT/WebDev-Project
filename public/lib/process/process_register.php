@@ -1,7 +1,10 @@
 <?php
+
+use Models\Users\UserCreator;
+
 session_start();
 require '../../../src/DBconnect.php';
-require '../UserCreator.php';
+require '../../../src/Models/UserCreator.php';
 
 $username = $_POST['username'];
 $email = $_POST['email'];

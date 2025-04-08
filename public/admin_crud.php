@@ -1,4 +1,7 @@
 <?php
+
+use Models\Users\UserManager;
+
 session_start();
 if (isset($_POST['logout'])) {
     session_destroy();
@@ -35,7 +38,7 @@ if (!isset($_SESSION['admin_authenticated'])) {
 }
 
 require '../src/DBconnect.php';
-require 'lib/UserManager.php';
+require '../src/Models/UserManager.php';
 
 $userManager = new UserManager($connection, null, null, null);
 

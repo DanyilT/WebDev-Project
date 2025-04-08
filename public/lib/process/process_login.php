@@ -1,7 +1,10 @@
 <?php
+
+use Models\Users\UserProfile;
+
 session_start();
 require '../../../src/DBconnect.php';
-require '../UserProfile.php';
+require '../../../src/Models/UserProfile.php';
 
 $username = $_POST['username'];
 $password = $_POST['password'];
