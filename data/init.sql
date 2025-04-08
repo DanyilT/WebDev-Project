@@ -5,15 +5,15 @@ USE qwertyDB;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
+    username VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL, -- Store hashed passwords only
     email VARCHAR(100) NOT NULL,
     name VARCHAR(100) NOT NULL,
-    bio TEXT,
-    profile_pic VARCHAR(255),
+    bio TEXT DEFAULT NULL,
+    profile_pic VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_deleted BOOLEAN DEFAULT FALSE,
-    data_changes_history JSON
+    data_changes_history JSON DEFAULT ('{"origin": {"username": "", "email": "", "name": "", "bio": "", "profile_pic": ""}}')
 );
 CREATE VIEW active_users AS SELECT * FROM users WHERE is_deleted = FALSE;
 
