@@ -27,12 +27,34 @@ class UserDelete extends User {
      * @return bool
      */
     public function deleteUser(int $userId): bool {
-        $stmt = $this->getConnection()->prepare("UPDATE users SET is_deleted = TRUE WHERE user_id = ?");
-        if ($stmt->execute([$userId])) {
-            $this->setDataChangesHistory($userId, ['is_deleted' => 1]);
-            return true;
+        // Fetch current username
+        $stmt = $this->getConnection()->prepare("SELECT username FROM users WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        $currentUsername = $stmt->fetchColumn();
+
+        // Remove '@' symbol if present and add '-' prefix
+        $newUsername = '-' . str_replace('@', '', $currentUsername);
+
+        // Prepare statement for checking duplicate username
+        $checkStmt = $this->getConnection()->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+
+        // Keep adding '-' until unique
+        while (true) {
+            $checkStmt->execute([$newUsername]);
+            if ($checkStmt->fetchColumn() == 0) {
+                break;
+            }
+            $newUsername = '-' . $newUsername;
         }
-        return false;
+
+        // Update user: mark as deleted and update username
+        $stmt = $this->getConnection()->prepare("UPDATE users SET is_deleted = TRUE, username = ? WHERE user_id = ?");
+
+        $result = $stmt->execute([$newUsername, $userId]);
+
+        $this->setDataChangesHistory($userId, ['delete' => ['is_deleted' => 1, 'username' => $newUsername, 'timestamp' => date('Y-m-d H:i:s')]]);
+
+        return $result;
     }
 
     /**
