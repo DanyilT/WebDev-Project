@@ -3,19 +3,19 @@
 use Models\User\UserCreate;
 
 session_start();
-require '../../../src/DBconnect.php';
+require '../../../src/Database/DBconnect.php';
 require '../../../src/Models/UserCreate.php';
 
-$username = $_POST['username'];
+$username = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($_POST['username'])));
 $email = $_POST['email'];
 $name = $_POST['name'];
 $password = $_POST['password'];
 
 if (registerUser($connection, $username, $password, $email, $name)) {
-    $_SESSION['username'] = strtolower(trim(chr(64) . $username));
-    header('Location: ../../account.php');
+    $_SESSION['username'] = $username;
+    header('Location: /account.php');
 } else {
-    header('Location: ../../account.php?error=registration_failed');
+    header('Location: /account.php?error=registration_failed');
 }
 exit();
 

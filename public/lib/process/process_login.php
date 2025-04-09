@@ -3,18 +3,17 @@
 use Models\User\UserRead;
 
 session_start();
-require '../../../src/DBconnect.php';
+require '../../../src/Database/DBconnect.php';
 require '../../../src/Models/UserRead.php';
 
-$username = $_POST['username'];
+$username = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($_POST['username'])));
 $password = $_POST['password'];
 
 if (validateLogin($connection, $username, $password)) {
-    $_SESSION['username'] = strtolower(trim(chr(64) . $username));
     $_SESSION['username'] = $username;
-    header('Location: ../../account.php');
+    header('Location: /account.php');
 } else {
-    header('Location: ../../account.php?error=invalid_credentials');
+    header('Location: /account.php?error=invalid_credentials');
 }
 exit();
 
