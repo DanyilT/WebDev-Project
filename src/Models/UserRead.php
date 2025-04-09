@@ -26,9 +26,9 @@ class UserRead extends User {
      *
      * @param string $username
      *
-     * @return array
+     * @return array|false
      */
-    public function getUserProfile($username): array {
+    public function getUserProfile(string $username): array|false {
         $username = !str_starts_with($username, "@") ? '@' . strtolower(trim($username)) : strtolower(trim($username));
         $stmt = $this->getConnection()->prepare("SELECT * FROM active_users WHERE username = ?");
         $stmt->execute([$username]);
@@ -42,7 +42,7 @@ class UserRead extends User {
      *
      * @return array
      */
-    protected function getUserProfileEvenIfDeleted($username): array {
+    protected function getUserProfileEvenIfDeleted(string $username): array {
         $username = !str_starts_with($username, "@") ? '@' . strtolower(trim($username)) : strtolower(trim($username));
         $stmt = $this->getConnection()->prepare("SELECT * FROM users WHERE username = ?");
         $stmt->execute([$username]);
@@ -56,7 +56,7 @@ class UserRead extends User {
      *
      * @return int
      */
-    public function getUserId($username): int {
+    public function getUserId(string $username): int {
         $username = !str_starts_with($username, "@") ? '@' . strtolower(trim($username)) : strtolower(trim($username));
         $stmt = $this->getConnection()->prepare("SELECT user_id FROM active_users WHERE username = ?");
         $stmt->execute([$username]);
@@ -70,7 +70,7 @@ class UserRead extends User {
      *
      * @return string
      */
-    public function getUsername($userId): string {
+    public function getUsername(int $userId): string {
         $stmt = $this->getConnection()->prepare("SELECT username FROM active_users WHERE user_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchColumn();
@@ -83,7 +83,7 @@ class UserRead extends User {
      *
      * @return string
      */
-    public function getUserPassword($username): string {
+    public function getUserPassword(string $username): string {
         $username = !str_starts_with($username, "@") ? '@' . strtolower(trim($username)) : strtolower(trim($username));
         $stmt = $this->getConnection()->prepare("SELECT password FROM active_users WHERE username = ?");
         $stmt->execute([$username]);
@@ -97,7 +97,7 @@ class UserRead extends User {
      *
      * @return array
      */
-    public function getFollowers($userId): array {
+    public function getFollowers(int $userId): array {
         $stmt = $this->getConnection()->prepare("SELECT u.user_id, u.username FROM active_followers f JOIN users u ON f.follower_id = u.user_id WHERE f.following_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -110,7 +110,7 @@ class UserRead extends User {
      *
      * @return array
      */
-    public function getFollowings($userId): array {
+    public function getFollowings(int $userId): array {
         $stmt = $this->getConnection()->prepare("SELECT u.user_id, u.username FROM active_followers f JOIN users u ON f.following_id = u.user_id WHERE f.follower_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -123,7 +123,7 @@ class UserRead extends User {
      *
      * @return int
      */
-    public function getFollowersCount($userId): int {
+    public function getFollowersCount(int $userId): int {
         $stmt = $this->getConnection()->prepare("SELECT COUNT(*) as followers FROM active_followers WHERE following_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchColumn();
@@ -136,7 +136,7 @@ class UserRead extends User {
      *
      * @return int
      */
-    public function getFollowingsCount($userId): int {
+    public function getFollowingsCount(int $userId): int {
         $stmt = $this->getConnection()->prepare("SELECT COUNT(*) as followings FROM active_followers WHERE follower_id = ?");
         $stmt->execute([$userId]);
         return $stmt->fetchColumn();
@@ -150,8 +150,8 @@ class UserRead extends User {
      *
      * @return bool
      */
-    public function isFollowing($followerId, $followingId): bool {
-        $stmt = $this->getConnection()->prepare("SELECT is_following FROM followers WHERE follower_id = ? AND following_id = ?");
+    public function isFollowing(int $followerId, int $followingId): bool {
+        $stmt = $this->getConnection()->prepare("SELECT * FROM active_followers WHERE follower_id = ? AND following_id = ?");
         $stmt->execute([$followerId, $followingId]);
         return (bool)$stmt->fetchColumn();
     }
@@ -164,7 +164,7 @@ class UserRead extends User {
      *
      * @return array
      */
-    public function getUserPosts($userId, $limit = null): array {
+    public function getUserPosts(int $userId, int $limit = null): array {
         $stmt = $this->getConnection()->prepare("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id WHERE p.user_id = ? ORDER BY p.created_at DESC" . ($limit ? " LIMIT $limit;" : ';'));
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -159,7 +159,8 @@ class UserCreate extends User {
                 'email'       => $this->email,
                 'name'        => $this->name,
                 'bio'         => $this->bio,
-                'profile_pic' => $this->profile_pic
+                'profile_pic' => $this->profile_pic,
+                'created_at' => date('Y-m-d H:i:s')
             ]
         ];
     }
