@@ -126,7 +126,7 @@ $isFollowing = $userRead->isFollowing($userRead->getUserProfile($sessionUsername
 
     // Handle follow/unfollow
     document.getElementById('follow-btn').addEventListener('click', function() {
-        fetch('lib/follow.php', {
+        fetch('lib/process/process_follow.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

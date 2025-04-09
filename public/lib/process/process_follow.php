@@ -4,16 +4,16 @@
 use Models\User\UserRead;
 use Models\User\UserUpdate;
 
-require '../../src/Database/DBconnect.php';
-require_once '../../src/Models/UserRead.php';
-require_once '../../src/Models/UserUpdate.php';
+// Start session
+session_start();
+
+require '../../../src/Database/DBconnect.php';
+require_once '../../../src/Models/UserRead.php';
+require_once '../../../src/Models/UserUpdate.php';
 
 // Create a new UserRead and UserUpdate instance
 $userRead = new UserRead($connection);
 $userUpdate = new UserUpdate($connection);
-
-// Start session
-session_start();
 
 // Check if logged in
 if (!isset($_SESSION['username'])) {
