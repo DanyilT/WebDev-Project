@@ -7,9 +7,6 @@ use Models\User\UserRead;
 // Require the necessary classes if not already loaded
 class_exists("Models\User\UserRead") or require_once '../src/Models/UserRead.php';
 
-// Check if the user is logged in, and get the session username if available
-$sessionUsernameIsSet = $_SESSION['username'] ?? null;
-
 // Get the username from the URL (GET request)
 $username = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($_GET['username'])));
 if (!$username) {
@@ -32,7 +29,8 @@ if (!$userProfile) {
 $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($username);
 ?>
 
-<?php if ($_SESSION['username'] == $username): ?>
+<?php if (isset($_SESSION['username']) && $_SESSION['username'] == $username): ?>
+<!-- HTML -->
 <dialog id="edit-profile-modal" class="modal edit-profile">
     <div class="modal-content">
         <div class="modal-header">
@@ -40,10 +38,11 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             <span id="close-edit-profile" class="close">&times;</span>
         </div>
         <form id="edit-form" action="lib/process/process_update_profile.php" method="post">
-            <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($userId); ?>">
+            <input type="hidden" name="userId" value="<?php echo htmlspecialchars($userId); ?>">
             <label for="edit-field">Select field to edit:</label>
-            <select id="edit-field" name="edit_field" onchange="showEditField()">
+            <select id="edit-field" name="editField" onchange="showEditField()">
                 <option value="username">Username</option>
+                <option value="email">Email</option>
                 <option value="name">Name</option>
                 <option value="bio">Bio</option>
             </select>
@@ -51,6 +50,11 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             <div id="edit-username" class="edit-field">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($userProfile['username']); ?>" required>
+            </div>
+
+            <div id="edit-email" class="edit-field" style="display:none;">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($userProfile['email']); ?>" required>
             </div>
 
             <div id="edit-name" class="edit-field" style="display:none;">
@@ -65,17 +69,27 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             <button type="submit">Update Profile</button>
         </form>
         <form action="lib/process/process_update_profile.php" method="post">
-            <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($userProfile['user_id']); ?>">
+            <input type="hidden" name="userId" value="<?php echo htmlspecialchars($userId); ?>">
             <label for="current-password">Current Password:</label>
             <input type="password" id="current-password" name="current_password" required>
             <label for="new-password">New Password:</label>
             <input type="password" id="new-password" name="new_password" required>
-            <input type="hidden" name="edit_field" value="password">
+            <input type="hidden" name="editField" value="password">
             <button type="submit">Update Password</button>
         </form>
+        <form action="lib/process/process_update_profile.php" method="post">
+            <input type="hidden" name="userId" value="<?php echo htmlspecialchars($userId); ?>">
+            <label for="delete-account">Delete Account:</label>
+            <p>Are you sure you want to delete your account?</p>
+            <label for="confirm-delete-with-password">Provide your password for this action:</label>
+            <input type="password" id="confirm-delete-with-password" name="confirm_delete_with_password" required>
+            <input type="checkbox" id="delete-account" name="delete_account" required>
+            <label for="delete-account">I understand that this action is irreversible. (no it is not 😅)</label>
+            <button type="submit" name="delete" value="delete">Delete Account</button>
     </div>
 </dialog>
 
+<!-- Script -->
 <script>
     const editProfileModal = document.getElementById('edit-profile-modal');
     const editProfileBtn = document.getElementById('edit-profile-btn');
