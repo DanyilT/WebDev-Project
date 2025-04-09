@@ -1,6 +1,19 @@
 <?php
+
+// Require necessary files
+use Models\User\UserRead;
+use Models\User\UserUpdate;
+
+require '../../src/Database/DBconnect.php';
+require_once '../../src/Models/UserRead.php';
+require_once '../../src/Models/UserUpdate.php';
+
+// Create a new UserRead and UserUpdate instance
+$userRead = new UserRead($connection);
+$userUpdate = new UserUpdate($connection);
+
+// Start session
 session_start();
-require '../../src/DBconnect.php';
 
 // Check if logged in
 if (!isset($_SESSION['username'])) {
@@ -12,19 +25,14 @@ if (!isset($_SESSION['username'])) {
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Check if user ID is provided
-if (!isset($data['user_id'])) {
+if (!isset($data['userId'])) {
     echo json_encode(['error' => 'User ID not provided']);
     exit();
 }
 
 // Get IDs of follower and following
-$followerUsername = $_SESSION['username'];
-$followingId = $data['user_id'];
-
-// Get user IDs
-$stmt = $connection->prepare("SELECT user_id FROM users WHERE username = ?");
-$stmt->execute([$followerUsername]);
-$followerId = $stmt->fetchColumn();
+$followerId = $userRead->getUserId($_SESSION['username']);
+$followingId = $data['userId'];
 
 // Throw error if follower or following user not found
 if (!$followerId) {
@@ -37,34 +45,6 @@ if (!$followingId) {
     exit();
 }
 
-// Check if already following
-$stmt = $connection->prepare("SELECT * FROM followers WHERE follower_id = ? AND following_id = ?");
-$stmt->execute([$followerId, $followingId]);
-$follow = $stmt->fetch();
-
-if ($follow) {
-    if ($follow['is_following']) {
-        // Unfollow
-        $followingHistory = json_decode($follow['following_history'], true);
-        $followingHistory[] = ['action' => 'unfollow', 'timestamp' => date('Y-m-d H:i:s')];
-
-        $stmt = $connection->prepare("UPDATE followers SET is_following = FALSE, following_history = ? WHERE follower_id = ? AND following_id = ?");
-        $stmt->execute([json_encode($followingHistory), $followerId, $followingId]);
-        echo json_encode(['status' => 'unfollowed']);
-    } else {
-        // Follow again
-        $followingHistory = json_decode($follow['following_history'], true);
-        $followingHistory[] = ['action' => 'follow', 'timestamp' => date('Y-m-d H:i:s')];
-
-        $stmt = $connection->prepare("UPDATE followers SET is_following = TRUE, following_history = ? WHERE follower_id = ? AND following_id = ?");
-        $stmt->execute([json_encode($followingHistory), $followerId, $followingId]);
-        echo json_encode(['status' => 'followed']);
-    }
-} else {
-    // Follow for the first time
-    $followingHistory = [['action' => 'follow', 'timestamp' => date('Y-m-d H:i:s')]];
-
-    $stmt = $connection->prepare("INSERT INTO followers (follower_id, following_id, is_following, following_history) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$followerId, $followingId, TRUE, json_encode($followingHistory)]);
-    echo json_encode(['status' => 'followed']);
-}
+// Follow for the first time (new follow) / Unfollow (unfollowed) / Follow again (followed)
+$status = $userUpdate->updateFollowers($followerId, $followingId);
+echo json_encode(['status' => $status]);
