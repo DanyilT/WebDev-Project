@@ -44,7 +44,7 @@ class UserUpdate extends User {
 
         $stmt = $this->getConnection()->prepare($sql);
         if ($stmt->execute($values)) {
-            $this->setDataChangesHistory($userId, $fields);
+            $this->setDataChangesHistory($userId, ['update' => $fields]);
             return true;
         }
         return false;
