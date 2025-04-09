@@ -14,7 +14,7 @@ include 'layout/header.php';
 </main>
 
 <?php
-if ($_SESSION['username'] == $username)
+if (isset($_SESSION['username']) && $_SESSION['username'] == $username)
     include 'assets/profile_edit_modal.php';
 ?>
 
