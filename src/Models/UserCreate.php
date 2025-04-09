@@ -72,7 +72,7 @@ class UserCreate extends User {
      *
      * @return bool
      */
-    public function validate(): bool {
+    private function validate(): bool {
         return $this->isValidUsername() && $this->isValidEmail() && $this->isValidPassword();
     }
 
@@ -139,7 +139,9 @@ class UserCreate extends User {
      * @return bool
      */
     public function isUsernameExist(string $username, \PDO $connection) : bool {
-        $username = '@' . $username;
+        if (!str_starts_with($username, '@')) {
+            $username = '@' . $username;
+        }
         // Prepare the SQL statement and execute it
         $stmt = $connection->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
         $stmt->execute([$username]);
