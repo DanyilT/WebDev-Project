@@ -13,7 +13,7 @@ CREATE TABLE users (
     profile_pic VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_deleted BOOLEAN DEFAULT FALSE,
-    data_changes_history JSON DEFAULT ('{"origin": {"username": "", "email": "", "name": "", "bio": "", "profile_pic": ""}}')
+    data_changes_history JSON DEFAULT ('{"origin": {"username": "", "email": "", "name": "", "bio": "", "profile_pic": "", "created_at": "CURRENT_TIMESTAMP"}}')
 );
 CREATE VIEW active_users AS SELECT * FROM users WHERE is_deleted = FALSE;
 
@@ -22,7 +22,7 @@ CREATE TABLE followers (
     following_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_following BOOLEAN DEFAULT TRUE,
-    following_history JSON,
+    following_history JSON DEFAULT ('[{"action": "follow", "timestamp": CURRENT_TIMESTAMP}]'),
     PRIMARY KEY (follower_id, following_id),
     FOREIGN KEY (follower_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (following_id) REFERENCES users(user_id) ON DELETE CASCADE,
