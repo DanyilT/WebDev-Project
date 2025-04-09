@@ -31,6 +31,7 @@ class UserUpdate extends User {
      * @return bool
      */
     public function updateUser(int $userId, array $fields): bool {
+        // TODO: Validate the fields
         // Build a dynamic SQL statement
         $setParts = [];
         $values = [];
@@ -47,6 +48,23 @@ class UserUpdate extends User {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Updates the user password in the database
+     *
+     * @param int $userId
+     * @param string $password
+     *
+     * @return bool
+     */
+    public function updateUserPassword(int $userId, string $password): bool {
+        // TODO: Validate the password
+        // Hash the password before storing it
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        // Prepare the SQL statement and execute it
+        $stmt = $this->getConnection()->prepare("UPDATE users SET password = ? WHERE user_id = ?");
+        return $stmt->execute([$password, $userId]);
     }
 
     /**
