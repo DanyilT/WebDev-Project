@@ -40,7 +40,7 @@ $isFollowing = $userRead->isFollowing($userRead->getUserProfile($sessionUsername
 <!-- HTML -->
 <section class="profile">
     <h2 class="username"><?php echo htmlspecialchars($userProfile['username']); ?></h2>
-    <img class="profile-pic" src="<?php echo htmlspecialchars($userProfile['profile_pic'] ?: 'img/icons/user-profile-default-pic-iconly.png'); ?>" alt="Profile Picture" onerror="this.onerror=null; this.src='img/icons/user-profile-default-pic-iconly.png';">
+    <img class="profile-pic" src="<?php echo htmlspecialchars('/uploads/' . $userId . '/profile_pics/' . $userProfile['profile_pic'] ?: 'img/icons/user-profile-default-pic-iconly.png'); ?>" alt="Profile Picture" onerror="this.onerror=null; this.src='img/icons/user-profile-default-pic-iconly.png';">
     <p class="name">Name: <?php echo htmlspecialchars($userProfile['name']); ?></p>
     <p class="body">Bio: <?php echo htmlspecialchars($userProfile['bio'] ?: ''); ?></p>
     <p class="date">

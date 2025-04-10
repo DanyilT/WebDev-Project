@@ -37,7 +37,7 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             <h2>Edit Profile</h2>
             <span id="close-edit-profile" class="close">&times;</span>
         </div>
-        <form id="edit-form" action="lib/process/process_update_profile.php" method="post">
+        <form id="edit-form" action="lib/process/process_update_profile.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="userId" value="<?php echo htmlspecialchars($userId); ?>">
             <label for="edit-field">Select field to edit:</label>
             <select id="edit-field" name="editField" onchange="showEditField()">
@@ -45,6 +45,7 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
                 <option value="email">Email</option>
                 <option value="name">Name</option>
                 <option value="bio">Bio</option>
+                <option value="profile_pic">Profile Picture</option>
             </select>
 
             <div id="edit-username" class="edit-field">
@@ -65,6 +66,11 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             <div id="edit-bio" class="edit-field" style="display:none;">
                 <label for="bio">Bio:</label>
                 <textarea id="bio" name="bio"><?php echo htmlspecialchars($userProfile['bio'] ?: ''); ?></textarea>
+            </div>
+
+            <div id="edit-profile_pic" class="edit-field" style="display:none;">
+                <label for="profile_pic">Profile Picture:</label>
+                <input type="file" id="profile_pic" name="profile_pic" accept="image/*">
             </div>
             <button type="submit">Update Profile</button>
         </form>
