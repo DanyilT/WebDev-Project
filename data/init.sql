@@ -35,8 +35,8 @@ CREATE TABLE posts (
     user_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    media VARCHAR(255),
-    likes JSON,
+    media VARCHAR(255) DEFAULT NULL,
+    likes JSON DEFAULT ('[]'),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
