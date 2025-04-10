@@ -5,10 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($title) ? $title : 'Social Network (QWERTY)'; ?></title>
+    <title><?php echo $title ?? 'Social Network (QWERTY)'; ?></title>
     <link rel="stylesheet" href="css/main.css">
-    <!-- <link rel="icon" href="img/icons/favicon.ico" type="image/x-icon"> -->
-    <link rel="icon" href="img/logo.png" type="image/png">
+    <link rel="icon" href="img/favicon_io/favicon.ico" type="image/x-icon">
     <?php if (isset($styles)) echo $styles; ?>
 </head>
 <body>
