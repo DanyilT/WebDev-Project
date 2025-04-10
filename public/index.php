@@ -1,9 +1,10 @@
 <?php
+//TODO: Update index.php
 
 use Models\User\UserRead;
 
 session_start();
-require '../src/DBconnect.php';
+require '../src/Database/DBconnect.php';
 require '../src/Models/UserRead.php';
 
 $userRead = new UserRead($connection);

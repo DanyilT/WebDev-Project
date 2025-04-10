@@ -1,4 +1,5 @@
 <?php
+// TODO: Update search.php and make_search.php to use the new User class
 $title = 'Search';
 $styles = '<link rel="stylesheet" href="css/pages/search.css">';
 include 'layout/header.php';

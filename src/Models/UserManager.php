@@ -1,6 +1,6 @@
 <?php
 
-// I'll remake this class later: this class need for crud admin panel (public/admin_crud.php)
+// TODO: I'll remake this class later: this class need for crud admin panel (public/admin_crud.php)
 // Maybe add some options for posts management
 
 namespace Models\Users;
