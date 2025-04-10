@@ -1,5 +1,7 @@
 <?php
 
+// I'll remake this class later
+
 namespace Models\Users;
 
 use PDO;
