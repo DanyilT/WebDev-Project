@@ -38,7 +38,10 @@ $posts = $userRead->getUserPosts($userId);
             <h3 class="title"><?php echo htmlspecialchars($post['title']); ?></h3>
             <hr>
             <p class="body"><?php echo htmlspecialchars($post['content']); ?></p>
-<!--                            <img class="media" src="--><?php //echo htmlspecialchars($post['media']); ?><!--" alt="Post Media">-->
+            <?php if ($post['media']): ?>
+                <p class="media">Media:</p>
+                <img class="media" src="<?php echo htmlspecialchars($post['media']); ?>" alt="Post Media">
+            <?php endif; ?>
             <span class="likes">Likes: <?php echo htmlspecialchars($post['likes'] ?: 0); ?></span>
             <p class="date">Date: <?php echo htmlspecialchars($post['created_at']); ?></p>
         </article>

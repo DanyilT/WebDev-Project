@@ -1,7 +1,19 @@
 <?php
-session_start();
-require '../../../src/DBconnect.php';
 
+// Require necessary files
+use Models\User\UserRead;
+use Models\Post\Post;
+use Models\Post\PostRepository;
+
+// Start session
+session_start();
+
+require '../../../src/Database/DBconnect.php';
+require_once '../../../src/Models/UserRead.php';
+require_once '../../../src/Models/Post.php';
+require_once '../../../src/Models/PostRepository.php';
+
+// Check if logged in
 if (!isset($_SESSION['username'])) {
     header('Location: ../../account.php#login');
     exit();
@@ -10,28 +22,18 @@ if (!isset($_SESSION['username'])) {
 $username = $_SESSION['username'];
 $title = $_POST['title'];
 $content = $_POST['content'];
-$media = null;
+$media = $_POST['media'] ?? null;
 
-if (savePost($username, $title, $content, null, $connection)) {
+if (savePost($connection, $username, $title, $content, $media)) {
     echo "Post saved successfully.";
-    header('Location: ../../profile.php?username=' . $username);
+    header('Location: /profile.php?username=' . $username);
 } else {
     echo "Failed to save post.";
 }
 exit();
 
-function savePost($username, $title, $content, $media, $connection) {
-    $stmt = $connection->prepare("SELECT user_id FROM users WHERE username = ?");
-    $stmt->execute([$username]);
-    $userId = $stmt->fetchColumn();
-
-    if (!$userId) {
-        echo "User not found.";
-        return false;
-    }
-
-    // Insert post into the database
-    $stmt = $connection->prepare("INSERT INTO posts (user_id, title, content, media) VALUES (?, ?, ?, ?)");
-    return $stmt->execute([$userId, $title, $content, $media]);
-
+function savePost($connection, $username, $title, $content, $media): ?Post {
+    $userId = (new UserRead($connection))->getUserId($username);
+    $post = new Post(null, $userId, $title, $content, $media, null, null, null, $username);
+    return (new PostRepository())->createPost($connection, $post);
 }

@@ -22,6 +22,8 @@ include 'layout/header.php';
             <input type="text" id="title" name="title" required>
             <label for="content">Content:</label>
             <textarea id="content" name="content" required></textarea>
+<!--            <label for="media">Media (optional):</label>-->
+<!--            <input type="file" id="media" name="media" accept="image/*">-->
             <button type="submit">Create Post</button>
         </form>
     </section>
