@@ -80,7 +80,7 @@ $isFollowing = $userRead->isFollowing($userRead->getUserProfile($sessionUsername
 </section>
 
 <!-- Modals for followers and following -->
-<?php include 'profile_follow-ers-and-ing_modal.php'; ?>
+<?php include 'modals/profile_profile_view_follow-ers-and-ing_modal.php'; ?>
 
 <!-- Script -->
 <script>

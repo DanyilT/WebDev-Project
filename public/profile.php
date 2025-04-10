@@ -15,7 +15,7 @@ include 'layout/header.php';
 
 <?php
 if (isset($_SESSION['username']) && $_SESSION['username'] == $username)
-    include 'assets/profile_edit_modal.php';
+    include 'assets/modals/profile_edit_modal.php';
 ?>
 
 <?php include 'layout/footer.php'; ?>

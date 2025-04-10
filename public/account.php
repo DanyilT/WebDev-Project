@@ -34,8 +34,8 @@ include 'layout/header.php';
 </main>
 
 <!-- Login Modal & Register Modal -->
-<?php require 'layout/login.php'; ?>
-<?php require 'layout/register.php'; ?>
+<?php include 'assets/modals/account_login_modal.php'; ?>
+<?php include 'assets/modals/account_register_modal.php'; ?>
 
 <?php include 'layout/footer.php'; ?>
 
