@@ -49,14 +49,14 @@ $posts = $userRead->getUserPosts($userId);
             <p class="date">Date: <?php echo htmlspecialchars($post['created_at']); ?></p>
             <form action="lib/process/process_post_reaction.php" method="post">
                 <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id']); ?>">
-                <input type="hidden" name="user_id" value="<?php echo $sessionUsernameIsSet && htmlspecialchars($userRead->getUserId($sessionUsernameIsSet)); ?>">
+                <input type="hidden" name="user_id" value="<?php echo $sessionUsernameIsSet ? htmlspecialchars($userRead->getUserId($sessionUsernameIsSet)) : null; ?>">
                 <button <?php echo $sessionUsernameIsSet ? 'type="submit"' : 'type="button" onclick="if(confirm(\'Please login to follow this user.\')) { window.location.href = \'account.php#login\'; }"'; ?> name="like">Like / Dislike</button>
             </form>
                 <button type="button" <?php echo $sessionUsernameIsSet ? 'onclick="toggleCommentForm(' . htmlspecialchars($post['post_id']) . ')"' : 'onclick="if(confirm(\'Please login to follow this user.\')) { window.location.href = \'account.php#login\'; }"'; ?>>Comment</button>
             <div id="comment-form-<?php echo htmlspecialchars($post['post_id']); ?>" class="comment-form" style="display: none;">
                 <form action="lib/process/process_post_reaction.php" method="post">
                     <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id']); ?>">
-                    <input type="hidden" name="user_id" value="<?php echo $sessionUsernameIsSet && htmlspecialchars($userRead->getUserId($sessionUsernameIsSet)); ?>">
+                    <input type="hidden" name="user_id" value="<?php echo $sessionUsernameIsSet ? htmlspecialchars($userRead->getUserId($sessionUsernameIsSet)) : null; ?>">
                     <label for="comment">Comment:
                         <textarea name="comment" placeholder="Write a comment..."></textarea>
                     </label>
