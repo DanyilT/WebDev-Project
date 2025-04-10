@@ -34,7 +34,7 @@ $followers = $userRead->getFollowers($userId);
 $followings = $userRead->getFollowings($userId);
 $followersCount = $userRead->getFollowersCount($userId);
 $followingsCount = $userRead->getFollowingsCount($userId);
-$isFollowing = $userRead->isFollowing($userRead->getUserProfile($sessionUsernameIsSet)['user_id'], $userId);
+$isFollowing = $sessionUsernameIsSet && $userRead->isFollowing($userRead->getUserProfile($sessionUsernameIsSet)['user_id'], $userId);
 ?>
 
 <!-- HTML -->

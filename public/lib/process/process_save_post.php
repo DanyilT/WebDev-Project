@@ -15,10 +15,11 @@ require_once '../../../src/Models/PostRepository.php';
 
 // Check if logged in
 if (!isset($_SESSION['username'])) {
-    header('Location: ../../account.php#login');
+    header('Location: /account.php#login');
     exit();
 }
 
+// Retrieve form data
 $username = $_SESSION['username'];
 $title = $_POST['title'];
 $content = $_POST['content'];
