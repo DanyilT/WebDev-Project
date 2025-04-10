@@ -165,9 +165,8 @@ class UserRead extends User {
      * @return array
      */
     public function getUserPosts(int $userId, int $limit = null): array {
-        $stmt = $this->getConnection()->prepare("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id WHERE p.user_id = ? ORDER BY p.created_at DESC" . ($limit ? " LIMIT $limit;" : ';'));
-        $stmt->execute([$userId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        require_once 'PostRepository.php';
+        return (new \Models\Post\PostRepository())->getUserPosts($this->getConnection(), $userId, $limit);
     }
 
     /**
