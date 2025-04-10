@@ -7,6 +7,9 @@ use Models\User\UserRead;
 // Require the necessary classes if not already loaded
 class_exists("Models\User\UserRead") or require_once '../src/Models/UserRead.php';
 
+// Check if the user is logged in, and get the session username if available
+$sessionUsernameIsSet = $_SESSION['username'] ?? null;
+
 // Get the username from the URL (GET request)
 $username = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($_GET['username'])));
 if (!$username) {
@@ -44,6 +47,34 @@ $posts = $userRead->getUserPosts($userId);
             <?php endif; ?>
             <span class="likes">Likes: <?php echo htmlspecialchars($post['likes'] ?: 0); ?></span>
             <p class="date">Date: <?php echo htmlspecialchars($post['created_at']); ?></p>
+            <form action="lib/process/process_post_reaction.php" method="post">
+                <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id']); ?>">
+                <input type="hidden" name="user_id" value="<?php echo $sessionUsernameIsSet && htmlspecialchars($userRead->getUserId($sessionUsernameIsSet)); ?>">
+                <button <?php echo $sessionUsernameIsSet ? 'type="submit"' : 'type="button" onclick="if(confirm(\'Please login to follow this user.\')) { window.location.href = \'account.php#login\'; }"'; ?> name="like">Like / Dislike</button>
+            </form>
+                <button type="button" <?php echo $sessionUsernameIsSet ? 'onclick="toggleCommentForm(' . htmlspecialchars($post['post_id']) . ')"' : 'onclick="if(confirm(\'Please login to follow this user.\')) { window.location.href = \'account.php#login\'; }"'; ?>>Comment</button>
+            <div id="comment-form-<?php echo htmlspecialchars($post['post_id']); ?>" class="comment-form" style="display: none;">
+                <form action="lib/process/process_post_reaction.php" method="post">
+                    <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id']); ?>">
+                    <input type="hidden" name="user_id" value="<?php echo $sessionUsernameIsSet && htmlspecialchars($userRead->getUserId($sessionUsernameIsSet)); ?>">
+                    <label for="comment">Comment:
+                        <textarea name="comment" placeholder="Write a comment..."></textarea>
+                    </label>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <!-- TODO: Show all comments -->
         </article>
     <?php endforeach; ?>
 </section>
+
+<script>
+    function toggleCommentForm(postId) {
+        const form = document.getElementById('comment-form-' + postId);
+        if (form.style.display === 'none' || form.style.display === '') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
