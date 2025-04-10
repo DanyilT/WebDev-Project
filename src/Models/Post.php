@@ -13,7 +13,7 @@ class Post {
     private $isDeleted;
     private $creatorUsername;
 
-    public function __construct($postId, $userId, $title, $content, $media, $likes, $createdAt, $isDeleted = false, $creatorUsername = null) {
+    public function __construct($postId, $userId, $title, $content, $media, $likes = null, $createdAt = null, $isDeleted = false, $creatorUsername = null) {
         $this->postId = $postId;
         $this->userId = $userId;
         $this->title = $title;
