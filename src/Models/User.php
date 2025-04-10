@@ -52,6 +52,7 @@ abstract class User {
             foreach ($fields as $column => $newValue) {
                 if ($currentUser[$column] !== $newValue) {
                     $changes[$column] = [
+                        // TODO: FIX: This should be the old value, but it saves null (probably because of the I update the data first and then I trying to get old data when it is already updated (see UserUpdate->updateUser) or maybe because of the JSON_ARRAY_APPEND)
                         'old' => $currentUser[$column],
                         'new' => $newValue,
                         'timestamp' => date('Y-m-d H:i:s')
