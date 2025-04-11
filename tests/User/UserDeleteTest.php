@@ -6,6 +6,8 @@ use Models\User\UserDelete;
 use PHPUnit\Framework\TestCase;
 use PDO;
 
+require '../../src/Models/UserDelete.php';
+
 class UserDeleteTest extends TestCase
 {
     private $mockPDO;

@@ -6,6 +6,8 @@ use Models\User\UserRead;
 use PHPUnit\Framework\TestCase;
 use PDO;
 
+require '../../src/Models/UserRead.php';
+
 class UserReadTest extends TestCase
 {
     private $mockPDO;

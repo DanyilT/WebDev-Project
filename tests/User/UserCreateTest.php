@@ -6,6 +6,8 @@ use Models\User\UserCreate;
 use PHPUnit\Framework\TestCase;
 use PDO;
 
+require '../../src/Models/UserCreate.php';
+
 class UserCreateTest extends TestCase
 {
     private $mockPDO;

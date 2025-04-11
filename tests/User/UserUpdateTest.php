@@ -6,6 +6,8 @@ use Models\User\UserUpdate;
 use PHPUnit\Framework\TestCase;
 use PDO;
 
+require '../../src/Models/UserUpdate.php';
+
 class UserUpdateTest extends TestCase
 {
     private $mockPDO;
