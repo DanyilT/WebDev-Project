@@ -164,7 +164,7 @@ class UserRead extends User {
      *
      * @return array
      */
-    public function getUserPosts(int $userId, int $limit = null): array {
+    public function getUserPosts(int $userId, ?int $limit = null): array {
         require_once 'PostRepository.php';
         return (new \Models\Post\PostRepository())->getUserPosts($this->getConnection(), $userId, $limit);
     }
