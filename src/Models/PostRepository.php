@@ -71,11 +71,23 @@ class PostRepository {
      * @return Post|null
      */
     public function createPost(PDO $connection, Post $data): ?Post {
-        $stmt = $connection->prepare("INSERT INTO posts (user_id, title, content, media) VALUES (?, ?, ?, ?)");
-        if ($stmt->execute([$data->getUserId(), $data->getTitle(), $data->getContent(), $data->getMedia()])) {
-            $postId = $connection->lastInsertId();
-            return $this->getPostById($connection, $postId);
+        // Input validation
+        if (empty($data->getTitle()) || empty($data->getContent())) {
+            throw new \InvalidArgumentException("Title and content are required.");
         }
+
+        // Error handling
+        try {
+            $stmt = $connection->prepare("INSERT INTO posts (user_id, title, content, media) VALUES (?, ?, ?, ?)");
+            if ($stmt->execute([$data->getUserId(), $data->getTitle(), $data->getContent(), $data->getMedia()])) {
+                $postId = $connection->lastInsertId();
+                return $this->getPostById($connection, $postId);
+            }
+        } catch (\PDOException $e) {
+            error_log('Error creating post: ' . $e->getMessage());
+            return null;
+        }
+
         return null;
     }
 
