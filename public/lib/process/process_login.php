@@ -17,7 +17,17 @@ if (validateLogin($connection, $username, $password)) {
 }
 exit();
 
-function validateLogin($connection, $username, $password) {
+function validateLogin($connection, $username, $password): bool {
     $userRead = new UserRead($connection);
-    return $userRead->isUsernameExist($username, $connection) && $userRead->getUserProfile($username) && password_verify($password, $userRead->getUserPassword($username));
+    if (empty($username) || empty($password)) {
+        return false;
+    }
+    if (!$userRead->isUsernameExist($username, $connection)) {
+        return false;
+    }
+    $userProfile = $userRead->getUserProfile($username);
+    if (!$userProfile) {
+        return false;
+    }
+    return password_verify($password, $userRead->getUserPassword($username));
 }
