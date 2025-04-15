@@ -1,47 +1,196 @@
 /* Posts styles */
+@import 'button.css';
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
 .post {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background-color: #fff;
+    background-color: #f9f9f9;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-left: 5px solid #6600ff;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.post .username {
-    font-size: 16px;
+.post:hover {
+    transform: scale(1.001);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.deleted-post {
+    border-left: 5px solid #ff0000;
+}
+
+.post .author {
     font-family: 'Comic Sans MS', sans-serif;
+    font-size: 1em;
     color: #6600ff;
+    text-decoration: none;
+    margin: 0;
+    transition: color 0.2s ease-in-out;
 }
 
-.post .title {
+.post .author:hover {
+    color: #330066;
+    text-decoration: underline;
+}
+
+.post .post-content {
+    border-top: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+}
+
+.post .post-content .title {
     margin: 0;
     color: #333;
 }
 
-.post hr {
-    margin: 10px 0;
-    border: none;
-    border-top: 1px solid #ccc;
-}
-
-.post .body {
-    font-size: 14px;
+.post .post-content .content {
+    font-size: 0.9em;
     color: #444;
 }
 
-.post .media {
+.post .post-content .media {
     /* Not handling this yet */
 }
 
 .post .likes {
-    /* Not handling this yet */
+    font-size: 16px;
+    color: #777;
+    margin: 10px 0 0 5px;
+}
+
+.post .likes strong {
+    color: #330066;
+}
+
+.post .post-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.post .post-actions button {
+    height: 40px;
+    margin: 0;
+}
+
+.post .post-actions {
+    .like-btn {
+        border-radius: 20px;
+        transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .like-style {
+        background-color: #ff4a4a;
+        color: #fff;
+    }
+
+    .like-style:hover {
+        background-color: #ff4444;
+        box-shadow: 0 0 20px rgba(255, 74, 74, 0.7), 0 0 30px rgba(255, 74, 74, 0.5);
+    }
+
+    .unlike-style {
+        background-color: #c5a5a5;
+        color: #000;
+    }
+
+    .unlike-style:hover {
+        background-color: #b5a5a5;
+        box-shadow: 0 0 20px rgba(197, 165, 165, 0.7), 0 0 30px rgba(197, 165, 165, 0.5);
+    }
+
+    .edit-post-btn {
+        background-color: #ffcc00;
+        color: #000;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .edit-post-btn:hover {
+        background-color: #ffbb00;
+        box-shadow: 0 0 20px rgba(51, 51, 51, 0.75), 0 0 30px rgba(51, 51, 51, 0.5);
+    }
+
+    .delete-post-btn {
+        background-color: #cc0000;
+        color: #000;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .delete-post-btn:hover {
+        background-color: #bb0000;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.75), 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+}
+
+.post .create-comment {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 20px;
+    width: 400px;
+    /*align-items: center;*/
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.post .create-comment textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 50px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    border: none;
+    resize: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.post .create-comment .submit-comment-btn {
+    background-color: #6600ff;
+}
+
+.post .create-comment .submit-comment-btn:hover {
+    background-color: #330066;
 }
 
 .post .date {
-    font-size: 12px;
+    font-size: 0.8em;
     color: #777;
     margin-top: 5px;
+}
+
+.post .comments {
+    font-size: 16px;
+    color: #777;
+    margin-top: 5px;
+}
+
+.post .comments .comment {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 2px solid #330066;
+    margin-top: 10px;
 }
