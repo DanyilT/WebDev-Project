@@ -26,22 +26,33 @@ class MediaManager {
      * @return string|null The path to the uploaded file or null on failure.
      */
     public function uploadFile(array $file, string $destination): ?string {
-        if (!isset($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+        if (!isset($file['tmp_name']) || !file_exists($file['tmp_name'])) {
             return null;
         }
 
+        // Ensure base upload directory exists
         if (!is_dir($this->uploadDirectory)) {
             mkdir($this->uploadDirectory, 0755, true);
         }
 
         // Create the destination directory if it doesn't exist
-        $destinationDir = dirname($destination);
-        if (!is_dir($this->uploadDirectory . '/' . $destinationDir)) {
-            mkdir($this->uploadDirectory . '/' . $destinationDir, 0755, true);
+        $fullDestinationDir = $this->uploadDirectory . '/' . dirname($destination);
+        if (!is_dir($fullDestinationDir)) {
+            mkdir($fullDestinationDir, 0755, true);
         }
 
-        $destination = rtrim($this->uploadDirectory . '/' . $destination, '/');
-        return move_uploaded_file($file['tmp_name'], $destination) ? $destination : null;
+        // Full destination path
+        $destinationPath = $this->uploadDirectory . '/' . $destination;
+
+        // If the file is an actual uploaded file, use move_uploaded_file
+        if (is_uploaded_file($file['tmp_name'])) {
+            $success = move_uploaded_file($file['tmp_name'], $destinationPath);
+        } else {
+            // For manually generated temp files (like compressed images), use rename()
+            $success = rename($file['tmp_name'], $destinationPath);
+        }
+
+        return $success ? $destinationPath : null;
     }
 
     /**
