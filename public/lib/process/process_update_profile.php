@@ -1,24 +1,18 @@
 <?php
 
-// Require necessary files
-use Models\User\UserRead;
-use Models\User\UserUpdate;
-use Models\User\UserDelete;
+use Controllers\User\UserController;
 use Services\Media\MediaManager;
+
+// Require necessary files
+require '../../../src/Database/DBconnect.php';
+require_once '../../../src/Controllers/User/UserController.php';
+require_once '../../../src/Services/MediaManager.php';
 
 // Start session
 session_start();
 
-require '../../../src/Database/DBconnect.php';
-require_once '../../../src/Models/UserRead.php';
-require_once '../../../src/Models/UserUpdate.php';
-require_once '../../../src/Models/UserDelete.php';
-require_once '../../../src/Services/MediaManager.php';
-
-// Create a new UserRead and UserUpdate instance
-$userRead = new UserRead($connection);
-$userUpdate = new UserUpdate($connection);
-$userDelete = new UserDelete($connection);
+// Create a new UserController instance and MediaManager instance
+$userController = new UserController($connection);
 $mediaManager = new MediaManager();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -42,17 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit();
                 }
 
-                if (password_verify($currentPassword, $userRead->getUserPassword($userRead->getUsername($userId)))) {
-                    $userUpdate->updateUserPassword($userId, $newPassword);
+                if (password_verify($currentPassword, $userController->getUserPassword($userController->getUsername($userId)))) {
+                    $userController->updateUserPassword($userId, $newPassword);
                 } else {
                     echo 'Current password is incorrect.';
                     exit();
                 }
             } elseif ($editField === 'username') {
-                $userUpdate->updateUser($userId, [$editField => $_POST[$editField]]);
-                $_SESSION['username'] = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($_POST[$editField])));
+                $userController->updateUser($userId, [$editField => $_POST[$editField]]);
+                $_SESSION['auth']['username'] = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($_POST[$editField])));
             } elseif ($editField === 'profile_pic') {
-                if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] === 0) {
+                if (!isset($_FILES['profile_pic']) || $_FILES['profile_pic']['error'] === UPLOAD_ERR_NO_FILE) {
+                    // If no file posted, clear the profile picture.
+                    $userController->updateUser($userId, ['profile_pic' => '']);
+                } elseif ($_FILES['profile_pic']['error'] === 0 && $_FILES['profile_pic']['tmp_name'] && is_uploaded_file($_FILES['profile_pic']['tmp_name'])) {
                     // Find the highest hex-based file name
                     $maxHex = 0;
                     $existingFiles = $mediaManager->getUserFolderDirectory($userId, 'profile_pics');
@@ -66,37 +63,95 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                     $nextHex = str_pad(dechex($maxHex + 1), 8, '0', STR_PAD_LEFT);
 
-                    // Convert to JPG if needed and save
-                    $tmpName = $_FILES['profile_pic']['tmp_name'];
+                    // Generate a new file name
                     $newFileName = $userId . '_profilepic_' . $nextHex . '.jpg';
                     $destination = $userId . '/profile_pics/' . $newFileName;
 
-                    $imageType = exif_imagetype($tmpName);
-                    if ($imageType !== IMAGETYPE_JPEG) {
-                        // TODO: Handle other image types (PNG, GIF, etc.) or convert to JPG
-                        // Conversion using GD
-//                        $image = imagecreatefromstring(file_get_contents($tmpName));
-//                        imagejpeg($image, $destination, 90);
-//                        imagedestroy($image);
+                    // Create image resource from uploaded file
+                    $tmpName = $_FILES['profile_pic']['tmp_name'];
+                    if (function_exists('gd_info')) {
+                        echo "GD extension is enabled.";
+                        // Change the image type to JPEG
+                        switch (exif_imagetype($tmpName)) {
+                            case IMAGETYPE_JPEG:
+                                $image = imagecreatefromjpeg($tmpName);
+                                break;
+                            case IMAGETYPE_PNG:
+                                $image = imagecreatefrompng($tmpName);
+                                break;
+                            case IMAGETYPE_GIF:
+                                $image = imagecreatefromgif($tmpName);
+                                break;
+                            default:
+                                echo 'Unsupported image format.';
+                                exit();
+                        }
+                    } else {
+                        echo "GD extension is not enabled.";
+                        echo '<p>Please enable the GD extension in your PHP configuration.<br>pnp.ini -> extension=gd (if exists, uncomment it)</p>';
                     }
+
+                    // Crop the image to 1:1 aspect ratio
+                    $width = imagesx($image);
+                    $height = imagesy($image);
+                    $size = min($width, $height);
+                    $x = (int)(($width - $size) / 2);
+                    $y = (int)(($height - $size) / 2);
+
+                    $croppedImage = imagecreatetruecolor($size, $size);
+                    imagecopyresampled($croppedImage, $image, 0, 0, $x, $y, $size, $size, $size, $size);
+                    imagedestroy($image);
+
+                    // Compress the image to 80% quality
+                    $tempFile = tempnam(sys_get_temp_dir(), 'profile_pic_');
+                    $maxSizeAllowed = 100 * 1024; // 100 KB
+                    $quality = 80;
+                    do {
+                        imagejpeg($croppedImage, $tempFile, $quality);
+                        clearstatcache(true, $tempFile);
+                        $compressedSize = filesize($tempFile);
+                        if ($compressedSize <= $maxSizeAllowed) {
+                            break;
+                        }
+                        $quality -= 5;
+                    } while ($quality > 10);
+                    if ($compressedSize > $maxSizeAllowed) {
+                        echo '<strong>Image too large, please upload a smaller image.</strong>';
+                        unlink($tempFile);
+                        imagedestroy($croppedImage);
+                        exit();
+                    }
+                    imagedestroy($croppedImage);
+
+                    // Replace the uploaded file with the new compressed one
+                    $_FILES['profile_pic']['name'] = $newFileName;
+                    $_FILES['profile_pic']['type'] = 'image/jpeg';
+                    $_FILES['profile_pic']['tmp_name'] = $tempFile;
+                    $_FILES['profile_pic']['size'] = filesize($tempFile);
 
                     // Upload the file using MediaManager
                     $uploadedFile = $mediaManager->uploadFile($_FILES['profile_pic'], $destination);
+                    unlink($tempFile);
 
-                    // Update user record with new image path
-                    $userUpdate->updateUser($userId, ['profile_pic' => $newFileName]);
+                    // Update user record with new image path (name)
+                    if ($uploadedFile) {
+                        $userController->updateUser($userId, ['profile_pic' => $newFileName]);
+                    } else {
+                        echo 'Failed to upload file.';
+                        exit();
+                    }
                 }
             } else {
-                $userUpdate->updateUser($userId, [$editField => $_POST[$editField]]);
+                $userController->updateUser($userId, [$editField => $_POST[$editField]]);
             }
 
-            header('Location: /profile.php?username=' . $_SESSION['username']);
+            header('Location: /profile.php?username=' . $_SESSION['auth']['username']);
             exit();
         } catch (PDOException $e) {
             echo 'Error: ' . $e->getMessage();
         }
     } elseif ($_POST['delete']) {
-        $userDelete->deleteUser($userId);
+        $userController->deleteUser($userId);
         session_destroy();
         header('Location: /');
         exit();
