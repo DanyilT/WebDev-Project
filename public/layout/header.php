@@ -29,13 +29,13 @@
                 <span class="nav-text">Create</span>
             </a>
             <hr>
-            <?php if (isset($_SESSION['username'])): ?>
-                <a href="profile.php?username=<?php echo $_SESSION['username']; ?>" class="nav-item">
+            <?php if (isset($_SESSION['auth']['username'])): ?>
+                <a href="profile.php?username=<?php echo $_SESSION['auth']['username']; ?>" class="nav-item">
                     <img src="img/icons/svg/profile-iconly.svg" alt="Profile Icon" class="nav-icon">
                     <span class="nav-text">Profile</span>
                 </a>
             <?php else: ?>
-                <a href="account.php#login" class="nav-item">
+                <a href="auth.php#login" class="nav-item">
                     <img src="img/icons/svg/login-iconly.svg" alt="Login Icon" class="nav-icon">
                     <span class="nav-text">Login/Register</span>
                 </a>
