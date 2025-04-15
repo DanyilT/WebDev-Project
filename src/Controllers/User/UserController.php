@@ -51,6 +51,20 @@ class UserController {
     }
 
     /**
+     * Searches for users by username.
+     *
+     * @var string $search
+     * @param int $offset
+     * @param int|null $limit
+     *
+     * @return array
+     */
+    public function searchUsers(string $search, int $offset = 0, int $limit = null): array {
+        $userRead = new UserRead($this->connection);
+        return $userRead->searchUsers($search, $offset, $limit);
+    }
+
+    /**
      * Gets the user profile by username.
      *
      * @param string $username
@@ -94,9 +108,9 @@ class UserController {
      * @param int $userId
      * @param int $followerId
      *
-     * @return bool
+     * @return string
      */
-    public function updateFollowers(int $userId, int $followerId): bool {
+    public function updateFollowers(int $userId, int $followerId): string {
         $userUpdate = new UserUpdate($this->connection);
         return $userUpdate->updateFollowers($userId, $followerId);
     }
@@ -221,5 +235,17 @@ class UserController {
     public function getUserPosts(int $userId, int $limit = null): array {
         $userRead = new UserRead($this->connection);
         return $userRead->getUserPosts($userId, $limit);
+    }
+
+    /**
+     * Checks if a username already exists in the database.
+     *
+     * @param string $username
+     *
+     * @return bool
+     */
+    public function isUsernameExist(string $username): bool {
+        $userRead = new UserRead($this->connection);
+        return $userRead->isUsernameExist($username, $this->connection);
     }
 }

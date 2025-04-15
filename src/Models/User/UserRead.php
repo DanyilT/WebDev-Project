@@ -22,6 +22,21 @@ class UserRead extends User {
     }
 
     /**
+     * Searches for users by username
+     *
+     * @param string $search
+     * @param int $offset
+     * @param int|null $limit
+     *
+     * @return array
+     */
+    public function searchUsers(string $search): array {
+        $stmt = $this->getConnection()->prepare("SELECT * FROM active_users WHERE username LIKE ?");
+        $stmt->execute(['%' . strtolower(trim($search)) . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Retrieves the user profile by username
      *
      * @param string $username
