@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var array $followers
+ * @var array $followings
+ */
+?>
+
 <dialog id="followers-modal" class="modal followers">
     <div class="modal-content">
         <div class="modal-header">
@@ -6,7 +13,7 @@
         </div>
         <ul id="followers-list">
             <?php foreach ($followers as $follower): ?>
-                <li><a href="profile.php?username=<?php echo $follower['username']; ?>"><?php echo $follower['username']; ?></a></li>
+                <li><a href="/profile.php?username=<?php echo $follower['username']; ?>"><?php echo $follower['username']; ?></a></li>
             <?php endforeach; ?>
         </ul>
     </div>
@@ -20,7 +27,7 @@
         </div>
         <ul id="following-list">
             <?php foreach ($followings as $following): ?>
-                <li><a href="profile.php?username=<?php echo $following['username']; ?>"><?php echo $following['username']; ?></a></li>
+                <li><a href="/profile.php?username=<?php echo $following['username']; ?>"><?php echo $following['username']; ?></a></li>
             <?php endforeach; ?>
         </ul>
     </div>
