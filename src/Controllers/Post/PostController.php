@@ -88,7 +88,7 @@ class PostController {
     public function getUsersPosts(array $userIds, int $offset = 0, int $limit = null): array {
         $allPosts = [];
         foreach ($userIds as $userId) {
-            $userPosts = $this->getUserPosts($userId, $offset, $limit);
+            $userPosts = $this->getUserPosts($userId);
             $allPosts = array_merge($allPosts, $userPosts);
         }
         usort($allPosts, function ($a, $b) {
