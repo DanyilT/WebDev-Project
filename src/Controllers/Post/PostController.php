@@ -28,20 +28,21 @@ class PostController {
     /**
      * Displays all posts or the posts of a specific user.
      *
-     * @param array|int|null $userId The ID of the user whose posts to display. If null, all posts are displayed.
+     * @param int|array|null $userId The ID of the user whose posts to display. If null, all posts are displayed.
+     * @param int $offset The offset for pagination. Default is 0.
      * @param int|null $limit The maximum number of posts to display. If null, all posts are displayed.
      *
      * @return string
      */
-    public function index($userId = null, int $limit = null): string {
+    public function index(int|array $userId = null, int $offset = 0, int $limit = null): string {
         if ($userId) {
             if (is_array($userId)) {
-                $postsArray = $this->getUsersPosts($userId, $limit);
+                $postsArray = $this->getUsersPosts($userId, $offset, $limit);
             } else {
-                $postsArray = $this->getUserPosts($userId, $limit);
+                $postsArray = $this->getUserPosts($userId, $offset, $limit);
             }
         } else {
-            $postsArray = $this->getAllPosts($limit);
+            $postsArray = $this->getAllPosts($offset, $limit);
         }
         $posts = [];
         foreach ($postsArray as $row) {
@@ -64,12 +65,13 @@ class PostController {
     /**
      * Retrieves all posts from the database.
      *
+     * @param int $offset
      * @param int|null $limit
      *
      * @return array
      */
-    public function getAllPosts(int $limit = null): array {
-        return $this->postRepository->getAllPosts($this->connection, $limit);
+    public function getAllPosts(int $offset = 0, int $limit = null): array {
+        return $this->postRepository->getAllPosts($this->connection, $offset, $limit);
     }
 
     /**
@@ -78,21 +80,22 @@ class PostController {
      * With an optional limit on the number of posts
      *
      * @param array $userIds
+     * @param int $offset
      * @param int|null $limit
      *
      * @return array
      */
-    public function getUsersPosts(array $userIds, int $limit = null): array {
+    public function getUsersPosts(array $userIds, int $offset = 0, int $limit = null): array {
         $allPosts = [];
         foreach ($userIds as $userId) {
-            $userPosts = $this->getUserPosts($userId, $limit);
+            $userPosts = $this->getUserPosts($userId, $offset, $limit);
             $allPosts = array_merge($allPosts, $userPosts);
         }
         usort($allPosts, function ($a, $b) {
             return strtotime($b['created_at']) - strtotime($a['created_at']);
         });
         if ($limit) {
-            return array_slice($allPosts, 0, $limit);
+            return array_slice($allPosts, $offset, $limit);
         } else {
             return $allPosts;
         }
@@ -104,12 +107,13 @@ class PostController {
      * With an optional limit on the number of posts
      *
      * @param int $userId
+     * @param int $offset
      * @param int|null $limit
      *
      * @return array
      */
-    public function getUserPosts(int $userId, int $limit = null): array {
-        return $this->postRepository->getUserPosts($this->connection, $userId, $limit);
+    public function getUserPosts(int $userId, int $offset = 0, int $limit = null): array {
+        return $this->postRepository->getUserPosts($this->connection, $userId, $offset, $limit);
     }
 
     /**

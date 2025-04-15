@@ -11,12 +11,13 @@ class PostRepository {
      * Retrieves all posts from the database
      *
      * @param PDO $connection
+     * @param int $offset
      * @param int|null $limit
      *
      * @return array
      */
-    public function getAllPosts(PDO $connection, int $limit = null): array {
-        $stmt = $connection->query("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id ORDER BY p.created_at DESC" . ($limit ? " LIMIT $limit;" : ';'));
+    public function getAllPosts(PDO $connection, int $offset = 0, int $limit = null): array {
+        $stmt = $connection->query("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id ORDER BY p.created_at DESC" . ($limit ? " LIMIT $offset, $limit;" : ';'));
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -27,12 +28,13 @@ class PostRepository {
      *
      * @param PDO $connection
      * @param int $userId
+     * @param int $offset
      * @param int|null $limit
      *
      * @return array
      */
-    public function getUserPosts(PDO $connection, int $userId, int $limit = null): array {
-        $stmt = $connection->prepare("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id WHERE p.user_id = ? ORDER BY p.created_at DESC" . ($limit ? " LIMIT $limit;" : ';'));
+    public function getUserPosts(PDO $connection, int $userId, int $offset = 0, int $limit = null): array {
+        $stmt = $connection->prepare("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id WHERE p.user_id = ? ORDER BY p.created_at DESC" . ($limit ? " LIMIT $offset, $limit;" : ';'));
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
