@@ -29,7 +29,7 @@ if (!$userProfile) {
 $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($username);
 ?>
 
-<?php if (isset($_SESSION['username']) && $_SESSION['username'] == $username): ?>
+<?php if (isset($_SESSION['auth']['username']) && $_SESSION['auth']['username'] == $username): ?>
 <!-- HTML -->
 <dialog id="edit-profile-modal" class="modal edit-profile">
     <div class="modal-content">
@@ -89,8 +89,10 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             <p>Are you sure you want to delete your account?</p>
             <label for="confirm-delete-with-password">Provide your password for this action:</label>
             <input type="password" id="confirm-delete-with-password" name="confirm_delete_with_password" required>
-            <input type="checkbox" id="delete-account" name="delete_account" required>
-            <label for="delete-account">I understand that this action is irreversible. (no it is not 😅)</label>
+            <label for="delete-account">
+                <input type="checkbox" id="delete-account" name="delete_account" required>
+                I understand that this action is irreversible. (no it is not 😅)
+            </label>
             <button type="submit" name="delete" value="delete">Delete Account</button>
     </div>
 </dialog>

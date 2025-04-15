@@ -1,0 +1,43 @@
+@import '../components/modals.css';
+@import '../components/forms.css';
+
+.page {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.page h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.page form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.page label {
+    font-weight: 600;
+}
+
+.page input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.page a {
+    color: #6600ff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.page a:hover {
+    color: #330066;
+    text-decoration: underline;
+}

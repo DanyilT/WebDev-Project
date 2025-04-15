@@ -1,22 +1,33 @@
 <?php
+if (isset($_GET['login'])) {
+    require_once '../src/Views/Auth/login.php';
+    exit();
+} elseif (isset($_GET['register'])) {
+    require_once '../src/Views/Auth/register.php';
+    exit();
+} elseif (isset($_GET['logout'])) {
+    require_once '../src/Views/Auth/logout.php';
+    exit();
+}
+
 session_start();
-if (isset($_SESSION['username'])) {
-    header('Location: profile.php?username=' . $_SESSION['username']);
+if (isset($_SESSION['auth']['username'])) {
+    header('Location: profile.php?username=' . $_SESSION['auth']['username']);
     exit();
 }
 ?>
 
 <?php
 $title = 'Login/Register';
-$styles = '<link rel="stylesheet" href="css/pages/account.css">';
+$styles = '<link rel="stylesheet" href="css/pages/auth.css">';
 include 'layout/header.php';
 ?>
 
 <main>
     <article>
-        <?php if (isset($_SESSION['username'])): ?>
-            <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
-            <form action="lib/process/process_logout.php" method="post">
+        <?php if (isset($_SESSION['auth']['username'])): ?>
+            <h1>Welcome, <?php echo htmlspecialchars($_SESSION['auth']['username']); ?></h1>
+            <form action="lib/auth/logout.php" method="post">
                 <button type="submit">Logout</button>
             </form>
         <?php else: ?>
@@ -26,7 +37,7 @@ include 'layout/header.php';
         <?php endif; ?>
         <a href="admin_crud.php"> [Admin]</a>
     </article>
-    <?php if (isset($_SESSION['username'])): ?>
+    <?php if (isset($_SESSION['auth']['username'])): ?>
         <p>This is your account page.</p>
     <?php else: ?>
         <p>Please log in or sign up to access your account.</p>
