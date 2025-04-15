@@ -1,50 +1,52 @@
 <?php
-//TODO: Update index.php
 
-use Models\User\UserRead;
+use Controllers\User\UserController;
+use Controllers\Post\PostController;
 
-session_start();
+// Require the necessary classes
 require '../src/Database/DBconnect.php';
-require '../src/Models/UserRead.php';
+require '../src/Controllers/User/UserController.php';
+require '../src/Controllers/Post/PostController.php';
 
-$userRead = new UserRead($connection);
-$posts = [];
+// Instantiate the UserRead and PostController classes
+$userController = new UserController($connection);
+$postController = new PostController($connection);
 
-if (isset($_SESSION['username'])) {
-    $user = $userRead->getUserProfile($_SESSION['username']);
-    $following = $userRead->getFollowings($user['user_id']);
+// Parse offset from GET
+$offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+$limit  = isset($_GET['limit']) ? (int)$_GET['limit'] : 5;
 
-    foreach ($following as $followed) {
-        $userPosts = $userRead->getUserPosts($followed['user_id'], 5);
-        $posts = array_merge($posts, $userPosts);
-    }
-} else {
-    // Fetch most recent posts from all users if not logged in
-    $stmt = $connection->prepare("SELECT p.post_id, u.username, p.title, p.content, p.likes, p.created_at FROM active_posts p JOIN active_users u ON p.user_id = u.user_id ORDER BY p.created_at DESC LIMIT 5");
-    $stmt->execute();
-    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-?>
-
-<?php
+$title = 'Home - ' . (isset($_SESSION['auth']['username']) ? htmlspecialchars($_SESSION['auth']['username']) : 'Guest');
 $styles = '<link rel="stylesheet" href="css/pages/index.css">';
 include 'layout/header.php';
 ?>
 
 <main>
     <section class="posts">
-        <h2>Recent Posts</h2>
-        <?php foreach ($posts as $post): ?>
-            <article class="post">
-                <p class="username">@<?php echo htmlspecialchars($post['username']); ?></p>
-                <h3 class="title"><?php echo htmlspecialchars($post['title']); ?></h3>
-                <hr>
-                <p class="body"><?php echo htmlspecialchars($post['content']); ?></p>
-<!--                <img class="media" src="--><?php //echo htmlspecialchars($post['media']); ?><!--" alt="Post Media">-->
-                <span class="likes">Likes: <?php echo htmlspecialchars($post['likes'] ?: 0); ?></span>
-                <p class="date">Date: <?php echo htmlspecialchars($post['created_at']); ?></p>
-            </article>
-        <?php endforeach; ?>
+        <?php
+        // Check if the user is logged in
+        if (isset($_SESSION['auth']['user_id'])) {
+            echo '<h2>Recent Posts from People You Follow, <span onclick="location.href=\'profile.php?username=' . htmlspecialchars($_SESSION['auth']['username']) . '\'">' . htmlspecialchars($_SESSION['auth']['username']) . '</span></h2>';
+            // Get the posts of the users that the logged-in user is following
+            $following = array_column($userController->getFollowings($_SESSION['auth']['user_id']), 'user_id');
+            $postController->index($following, $offset, $limit);
+            $nextPosts = $postController->getUsersPosts($following, $offset + $limit, $limit);
+        } else {
+            echo '<h2>Newest Posts from All Users</h2>';
+            // If not logged in, show all posts
+            $postController->index(null, $offset, $limit);
+            $nextPosts = $postController->getAllPosts($offset + $limit, $limit);
+        }
+        ?>
+
+        <div class="pagination">
+            <?php if ($offset > 0): ?>
+                <a href="?offset=<?= max(0, $offset - $limit) ?>&limit=<?= $limit ?>">&larr; Previous</a>
+            <?php endif; ?>
+            <?php if (!empty($nextPosts)): ?>
+                <a href="?offset=<?= $offset + $limit ?>&limit=<?= $limit ?>">Next &rarr;</a>
+            <?php endif; ?>
+        </div>
     </section>
 </main>
 
