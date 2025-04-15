@@ -1,22 +1,19 @@
 <?php
 
+use Controllers\User\UserController;
+
 // Require necessary files
-use Models\User\UserRead;
-use Models\User\UserUpdate;
+require '../../../src/Database/DBconnect.php';
+require_once '../../../src/Controllers/User/UserController.php';
 
 // Start session
 session_start();
 
-require '../../../src/Database/DBconnect.php';
-require_once '../../../src/Models/UserRead.php';
-require_once '../../../src/Models/UserUpdate.php';
-
-// Create a new UserRead and UserUpdate instance
-$userRead = new UserRead($connection);
-$userUpdate = new UserUpdate($connection);
+// Create a new UserController instance
+$userController = new UserController($connection);
 
 // Check if logged in
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['auth']['username'])) {
     echo json_encode(['error' => 'Not logged in']);
     exit();
 }
@@ -31,7 +28,7 @@ if (!isset($data['userId'])) {
 }
 
 // Get IDs of follower and following
-$followerId = $userRead->getUserId($_SESSION['username']);
+$followerId = $userController->getUserId($_SESSION['auth']['username']);
 $followingId = $data['userId'];
 
 // Throw error if follower or following user not found
@@ -46,5 +43,5 @@ if (!$followingId) {
 }
 
 // Follow for the first time (new follow) / Unfollow (unfollowed) / Follow again (followed)
-$status = $userUpdate->updateFollowers($followerId, $followingId);
+$status = $userController->updateFollowers($followerId, $followingId);
 echo json_encode(['status' => $status]);
