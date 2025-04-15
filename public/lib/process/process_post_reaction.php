@@ -1,19 +1,19 @@
 <?php
 
-// Require necessary files
 use Models\Post\PostComment;
 use Models\Post\PostReaction;
+
+// Require necessary files
+require '../../../src/Database/DBconnect.php';
+require_once '../../../src/Models/Post/PostComment.php';
+require_once '../../../src/Models/Post/PostReaction.php';
 
 // Start session
 session_start();
 
-require '../../../src/Database/DBconnect.php';
-require_once '../../../src/Models/PostComment.php';
-require_once '../../../src/Models/PostReaction.php';
-
 // Check if logged in
-if (!isset($_SESSION['username'])) {
-    header('Location: /account.php#login');
+if (!isset($_SESSION['auth']['username'])) {
+    header('Location: /auth.php#login');
     exit();
 }
 
@@ -47,10 +47,9 @@ if (isset($_POST['like'])) {
 if (!empty($commentText)) {
     $postComment = new PostComment(
         $postId,    // postId
-        null,   // userId (not used by the Post constructor directly)
-        null,   // title
-        null,   // content
-        null    // etc.
+        $userId,    // userId
+        '',   // title
+        ''   // content
     );
     $postComment->addComment($connection, (int)$userId, $commentText);
     header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
