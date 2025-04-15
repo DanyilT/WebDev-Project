@@ -1,25 +1,34 @@
 <?php
+/**
+ * View: User Profile
+ * This file displays the user's profile information, including their username, profile picture, bio, followers, and followings.
+ * It also provides functionality to follow/unfollow the user and edit the profile if the logged-in user is viewing their own profile.
+ *
+ * @package Views\User
+ *
+ * @var PDO $connection Database connection object (assumed to be passed from DBconnect.php - should be required in the parent file)
+ */
 
-use Models\User\UserRead;
+use Controllers\User\UserController;
 
 // Assuming DBconnect.php is required in parent file to establish a database connection
 // require '../src/Database/DBconnect.php';
 // Require the necessary classes if not already loaded
-class_exists("Models\User\UserRead") or require_once '../src/Models/UserRead.php';
+class_exists("Controllers\User\UserController") or require_once '../src/Controllers/User/UserController.php';
 
 // Check if the user is logged in, and get the session username if available
-$sessionUsernameIsSet = $_SESSION['username'] ?? null;
+$sessionAuth = isset($_SESSION['auth']['username']) && isset($_SESSION['auth']['user_id']) ? $_SESSION['auth'] : null;
 
 // Get the username from the URL (GET request)
 $username = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($_GET['username'])));
 if (!$username) {
-    header('Location: index.php');
+    header('Location: /');
     exit();
 }
 
 // Fetch user's profile information (assuming $connection is a valid PDO connection -- passed from DBconnect.php)
-$userRead = new UserRead($connection);
-$userProfile = $userRead->getUserProfile($username);
+$userController = new UserController($connection);
+$userProfile = $userController->getUserProfile($username);
 
 // Check if the user exists
 if (!$userProfile) {
@@ -29,12 +38,12 @@ if (!$userProfile) {
 }
 
 // Fetch additional user information
-$userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($username);
-$followers = $userRead->getFollowers($userId);
-$followings = $userRead->getFollowings($userId);
-$followersCount = $userRead->getFollowersCount($userId);
-$followingsCount = $userRead->getFollowingsCount($userId);
-$isFollowing = $sessionUsernameIsSet && $userRead->isFollowing($userRead->getUserProfile($sessionUsernameIsSet)['user_id'], $userId);
+$userId = $userController->getUserId($username);
+$followers = $userController->getFollowers($userId);
+$followings = $userController->getFollowings($userId);
+$followersCount = $userController->getFollowersCount($userId);
+$followingsCount = $userController->getFollowingsCount($userId);
+$isFollowing = $sessionAuth && $userController->isFollowing($sessionAuth['user_id'], $userId);
 ?>
 
 <!-- HTML -->
@@ -48,39 +57,25 @@ $isFollowing = $sessionUsernameIsSet && $userRead->isFollowing($userRead->getUse
         <?php
         $createdDate = new DateTime($userProfile['created_at']);
         $interval = $createdDate->diff(new DateTime());
-
-        if ($interval->y > 0) {
-            echo htmlspecialchars($interval->y . ' year' . ($interval->y > 1 ? 's' : '') . ' ago');
-        } elseif ($interval->m > 0) {
-            echo htmlspecialchars($interval->m . ' month' . ($interval->m > 1 ? 's' : '') . ' ago');
-        } elseif ($interval->d >= 7) {
-            echo htmlspecialchars(floor($interval->d / 7) . ' week' . (floor($interval->d / 7) > 1 ? 's' : '') . ' ago');
-        } elseif ($interval->d > 0) {
-            echo htmlspecialchars($interval->d . ' day' . ($interval->d > 1 ? 's' : '') . ' ago');
-        } elseif ($interval->h > 0) {
-            echo htmlspecialchars($interval->h . ' hour' . ($interval->h > 1 ? 's' : '') . ' ago');
-        } elseif ($interval->i > 0) {
-            echo htmlspecialchars($interval->i . ' minute' . ($interval->i > 1 ? 's' : '') . ' ago');
-        } else {
-            echo htmlspecialchars($interval->s . ' second' . ($interval->s > 1 ? 's' : '') . ' ago');
-        }
+        require 'lib/functions.php';
+        time_count_display($interval);
         ?>
     </p>
     <!-- I don't care how you think about this class naming -->
     <p id="followers-count" class="follow-ers-or-ing">Followers: <span><?php echo $followersCount; ?></span></p>
     <p id="following-count" class="follow-ers-or-ing">Following: <span><?php echo $followingsCount; ?></span></p>
-    <?php if ($sessionUsernameIsSet === $username): ?>
+    <?php if (isset($sessionAuth) && $sessionAuth['username'] === $username): ?>
         <button id="edit-profile-btn">Edit Profile</button>
-        <form action="lib/process/process_logout.php" method="post" style="width: 100px; justify-self: center;">
+        <form action="lib/auth/logout.php" method="post" style="width: 100px; justify-self: center;">
             <button type="submit">Logout</button>
         </form>
     <?php else: ?>
-        <button id="follow-btn" class="<?php echo $isFollowing ? 'unfollow-btn' : 'follow-btn'; ?>" <?php echo !isset($_SESSION['username']) ? 'onclick="if(confirm(\'Please login to follow this user.\')) { window.location.href = \'account.php#login\'; }"' : ''; ?>><?php echo $isFollowing ? 'Unfollow' : 'Follow'; ?></button>
+        <button id="follow-btn" class="<?php echo $isFollowing ? 'unfollow-btn' : 'follow-btn'; ?>" <?php echo !isset($sessionAuth['username']) ? 'onclick="if(confirm(\'Please login to follow this user.\')) { window.location.href = \'/auth.php#login\'; }"' : ''; ?>><?php echo $isFollowing ? 'Unfollow' : 'Follow'; ?></button>
     <?php endif; ?>
 </section>
 
 <!-- Modals for followers and following -->
-<?php include 'modals/profile_profile_view_follow-ers-and-ing_modal.php'; ?>
+<?php include 'assets/modals/profile_profile_view_follow-ers-and-ing_modal.php'; ?>
 
 <!-- Script -->
 <script>
