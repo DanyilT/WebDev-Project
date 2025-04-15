@@ -37,7 +37,7 @@ class PostComment extends Post {
      * @return array
      */
     public function getComments(PDO $connection): array {
-        $stmt = $connection->prepare("SELECT c.comment_id, c.content, c.created_at, u.username FROM active_comments c JOIN users u ON c.user_id = u.user_id WHERE c.post_id = ? ORDER BY c.created_at ASC");
+        $stmt = $connection->prepare("SELECT c.comment_id, c.content, c.created_at, u.username FROM active_comments c JOIN users u ON c.user_id = u.user_id WHERE c.post_id = ? ORDER BY c.created_at DESC");
         $stmt->execute([$this->getPostId()]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -11,11 +11,12 @@ class PostRepository {
      * Retrieves all posts from the database
      *
      * @param PDO $connection
+     * @param int|null $limit
      *
      * @return array
      */
-    public function getAllPosts(PDO $connection): array {
-        $stmt = $connection->query("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id ORDER BY p.created_at DESC");
+    public function getAllPosts(PDO $connection, int $limit = null): array {
+        $stmt = $connection->query("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id ORDER BY p.created_at DESC" . ($limit ? " LIMIT $limit;" : ';'));
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -54,7 +55,7 @@ class PostRepository {
             $data['title'],
             $data['content'],
             $data['media'],
-            $data['likes'],
+            (array)$data['likes'],
             $data['created_at'],
             $data['is_deleted'],
             $data['username']

@@ -88,4 +88,16 @@ class PostReaction {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return json_decode($row['likes']);
     }
+
+    /**
+     * Retrieves the count of likes for a specific post
+     *
+     * @param PDO $connection
+     * @param int $postId
+     *
+     * @return int
+     */
+    public function getLikesCount(PDO $connection, int $postId): int {
+        return $this->getLikes($connection, $postId) ? count($this->getLikes($connection, $postId)) : 0;
+    }
 }
