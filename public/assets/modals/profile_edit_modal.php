@@ -47,6 +47,7 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             <h2>Edit Profile</h2>
             <span id="close-edit-profile" class="close">&times;</span>
         </div>
+        <h3>Edit your profile information</h3>
         <form id="edit-form" action="lib/process/process_update_profile.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="userId" value="<?php echo htmlspecialchars($userId); ?>">
             <label for="edit-field">Select field to edit:</label>
@@ -84,6 +85,8 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             </div>
             <button type="submit">Update Profile</button>
         </form>
+        <hr>
+        <h3>Change Password</h3>
         <form action="lib/process/process_update_profile.php" method="post">
             <input type="hidden" name="userId" value="<?php echo htmlspecialchars($userId); ?>">
             <label for="current-password">Current Password:</label>
@@ -93,6 +96,8 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             <input type="hidden" name="editField" value="password">
             <button type="submit">Update Password</button>
         </form>
+        <hr>
+        <h3>Delete Account</h3>
         <form action="lib/process/process_update_profile.php" method="post">
             <input type="hidden" name="userId" value="<?php echo htmlspecialchars($userId); ?>">
             <label for="delete-account">Delete Account:</label>
