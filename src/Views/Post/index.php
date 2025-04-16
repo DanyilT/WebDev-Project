@@ -19,10 +19,6 @@ require_once __DIR__ . '/../../Models/Post/PostComment.php';
 // Check if the user is logged in
 $sessionAuth = isset($_SESSION['auth']) && $_SESSION['auth']['user_id'] && $_SESSION['auth']['username'] ? $_SESSION['auth'] : null;
 
-// Handle offset and limit for comments
-$offsetComments = 0;
-$limitComments = 5;
-
 echo '<div class="posts-container">';
 require_once __DIR__ . '/show.php';
 echo '</div>';

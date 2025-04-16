@@ -70,19 +70,23 @@ use Models\Post\PostReaction;
 
         <div id="comments-<?= htmlspecialchars($post->getPostId()) ?>" class="comments" style="display: none; margin-top: 10px;">
             <?php
-            $comments = array_slice((new PostComment($post->getPostId(), $post->getUserId(), $post->getTitle(), $post->getContent(), $post->getMedia()))->getComments($connection), $offsetComments, $limitComments);
+            // Handle offset and limit for comments
+            $offset = 0;
+            $limit = 5;
+
+            $comments = array_slice((new PostComment($post->getPostId(), $post->getUserId(), $post->getTitle(), $post->getContent(), $post->getMedia()))->getComments($connection), $offset, $limit);
             if (!$comments) {
                 echo "<p>Error fetching comments.</p>";
             } elseif (empty($comments)) {
-                if ($offsetComments > 0) {
+                if ($offset > 0) {
                     echo "<p>No more comments to show.</p>";
                 } else {
                     echo "<p>No comments yet.</p>";
                 }
             }
-            include_once __DIR__ . '/comments.php';
-            if (count($comments) >= $limitComments + $offsetComments): ?>
-                <button id="load-more-comments-<?= htmlspecialchars($post->getPostId()) ?>" data-offset="<?= $offsetComments + $limitComments ?>" onclick="loadMoreComments(<?= htmlspecialchars($post->getPostId()) ?>, this.dataset.offset)">Load More Comments</button>
+            include __DIR__ . '/comments.php';
+            if (count($comments) >= $limit + $offset): ?>
+                <button id="load-more-comments-<?= htmlspecialchars($post->getPostId()) ?>" data-offset="<?= $offset + $limit ?>" onclick="loadMoreComments(<?= htmlspecialchars($post->getPostId()) ?>, this.dataset.offset)">Load More Comments</button>
             <?php endif; ?>
         </div>
         <p class="date"><small>Posted at: <?= date('Y-m-d', strtotime($post->getCreatedAt())) ?></small></p>
