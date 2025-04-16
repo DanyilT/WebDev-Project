@@ -1,6 +1,6 @@
 <?php
 
-require 'auth.php';
+require 'lib/auth.php';
 
 use Controllers\Admin\AdminController;
 
