@@ -22,6 +22,20 @@ class PostRepository {
     }
 
     /**
+     * Retrieves all posts from the database even if they are deleted
+     *
+     * @param PDO $connection
+     * @param int $offset
+     * @param int|null $limit
+     *
+     * @return array
+     */
+    public function getAllPostsEvenIfDeleted(PDO $connection, int $offset = 0, int $limit = null): array {
+        $stmt = $connection->query("SELECT p.*, u.username FROM posts p JOIN users u ON p.user_id = u.user_id ORDER BY p.created_at DESC" . ($limit ? " LIMIT $offset, $limit;" : ';'));
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Retrieves the posts of a user by their user ID
      * And includes the username of the user who created the post
      * With an optional limit on the number of posts
@@ -35,6 +49,12 @@ class PostRepository {
      */
     public function getUserPosts(PDO $connection, int $userId, int $offset = 0, int $limit = null): array {
         $stmt = $connection->prepare("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id WHERE p.user_id = ? ORDER BY p.created_at DESC" . ($limit ? " LIMIT $offset, $limit;" : ';'));
+        $stmt->execute([$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getUserPostsEvenIfDeleted(PDO $connection, int $userId, int $offset = 0, int $limit = null): array {
+        $stmt = $connection->prepare("SELECT p.*, u.username FROM posts p JOIN users u ON p.user_id = u.user_id WHERE p.user_id = ? ORDER BY p.created_at DESC" . ($limit ? " LIMIT $offset, $limit;" : ';'));
         $stmt->execute([$userId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -140,6 +160,29 @@ class PostRepository {
 
         // Soft delete
         $stmt = $connection->prepare("UPDATE posts SET is_deleted = 1 WHERE post_id = ?");
+        return $stmt->execute([$postId]);
+    }
+
+    /**
+     * Permanently deletes a post from the database
+     *
+     * @param PDO $connection
+     * @param int $postId
+     * @param int $ownerId
+     *
+     * @return bool
+     */
+    public function actuallyDeletePost(PDO $connection, int $postId, int $ownerId): bool {
+        // Check ownership
+        $checkStmt = $connection->prepare("SELECT user_id FROM posts WHERE post_id = ?");
+        $checkStmt->execute([$postId]);
+        $postUserId = $checkStmt->fetchColumn();
+        if ((int)$postUserId !== $ownerId) {
+            return false;
+        }
+
+        // Permanently delete
+        $stmt = $connection->prepare("DELETE FROM posts WHERE post_id = ?");
         return $stmt->execute([$postId]);
     }
 }
