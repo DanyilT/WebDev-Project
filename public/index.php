@@ -48,7 +48,6 @@ include 'layout/header.php';
             } else {
                 echo '<h3>You are not following anyone yet.</h3>';
                 echo '<p>Check out the <a href="search.php">search page</a> to find users to follow.</p>';
-                echo '<p>Or <a href="/?page=explore">explore</a> the latest posts from all users.</p>';
             }
         } elseif (isset($_GET['page']) && $_GET['page'] == 'explore') {
             echo '<h2>Explore Newest Posts from All Users</h2>';
