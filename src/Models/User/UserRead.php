@@ -172,19 +172,6 @@ class UserRead extends User {
     }
 
     /**
-     * Retrieves the posts of a user by their user ID
-     *
-     * @param int $userId
-     * @param int|null $limit
-     *
-     * @return array
-     */
-    public function getUserPosts(int $userId, ?int $limit = null): array {
-        require_once 'PostRepository.php';
-        return (new \Models\Post\PostRepository())->getUserPosts($this->getConnection(), $userId, $limit);
-    }
-
-    /**
      * Checks if a username already exists in the database to avoid duplication (error: username must be unique)
      *
      * @param string $username

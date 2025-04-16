@@ -225,19 +225,6 @@ class UserController {
     }
 
     /**
-     * Gets the posts of a user by user ID.
-     *
-     * @param int $userId
-     * @param int|null $limit If null, no limit is applied
-     *
-     * @return array
-     */
-    public function getUserPosts(int $userId, int $limit = null): array {
-        $userRead = new UserRead($this->connection);
-        return $userRead->getUserPosts($userId, $limit);
-    }
-
-    /**
      * Checks if a username already exists in the database.
      *
      * @param string $username
