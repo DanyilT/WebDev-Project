@@ -35,7 +35,7 @@ include 'layout/header.php';
             <button id="login-btn">Login</button>
             <button id="register-btn">Register</button>
         <?php endif; ?>
-        <a href="admin_crud.php"> [Admin]</a>
+        <a href="/admin"> [Admin]</a>
     </article>
     <?php if (isset($_SESSION['auth']['username'])): ?>
         <p>This is your account page.</p>
