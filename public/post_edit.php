@@ -1,4 +1,14 @@
 <?php
+/**
+ * Page: Post Edit
+ * Description: This file handles the editing of posts.
+ * It checks if the user is authenticated and then includes the post edit view.
+ *
+ * @package public
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
+
 session_start();
 if (!isset($_SESSION['auth']['user_id'])) {
     header('Location: /auth.php#login');

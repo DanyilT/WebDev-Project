@@ -1,4 +1,10 @@
 <?php
+/**
+ * Admin Panel: Logout
+ * This file serves as the out point for the admin panel of the application.
+ *
+ * @package public/admin
+ */
 
 session_start();
 

@@ -15,16 +15,18 @@ require_once __DIR__ . '/../../Models/User/UserDelete.php';
 
 /**
  * Class UserController
- * @package Controllers\User
+ * Handles user-related operations.
+ * This class is responsible for creating, reading, updating, and deleting user data.
+ * [UserCreate, UserRead, UserUpdate, UserDelete] = [CRUD]
  *
- * This class is responsible for handling user-related operations.
- * It interacts with the UserCreate, UserRead, UserUpdate, and UserDelete classes to perform CRUD operations.
+ * @package Controllers\User
  */
 class UserController {
-    private $connection;
+    private PDO $connection;
 
     /**
      * UserController constructor.
+     * Initializes the database connection.
      *
      * @param PDO $connection
      */
@@ -43,7 +45,7 @@ class UserController {
      * @param string|null $profile_pic
      *
      * @return bool
-     * @throws \Exception if data validation fails
+     * @throws \Exception if data validation fails (in $userCreate->createUser())
      */
     public function createUser(string $username, string $password, string $email, string $name, string $bio = null, string $profile_pic = null): bool {
         $userCreate = new UserCreate($this->connection, $username, $password, $email, $name, $bio, $profile_pic);

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Page: Search Users
+ * This file is responsible for searching users based on a query.
+ *
+ * @package public
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
 
 use Controllers\User\UserController;
 
@@ -8,10 +16,12 @@ require '../src/Controllers/User/UserController.php';
 require_once 'lib/functions.php'; // Include the functions file
 
 if (isset($_GET['search'])) {
+    // Parse the search query and other parameters from GET
     $search = $_GET['search'];
     $limit = $_GET['limit'] ?? null;
     $sort = $_GET['sort'] ?? 'username_asc';
 
+    // Instantiate the UserController
     $userController = new UserController($connection);
     $users = $userController->searchUsers($search);
 
@@ -39,10 +49,9 @@ if (isset($_GET['search'])) {
     }
     $users = array_slice($users, 0, $limit);
 }
-?>
 
-<?php
-$title = 'Search';
+// Include the header
+$title = 'Search Users';
 $styles = '<link rel="stylesheet" href="css/pages/search.css">';
 include 'layout/header.php';
 ?>

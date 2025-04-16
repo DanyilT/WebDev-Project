@@ -1,3 +1,11 @@
+<?php /**
+ * View: 418 I'm a teapot
+ * This file is responsible for displaying a 418 error page.
+ * Error 418: The server refuses the attempt to brew coffee with a teapot.
+ *
+ * @package Views\Error
+ */ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

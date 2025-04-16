@@ -1,4 +1,15 @@
 <?php
+/**
+ * Notice: This file is not used in the project.
+ * Use /config.php (in root) instead.
+ *
+ * Config: Database
+ *
+ * Database configuration file.
+ * This file is responsible for storing the database connection details.
+ *
+ * @package Config
+ */
 
 return [
     'host' => 'localhost',

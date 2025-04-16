@@ -1,7 +1,16 @@
 <?php
 /**
- * @param DateInterval|bool $interval
- * @return void
+ * File: functions.php
+ * This file contains utility functions for the application.
+ *
+ * @package public/lib
+ */
+
+/**
+ * Display a message indicating the time since a given date.
+ *
+ * @param DateInterval|bool $interval The interval to display.
+ * @return void String representation of the time interval.
  */
 function time_count_display(DateInterval|bool $interval): void {
     if ($interval->y > 0) {
@@ -22,8 +31,10 @@ function time_count_display(DateInterval|bool $interval): void {
 }
 
 /**
- * @param array $users
- * @return void
+ * Display the search results for users.
+ *
+ * @param array $users An array of user data, where each user is an associative array with keys 'user_id', 'username', and 'name'.
+ * @return void HTML output of the search results.
  */
 function displaySearchResults(array $users): void {
     try {

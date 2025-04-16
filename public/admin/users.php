@@ -1,4 +1,12 @@
 <?php
+/**
+ * Admin Panel: Manage Users
+ * This file displays the users in the admin panel and allows the admin to manage them.
+ *
+ * @package public/admin
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
 
 require 'lib/auth.php';
 

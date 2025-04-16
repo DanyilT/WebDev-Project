@@ -2,6 +2,13 @@
 
 namespace Models\Post;
 
+/**
+ * Class Post
+ * Represents a post in the system.
+ * This class provides methods to manage post data and interactions with the database.
+ *
+ * @package Models\Post
+ */
 class Post {
     private int $postId;
     private int $userId;
@@ -16,15 +23,15 @@ class Post {
     /**
      * Post constructor.
      *
-     * @param int $postId
-     * @param int $userId
-     * @param string $title
-     * @param string $content
-     * @param string|null $media
-     * @param array|null $likes
-     * @param string|null $createdAt
-     * @param bool $isDeleted
-     * @param string|null $creatorUsername
+     * @param int $postId Post ID
+     * @param int $userId User ID of the post creator
+     * @param string $title Post title
+     * @param string $content Post content
+     * @param string|null $media Post media (optional)
+     * @param array|null $likes Post likes (optional)
+     * @param string|null $createdAt Post creation date (optional)
+     * @param bool $isDeleted Indicates if the post is deleted
+     * @param string|null $creatorUsername Username of the post creator (optional)
      */
     public function __construct(int $postId, int $userId, string $title, string $content, string $media = null, array $likes = null, string $createdAt = null, bool $isDeleted = false, string $creatorUsername = null) {
         $this->postId = $postId;
@@ -39,6 +46,8 @@ class Post {
     }
 
     /**
+     * Get the post ID.
+     *
      * @return int
      */
     public function getPostId(): int {
@@ -46,6 +55,8 @@ class Post {
     }
 
     /**
+     * Get the user ID of the post creator.
+     *
      * @return int
      */
     public function getUserId(): int {
@@ -53,6 +64,8 @@ class Post {
     }
 
     /**
+     * Get the title of the post.
+     *
      * @return string
      */
     public function getTitle(): string {
@@ -60,6 +73,8 @@ class Post {
     }
 
     /**
+     * Get the content of the post.
+     *
      * @return string
      */
     public function getContent(): string {
@@ -67,6 +82,8 @@ class Post {
     }
 
     /**
+     * Get the media of the post.
+     *
      * @return string|null
      */
     public function getMedia(): ?string {
@@ -74,6 +91,8 @@ class Post {
     }
 
     /**
+     * Get the likes of the post.
+     *
      * @return array|null
      */
     public function getLikes(): ?array {
@@ -81,6 +100,8 @@ class Post {
     }
 
     /**
+     * Get the creation date of the post.
+     *
      * @return string|null
      */
     public function getCreatedAt(): ?string {
@@ -88,6 +109,8 @@ class Post {
     }
 
     /**
+     * Check if the post is deleted.
+     *
      * @return bool
      */
     public function getIsDeleted(): bool {
@@ -95,6 +118,8 @@ class Post {
     }
 
     /**
+     * Get the username of the post creator.
+     *
      * @return string|null
      */
     public function getCreatorUsername(): ?string {

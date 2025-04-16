@@ -2,35 +2,38 @@
 
 namespace Models\User;
 
+use PDO;
+use PDOException;
+
 /**
  * Class User
- * @package Models\User
+ * Abstract class representing a user in the system.
+ * This class provides methods to manage user data and interactions with the database.
  *
- * This class is responsible for managing user data.
- * It includes methods for creating, updating, deleting, and retrieving user profiles.
+ * @package Models\User
  */
 abstract class User {
-    private $connection;
+    private PDO $connection;
 
     /**
-     * @param $connection
+     * User constructor.
+     * Sets the database connection.
+     *
+     * @param PDO $connection
      */
-    public function __construct($connection) {
+    public function __construct(PDO $connection) {
         $this->connection = $connection;
 
     }
 
     /**
-     * @return mixed
+     * Get the database connection
+     *
+     * @return PDO
      */
-    public function getConnection() {
+    public function getConnection(): PDO {
         return $this->connection;
     }
-
-    //    // Functional methods
-//    public function displayUserInfo() {
-//        return "Username: " . $this->username . ", Email: " . $this->email . ", Name: " . $this->name . ", Bio: " . $this->bio . ", Profile Pic: " . $this->profile_pic;
-//    }
 
     /**
      * Sets the data changes history
@@ -75,10 +78,17 @@ abstract class User {
                 $stmt = $this->getConnection()->prepare("UPDATE users SET data_changes_history = JSON_ARRAY_APPEND(data_changes_history, '$', CAST(? AS JSON)) WHERE user_id = ?");
                 $stmt->execute([$changesJson, $userId]);
             }
-        } catch (\PDOException $e) {
+        } catch (PDOException $e) {
             error_log('Error updating data changes history: ' . $e->getMessage());
         }
     }
 
-    abstract public function isUsernameExist(string $username, \PDO $connection): bool;
+    /**
+     * Check if the username already exists in the database
+     *
+     * @param string $username
+     * @param PDO $connection
+     * @return bool
+     */
+    abstract public function isUsernameExist(string $username, PDO $connection): bool;
 }

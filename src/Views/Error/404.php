@@ -1,3 +1,11 @@
+<?php /**
+ * View: 404 Not Found
+ * This file is responsible for displaying a 404 error page.
+ * Error 404: The requested resource could not be found.
+ *
+ * @package Views\Error
+ */ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

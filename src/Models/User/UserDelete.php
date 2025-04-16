@@ -2,20 +2,25 @@
 
 namespace Models\User;
 
+use PDO;
+
 require_once 'User.php';
 
 /**
  * Class UserDelete
- * @package Models\User
+ * Handles user deletion operations, including soft deletion and permanent deletion.
+ * This class extends the User class and provides methods to validate user data,
  *
- * This class is responsible for deleting user data from the database.
- * It allows for soft deletion (marking as deleted) and permanent deletion of user profiles.
+ * @package Models\User
  */
 class UserDelete extends User {
     /**
-     * @param $connection \PDO
+     * UserDelete constructor.
+     * Sets the database connection.
+     *
+     * @param $connection PDO
      */
-    public function __construct($connection) {
+    public function __construct(PDO $connection) {
         parent::__construct($connection);
     }
 
@@ -76,11 +81,11 @@ class UserDelete extends User {
      * Checks if a username already exists in the database to avoid duplication (error: username must be unique)
      *
      * @param string $username
-     * @param \PDO $connection
+     * @param PDO $connection
      *
      * @return bool
      */
-    public function isUsernameExist(string $username, \PDO $connection): bool {
+    public function isUsernameExist(string $username, PDO $connection): bool {
         if (!str_starts_with($username, '@')) {
             $username = '@' . $username;
         }

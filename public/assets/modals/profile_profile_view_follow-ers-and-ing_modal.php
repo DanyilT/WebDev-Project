@@ -1,5 +1,10 @@
 <?php
 /**
+ * Modal: Followers and Following
+ * This file contains the modal for displaying followers and following users.
+ *
+ * @package public/assets/modals
+ *
  * @var array $followers
  * @var array $followings
  */

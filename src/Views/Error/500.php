@@ -1,3 +1,11 @@
+<?php /**
+ * View: 500 Internal Server Error
+ * This file is responsible for displaying a 500 error page.
+ * Error 500: The server encountered an internal error or misconfiguration and was unable to complete your request.
+ *
+ * @package Views\Error
+ */ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

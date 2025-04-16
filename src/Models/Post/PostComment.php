@@ -8,10 +8,11 @@ require_once 'Post.php';
 
 /**
  * Class PostComment
- * @package Models\Post
+ * Handles comments on posts.
+ * Provides methods to add, retrieve, and delete comments.
+ * This class extends the Post class and provides methods to manage comments.
  *
- * This class is responsible for handling comments on posts in the database.
- * It provides methods to add, retrieve, and delete comments.
+ * @package Models\Post
  */
 class PostComment extends Post {
     /**

@@ -1,11 +1,22 @@
 <?php
+/**
+ * File: load_more_comments.php
+ * This file loads more comments for a specific post.
+ *
+ * @package public/lib/process
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
+
+header('Content-Type: text/html; charset=UTF-8');
 
 use Models\Post\PostComment;
 
-header('Content-Type: text/html; charset=UTF-8');
+// Require necessary files
 require_once '../../../src/Database/DBconnect.php';
 require_once '../../../src/Models/Post/PostComment.php';
 
+// Set up variables
 $postId = (int)($_GET['postId'] ?? 0);
 $offset = (int)($_GET['offset'] ?? 0);
 $limit = (int)($_GET['limit'] ?? 5);

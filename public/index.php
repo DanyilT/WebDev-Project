@@ -1,4 +1,12 @@
 <?php
+/**
+ * Page: Home
+ * This file is responsible for displaying the home page of the application.
+ *
+ * @package public
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
 
 use Controllers\User\UserController;
 use Controllers\Post\PostController;
@@ -16,6 +24,7 @@ $postController = new PostController($connection);
 $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
 $limit  = isset($_GET['limit']) ? (int)$_GET['limit'] : 5;
 
+// Include the header
 $title = 'Home - ' . (isset($_SESSION['auth']['username']) ? htmlspecialchars($_SESSION['auth']['username']) : 'Guest');
 $styles = '<link rel="stylesheet" href="css/pages/index.css">';
 include 'layout/header.php';

@@ -1,3 +1,12 @@
+<?php
+/**
+ * Modal: Login
+ * This file contains the modal for displaying the login modal form.
+ *
+ * @package public/assets/modals
+ */
+?>
+
 <dialog id="login-modal" class="modal login">
     <div class="modal-content">
         <div class="modal-header">

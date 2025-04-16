@@ -1,4 +1,14 @@
 <?php
+/**
+ * File: install.php
+ * This file initializes the database and creates necessary tables.
+ *
+ * @package /
+ *
+ * @var array $config Database configuration
+ * @var PDO $pdo Database connection object
+ */
+
 $config = require 'config.php';
 
 $pdo = createDatabaseConnection($config);

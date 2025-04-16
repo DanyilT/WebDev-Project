@@ -1,4 +1,12 @@
 <?php
+/**
+ * Page: Login/Register
+ * This file is responsible for handling user authentication.
+ *
+ * @package public
+ */
+
+// Include necessary files
 if (isset($_GET['login'])) {
     require_once '../src/Views/Auth/login.php';
     exit();
@@ -10,19 +18,20 @@ if (isset($_GET['login'])) {
     exit();
 }
 
+// If the user is already logged in, redirect to the profile page
 session_start();
 if (isset($_SESSION['auth']['username'])) {
     header('Location: profile.php?username=' . $_SESSION['auth']['username']);
     exit();
 }
-?>
 
-<?php
+// Include the header
 $title = 'Login/Register';
 $styles = '<link rel="stylesheet" href="css/pages/auth.css">';
 include 'layout/header.php';
 ?>
 
+<!-- HTML -->
 <main>
     <article>
         <?php if (isset($_SESSION['auth']['username'])): ?>
@@ -50,4 +59,5 @@ include 'layout/header.php';
 
 <?php include 'layout/footer.php'; ?>
 
+<!-- Scripts -->
 <script src="js/account.js"></script>

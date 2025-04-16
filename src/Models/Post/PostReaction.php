@@ -8,10 +8,10 @@ require_once 'Post.php';
 
 /**
  * Class PostReaction
- * @package Models\Post
+ * Handles post reactions (likes/dislikes) in the database.
+ * Provides methods to like, dislike, and retrieve likes for a post.
  *
- * This class is responsible for handling post reactions (likes/dislikes) in the database.
- * It provides methods to like, dislike, and retrieve likes for a post.
+ * @package Models\Post
  */
 class PostReaction {
     /**

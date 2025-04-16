@@ -1,4 +1,16 @@
 <?php
+/**
+ * File: auth.php
+ * This file contains the authentication logic for the admin panel.
+ * It checks if the user is authenticated and if not, it prompts for the admin password.
+ *
+ * @package public/admin/lib
+ *
+ * @var string `ADMIN_PASSWORD` Static password for admin authentication
+ * @var string $error Error message if authentication fails
+ */
+
+
 // TODO: Don't store the admin password like this:
 const ADMIN_PASSWORD = 'admin-password'; // Hey everyone, look here! This is the admin password!
 $hashed_password = password_hash(ADMIN_PASSWORD, PASSWORD_DEFAULT);

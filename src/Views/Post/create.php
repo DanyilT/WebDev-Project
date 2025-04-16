@@ -1,4 +1,11 @@
 <?php
+/**
+ * View: Create Post
+ * This file is responsible for displaying the create post form.
+ *
+ * @package Views\Post
+ */
+
 $title = 'Create Post';
 $styles = '<link rel="stylesheet" href="css/pages/post_new.css">';
 include 'layout/header.php';

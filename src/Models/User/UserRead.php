@@ -8,16 +8,20 @@ require_once 'User.php';
 
 /**
  * Class UserRead
- * @package Models\User
+ * Handles reading user data from the database.
+ * It provides methods to search for users, retrieve user profiles, followers, followings, and other related information.
+ * This class extends the User class and provides methods to validate user data,
  *
- * This class is responsible for reading user data from the database.
- * It retrieves user profiles, followers, followings, and other related information.
+ * @package Models\User
  */
 class UserRead extends User {
     /**
+     * UserRead constructor.
+     * Sets the database connection.
+     *
      * @param $connection PDO
      */
-    public function __construct($connection) {
+    public function __construct(PDO $connection) {
         parent::__construct($connection);
     }
 
@@ -59,6 +63,14 @@ class UserRead extends User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Retrieves all users
+     *
+     * @param int $offset
+     * @param int|null $limit
+     *
+     * @return array
+     */
     public function getAllUsers(int $offset = 0, ?int $limit = null): array {
         $stmt = $this->getConnection()->prepare("SELECT * FROM active_users" . ($limit ? " LIMIT ?, ?" : ";"));
         if ($limit) {
@@ -69,6 +81,14 @@ class UserRead extends User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Retrieves all users even if they are deleted
+     *
+     * @param int $offset
+     * @param int|null $limit
+     *
+     * @return array
+     */
     public function getAllUsersEvenIfDeleted(int $offset = 0, ?int $limit = null): array {
         $stmt = $this->getConnection()->prepare("SELECT * FROM users" . ($limit ? " LIMIT ?, ?" : ";"));
         if ($limit) {
@@ -218,7 +238,7 @@ class UserRead extends User {
      * Checks if a username already exists in the database to avoid duplication (error: username must be unique)
      *
      * @param string $username
-     * @param \PDO $connection
+     * @param PDO $connection
      *
      * @return bool
      */
@@ -231,6 +251,4 @@ class UserRead extends User {
         $stmt->execute([$username]);
         return $stmt->fetchColumn() > 0;
     }
-
-    protected function setDataChangesHistory(int $userId, array $fields): void {}
 }

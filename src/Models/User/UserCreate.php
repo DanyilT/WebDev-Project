@@ -2,14 +2,18 @@
 
 namespace Models\User;
 
+use Exception;
+use PDO;
+
 require_once 'User.php';
 
 /**
  * Class UserCreate
- * @package Models\User
+ * Handles the creation of a new user in the system, including validation of user data.
+ * This class extends the User class and provides methods to validate user data,
  *
- * This class is responsible for creating a new user in the database.
- * It validates the data and checks if the username already exists.
+ *
+ * @package Models\User
  */
 class UserCreate extends User {
     private $username;
@@ -21,34 +25,14 @@ class UserCreate extends User {
     private $data_changes_history;
 
     /**
-     * @param $connection \PDO
-     * @param $username
-     * @param $password
-     * @param $email
-     * @param $name
-     * @param $bio = null
-     * @param $profile_pic = null
-     */
-    public function __construct($connection, $username, $password, $email, $name, $bio = null, $profile_pic = null) {
-        parent::__construct($connection);
-        $this->username = strtolower(trim($username));
-        $this->password = $password;
-        $this->email = $email;
-        $this->name = $name;
-        $this->bio = $bio;
-        $this->profile_pic = $profile_pic;
-        $this->setDataChangesHistory();
-    }
-
-    /**
      * Creates a new user in the database if data is valid
      *
-     * @throws \Exception if data validation fails
      * @return bool
+     * @throws Exception if data validation fails
      */
-    public function createUser() {
+    public function createUser(): bool {
         if (!$this->validate()) {
-            throw new \Exception("Data validation failed.");
+            throw new Exception("Data validation failed.");
         }
         // Ensure username starts with @
         $this->username = (str_starts_with($this->username, '@')) ? $this->username : chr(64) . $this->username;
@@ -65,6 +49,28 @@ class UserCreate extends User {
             $this->profile_pic,
             json_encode($this->data_changes_history)
         ]);
+    }
+
+    /**
+     * UserCreate constructor.
+     *
+     * @param PDO $connection Database connection object
+     * @param string $username Username of the user
+     * @param string $password Password of the user
+     * @param string $email Email of the user
+     * @param string $name Name of the user
+     * @param string|null $bio Bio of the user
+     * @param string|null $profile_pic Profile picture of the user
+     */
+    public function __construct(PDO $connection, string $username, string $password, string $email, string $name, string $bio = null, string $profile_pic = null) {
+        parent::__construct($connection);
+        $this->username = strtolower(trim($username));
+        $this->password = $password;
+        $this->email = $email;
+        $this->name = $name;
+        $this->bio = $bio;
+        $this->profile_pic = $profile_pic;
+        $this->setDataChangesHistory();
     }
 
     /**
@@ -134,11 +140,11 @@ class UserCreate extends User {
      * Checks if a username already exists in the database to avoid duplication (error: username must be unique)
      *
      * @param string $username
-     * @param \PDO $connection
+     * @param PDO $connection
      *
      * @return bool
      */
-    public function isUsernameExist(string $username, \PDO $connection) : bool {
+    public function isUsernameExist(string $username, PDO $connection) : bool {
         if (!str_starts_with($username, '@')) {
             $username = '@' . $username;
         }

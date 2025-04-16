@@ -1,4 +1,13 @@
 <?php
+/**
+ * File: manage_posts.php
+ * This file handles the management of posts in the admin panel.
+ * It includes functionality to update and delete posts.
+ *
+ * @package public/admin/lib
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
 
 require 'auth.php';
 

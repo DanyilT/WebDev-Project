@@ -16,6 +16,13 @@ require_once __DIR__ . '/../../Models/User/UserRead.php';
 require_once __DIR__ . '/../../Models/User/UserUpdate.php';
 require_once __DIR__ . '/../../Models/Post/PostRepository.php';
 
+/**
+ * Class AdminController
+ * Handles administrative tasks such as user management and post management.
+ * This class provides methods to create, read, update, and delete users and posts.
+ *
+ * @package Controllers\Admin
+ */
 class AdminController {
     private PDO $connection;
     private UserCreate $userCreate;
@@ -24,6 +31,12 @@ class AdminController {
     private UserUpdate $userUpdate;
     private PostRepository $postRepository;
 
+    /**
+     * AdminController constructor.
+     * Initializes the database connection and user-related classes.
+     *
+     * @param PDO $connection
+     */
     public function __construct(PDO $connection) {
         $this->connection = $connection;
         $this->userDelete = new UserDelete($connection);
@@ -35,7 +48,7 @@ class AdminController {
     /**
      * Returns all users from the database
      *
-     * @return array
+     * @return array `getAllUsersEvenIfDeleted()`
      */
     public function getAllUsers(): array {
         return $this->userRead->getAllUsersEvenIfDeleted();
@@ -52,7 +65,7 @@ class AdminController {
      * @param string|null $profile_pic
      *
      * @return bool
-     * @throws \Exception if data validation fails
+     * @throws \Exception if data validation fails (in $userCreate->createUser())
      */
     public function createUser(string $username, string $password, string $email, string $name, string $bio = null, string $profile_pic = null): bool {
         $this->userCreate = new UserCreate($this->connection, $username, $password, $email, $name, $bio, $profile_pic);
@@ -64,7 +77,7 @@ class AdminController {
      *
      * @param string $username
      *
-     * @return array
+     * @return array `searchUsersEvenIfDeleted()`
      */
     public function searchUser(string $username): array {
         return $this->userRead->searchUsersEvenIfDeleted($username);
@@ -79,7 +92,7 @@ class AdminController {
      * @return bool
      */
     public function updateUser(int $userId, array $fields): bool {
-        if (isset($fields['password']) && !empty($fields['password'])) {
+        if (!empty($fields['password'])) {
             $fields['password'] = password_hash($fields['password'], PASSWORD_DEFAULT);
         }
         return $this->userUpdate->updateUser($userId, $fields);
@@ -90,12 +103,17 @@ class AdminController {
      *
      * @param int $userId
      *
-     * @return bool
+     * @return bool `actuallyDeleteUser()`
      */
     public function deleteUser(int $userId): bool {
         return $this->userDelete->actuallyDeleteUser($userId);
     }
 
+    /**
+     * Get all posts from the database
+     *
+     * @return array `getAllPostsEvenIfDeleted()`
+     */
     public function getAllPosts(): array {
         return $this->postRepository->getAllPostsEvenIfDeleted($this->connection);
     }
@@ -105,7 +123,7 @@ class AdminController {
      *
      * @param int|string $userId_or_username
      *
-     * @return array
+     * @return array `getUserPostsEvenIfDeleted()`
      */
     public function getUserPosts(int|string $userId_or_username): array {
         if (is_numeric($userId_or_username)) {
@@ -134,7 +152,7 @@ class AdminController {
      * @param int $postId
      * @param int $ownerId
      *
-     * @return bool
+     * @return bool `actuallyDeletePost()`
      */
     public function deletePost(int $postId, int $ownerId): bool {
         return $this->postRepository->actuallyDeletePost($this->connection, $postId, $ownerId);

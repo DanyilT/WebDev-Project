@@ -1,4 +1,12 @@
 <?php
+/**
+ * File: process_save_post.php
+ * This file processes the saving and updating of posts.
+ *
+ * @package public/lib/process
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
 
 use Controllers\Post\PostController;
 
@@ -15,6 +23,7 @@ if (!isset($_SESSION['auth']['user_id']) || !isset($_SESSION['auth']['username']
     exit();
 }
 
+// Set up variables
 $username = $_SESSION['auth']['username'];
 $userId = $_SESSION['auth']['user_id'];
 $postId = $_POST['post_id'] ?? null;
@@ -43,10 +52,33 @@ if (empty($postId)) {
 }
 exit();
 
-function savePost($connection, $userId, $title, $content, $media): bool {
+/**
+ * Save a new post.
+ *
+ * @param PDO $connection Database connection object.
+ * @param int $userId User ID of the post owner.
+ * @param string $title Title of the post.
+ * @param string $content Content of the post.
+ * @param mixed $media Media associated with the post.
+ *
+ * @return bool True on success, false on failure.
+ */
+function savePost(PDO $connection, int $userId, string $title, string $content, mixed $media): bool {
     return (new PostController($connection))->create($userId, $title, $content, $media) !== false;
 }
 
-function updatePost($connection, $postId, $userId, $title, $content, $media): bool {
+/**
+ * Update an existing post.
+ *
+ * @param PDO $connection Database connection object.
+ * @param int $postId ID of the post to update.
+ * @param int $userId User ID of the post owner.
+ * @param string $title Title of the post.
+ * @param string $content Content of the post.
+ * @param mixed $media Media associated with the post.
+ *
+ * @return bool True on success, false on failure.
+ */
+function updatePost(PDO $connection, int $postId, int $userId, string $title, string $content, mixed $media): bool {
     return (new PostController($connection))->update($postId, $userId, $title, $content, $media) !== false;
 }

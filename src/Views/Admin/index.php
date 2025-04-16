@@ -1,4 +1,11 @@
 <?php
+/**
+ * View: Admin Dashboard
+ * This file is responsible for displaying the admin dashboard.
+ *
+ * @package Views\Admin
+ */
+
 $title = 'Admin Dashboard';
 include '../layout/admin/header.php';
 ?>

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Page: Error Handling
+ * This file is responsible for handling errors and displaying appropriate error pages.
+ *
+ * @package public
+ */
 
 use controllers\Error\ErrorController;
 

@@ -1,4 +1,16 @@
-<?php if (session_status() == PHP_SESSION_NONE) session_start(); ?>
+<?php
+/**
+ * Layout: Header (admin panel)
+ * This file contains the header layout for the application's admin panel.
+ *
+ * @package public/layout/admin
+ *
+ * @var string $title Page title (optional)
+ */
+
+// Start the session if not already started
+if (session_status() == PHP_SESSION_NONE) session_start();
+?>
 
 <!DOCTYPE html>
 <html lang="en">

@@ -8,7 +8,7 @@
  *
  * @package Views\Admin
  *
- * @var array $users Users to display (Should be passed from parent)
+ * @var array $users Users to display (Should be passed from parent file)
  */
 
 $title = 'Admin Users Management';

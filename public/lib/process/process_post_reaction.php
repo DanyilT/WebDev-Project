@@ -1,4 +1,12 @@
 <?php
+/**
+ * File: process_post_reaction.php
+ * This file processes the post reactions (like/dislike) and comments.
+ *
+ * @package public/lib/process
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
 
 use Models\Post\PostComment;
 use Models\Post\PostReaction;

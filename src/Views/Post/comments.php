@@ -1,4 +1,13 @@
-<?php /** @var $comments = Post $post->getComments(PDO $connection); */ ?>
+<?php
+/**
+ * View: Post Comments
+ * This file is responsible for displaying the comments for a post.
+ *
+ * @package Views\Post
+ *
+ * @var $comments = Post $post->getComments(PDO $connection);
+ */
+?>
 
 <?php foreach ($comments as $comment): ?>
     <hr>

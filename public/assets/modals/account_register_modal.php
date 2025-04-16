@@ -1,3 +1,12 @@
+<?php
+/**
+ * Modal: Register
+ * This file contains the modal for displaying the register modal form.
+ *
+ * @package public/assets/modals
+ */
+?>
+
 <dialog id="register-modal" class="modal register">
     <div class="modal-content">
         <div class="modal-header">

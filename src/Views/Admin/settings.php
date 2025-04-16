@@ -1,4 +1,11 @@
 <?php
+/**
+ * View: Admin Settings
+ * This file is responsible for displaying the admin settings page.
+ *
+ * @package Views\Admin
+ */
+
 $title = 'Admin Settings';
 include '../layout/admin/header.php';
 ?>

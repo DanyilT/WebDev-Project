@@ -1,5 +1,15 @@
 <?php
-
+/**
+ * View: Admin Posts Management
+ * This file is responsible for displaying the admin posts management page.
+ * Contains a form to search for posts by user ID or username,
+ * and displays all posts in a table.
+ * Contains a form to update post information and delete posts.
+ *
+ * @package Views\Admin
+ *
+ * @var array $posts Posts to display (Should be passed from parent file)
+ */
 
 $title = 'Admin Posts Management';
 include '../layout/admin/header.php';

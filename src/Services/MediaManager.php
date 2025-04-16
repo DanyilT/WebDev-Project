@@ -2,12 +2,24 @@
 
 namespace Services\Media;
 
+/**
+ * Class MediaManager
+ * Handles file uploads and management for media files.
+ *
+ * @package Services\Media
+ */
 class MediaManager {
     // Media server URL for uploading files
     //private const MEDIA_SERVER_URL = 'http://localhost:8000';
     private const MEDIA_SERVER_URL = '/uploads';
     private string $uploadDirectory;
 
+    /**
+     * Constructor for MediaManager.
+     * Sets the upload directory to the specified path or defaults to MEDIA_SERVER_URL.
+     *
+     * @param string $uploadDirectory The directory where files will be uploaded. (default: MEDIA_SERVER_URL)
+     */
     public function __construct(string $uploadDirectory = self::MEDIA_SERVER_URL) {
         if ($uploadDirectory === '/uploads') {
             $uploadDirectory = rtrim($_SERVER['DOCUMENT_ROOT'] . self::MEDIA_SERVER_URL, '/');

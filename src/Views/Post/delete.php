@@ -1,5 +1,12 @@
 <?php
-/** @var $post */
+/**
+ * View: Delete Post
+ * This file is responsible for displaying the delete post confirmation form.
+ *
+ * @package Views\Post
+ *
+ * @var $post
+ */
 
 $title = 'Delete Post';
 $styles = '<link rel="stylesheet" href="css/pages/post_delete.css">';

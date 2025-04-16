@@ -1,4 +1,12 @@
 <?php
+/**
+ * File: process_follow.php
+ * This file processes the follow/unfollow action.
+ *
+ * @package public/lib/process
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
 
 use Controllers\User\UserController;
 

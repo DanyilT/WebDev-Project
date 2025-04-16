@@ -1,18 +1,24 @@
 <?php
 /**
+ * View: Posts
+ * This file is responsible for displaying the posts and their comments.
+ * It includes the necessary HTML and PHP code to render the posts,
+ * handle user interactions, and manage comments.
+ * (required in Views/Post/index.php)
+ *
+ * @package Views\Post
  *
  * @var PDO $connection Database connection object (assumed to be passed from DBconnect.php - should be required in the parent file)
  * @var Post[] $posts Posts to display (Should be passed from the Post Controller)
  * @var array $sessionAuth Session authentication data (user_id and username)
- *
  */
 
 use Models\Post\Post;
 use Models\Post\PostComment;
 use Models\Post\PostReaction;
-
 ?>
 
+<!-- HTML -->
 <?php foreach ($posts as $post): ?>
     <?php if ($post->getIsDeleted()): ?>
         <article class="post deleted-post">
@@ -83,6 +89,7 @@ use Models\Post\PostReaction;
     </article>
 <?php endforeach; ?>
 
+<!-- Script -->
 <script>
     // Store scroll position before leaving
     window.addEventListener('beforeunload', () => {

@@ -8,17 +8,21 @@ require_once 'User.php';
 
 /**
  * Class UserUpdate
- * @package Models\User
- *
- * This class is responsible for updating user data in the database.
- * It allows for updating user profiles, followers, followings, and other related information.
+ * Handles user data updates in the database.
+ * It provides methods to update user information, followers, and following status.
  * It also allows update Followers Table.
+ * This class extends the User class and provides methods to validate user data,
+ *
+ * @package Models\User
  */
 class UserUpdate extends User {
     /**
+     * UserUpdate constructor.
+     * Sets the database connection.
+     *
      * @param $connection PDO
      */
-    public function __construct($connection) {
+    public function __construct(PDO $connection) {
         parent::__construct($connection);
     }
 
@@ -114,7 +118,7 @@ class UserUpdate extends User {
      *
      * @return bool
      */
-    public function isUsernameExist($username, $connection): bool {
+    public function isUsernameExist(string $username, PDO $connection): bool {
         if (!str_starts_with($username, '@')) {
             $username = '@' . $username;
         }

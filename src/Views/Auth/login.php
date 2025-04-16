@@ -1,4 +1,11 @@
 <?php
+/**
+ * View: Login
+ * This file is responsible for displaying the login page.
+ *
+ * @package Views\Auth
+ */
+
 $title = 'Login';
 $styles = '<link rel="stylesheet" href="css/pages/auth.css">';
 include 'layout/header.php';

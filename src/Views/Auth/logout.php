@@ -1,4 +1,11 @@
 <?php
+/**
+ * View: Logout
+ * This file is responsible for displaying the logout page.
+ *
+ * @package Views\Auth
+ */
+
 $title = 'Register';
 $styles = '<link rel="stylesheet" href="css/pages/auth.css">';
 include 'layout/header.php';

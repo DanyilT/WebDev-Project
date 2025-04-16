@@ -1,6 +1,13 @@
 <?php
 /**
  * DB connection
+ * This file is responsible for establishing a connection to the database.
+ * It uses the PDO extension to connect to a MySQL database.
+ *
+ * @package Database
+ *
+ * @var array $config Database configuration settings
+ * @var PDO $connection Database connection object
  */
 
 $config = require_once __DIR__ . '/../../config.php';

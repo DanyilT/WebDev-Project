@@ -1,4 +1,12 @@
 <?php
+/**
+ * File: process_update_profile.php
+ * This file processes the update profile form submission.
+ *
+ * @package public/lib/process
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
 
 use Controllers\User\UserController;
 use Services\Media\MediaManager;

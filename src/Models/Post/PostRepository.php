@@ -6,6 +6,13 @@ use PDO;
 
 require_once 'Post.php';
 
+/**
+ * Class PostRepository
+ * This class is responsible for interacting with the database to manage posts.
+ * It provides methods to create, read, update, and delete posts.
+ *
+ * @package Models\Post
+ */
 class PostRepository {
     /**
      * Retrieves all posts from the database
@@ -65,7 +72,7 @@ class PostRepository {
      * @param PDO $connection
      * @param int $postId
      *
-     * @return Post|null
+     * @return Post|null Returns the post object or null if not found
      */
     public function getPostById(PDO $connection, int $postId): ?Post {
         $stmt = $connection->prepare("SELECT p.*, u.username FROM active_posts p JOIN users u ON p.user_id = u.user_id WHERE p.post_id = ?");
@@ -86,12 +93,11 @@ class PostRepository {
 
     /**
      * Creates a new post in the database
-     * And returns the created post
      *
      * @param PDO $connection
      * @param Post $data
      *
-     * @return Post|null
+     * @return Post|null Returns the created post or null if the creation failed
      */
     public function createPost(PDO $connection, Post $data): ?Post {
         // Input validation
@@ -116,14 +122,13 @@ class PostRepository {
 
     /**
      * Updates a post in the database
-     * And returns the updated post
      *
      * @param PDO $connection
      * @param int $postId
      * @param int $ownerId
      * @param array $updates
      *
-     * @return Post|null
+     * @return Post|null Returns the updated post or null if the update failed
      */
     public function updatePost(PDO $connection, int $postId, int $ownerId, array $updates): ?Post {
         // Check ownership

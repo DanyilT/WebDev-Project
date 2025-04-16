@@ -1,4 +1,14 @@
 <?php
+/**
+ * Modal: Edit Profile
+ * This file contains the modal for displaying the edit profile modal form.
+ * This modal allows users to edit their profile information such as username, email, name, bio, and profile picture.
+ * It also includes functionality to update the password and delete the account.
+ *
+ * @package public/assets/modals
+ *
+ * @var PDO $connection Database connection object (passed from DBconnect.php)
+ */
 
 use Models\User\UserRead;
 

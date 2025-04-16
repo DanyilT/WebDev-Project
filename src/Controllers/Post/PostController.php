@@ -11,15 +11,22 @@ require_once __DIR__.'/../../Models/Post/PostRepository.php';
 
 /**
  * Class PostController
- * @package Controllers\Post
- *
- * This class is responsible for handling post-related operations.
+ * Handles post-related operations.
+ * This class is responsible for managing posts, including creating, updating, deleting, and retrieving posts.
  * It interacts with the PostRepository to perform CRUD operations on posts.
+ *
+ * @package Controllers\Post
  */
 class PostController {
     private PDO $connection;
     private PostRepository $postRepository;
 
+    /**
+     * PostController constructor.
+     * Initializes the database connection and the PostRepository.
+     *
+     * @param PDO $connection
+     */
     public function __construct(PDO $connection) {
         $this->connection = $connection;
         $this->postRepository = new PostRepository();
@@ -32,7 +39,7 @@ class PostController {
      * @param int $offset The offset for pagination. Default is 0.
      * @param int|null $limit The maximum number of posts to display. If null, all posts are displayed.
      *
-     * @return string
+     * @return string The rendered HTML for the posts. (require the view file)
      */
     public function index(int|array $userId = null, int $offset = 0, int $limit = null): string {
         if ($userId) {

@@ -1,5 +1,12 @@
 <?php
-/** @var $post */
+/**
+ * View: Edit Post
+ * This file is responsible for displaying the edit post form.
+ *
+ * @package Views\Post
+ *
+ * @var $post
+ */
 
 $title = 'Edit Post';
 $styles = '<link rel="stylesheet" href="css/pages/post_edit.css">';

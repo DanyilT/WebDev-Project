@@ -1,4 +1,11 @@
 <?php
+/**
+ * View: Register
+ * This file is responsible for displaying the registration page.
+ *
+ * @package Views\Auth
+ */
+
 $title = 'Register';
 $styles = '<link rel="stylesheet" href="css/pages/auth.css">';
 include 'layout/header.php';
