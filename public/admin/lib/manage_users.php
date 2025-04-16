@@ -1,6 +1,6 @@
 <?php
 
-require '../auth.php';
+require 'auth.php';
 
 use Controllers\Admin\AdminController;
 
@@ -8,7 +8,7 @@ require '../../../src/Database/DBconnect.php';
 require '../../../src/Controllers/Admin/AdminController.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /admin?error=Invalid request method');
+    header('Location: /admin/users.php?error=Invalid request method');
     exit;
 }
 
