@@ -8,6 +8,6 @@ require '../../src/Database/DBconnect.php';
 require '../../src/Controllers/Admin/AdminController.php';
 
 $adminController = new AdminController($connection);
-$users = isset($_GET['search']) ? $adminController->searchUser($_GET['search']) : $adminController->getAllUsers();
+$users = !empty($_GET['search']) ? $adminController->searchUser($_GET['search']) : $adminController->getAllUsers();
 
 require_once '../../src/Views/Admin/users.php';
