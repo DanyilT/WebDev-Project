@@ -30,9 +30,52 @@ class UserRead extends User {
      *
      * @return array
      */
-    public function searchUsers(string $search): array {
-        $stmt = $this->getConnection()->prepare("SELECT * FROM active_users WHERE username LIKE ?");
+    public function searchUsers(string $search, int $offset = 0, ?int $limit = null): array {
+        $stmt = $this->getConnection()->prepare("SELECT * FROM active_users WHERE username LIKE ?" . ($limit ? " LIMIT ?, ?" : ";"));
+        if ($limit) {
+            $stmt->bindParam(2, $offset, PDO::PARAM_INT);
+            $stmt->bindParam(3, $limit, PDO::PARAM_INT);
+        }
         $stmt->execute(['%' . strtolower(trim($search)) . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Searches for users by username even if they are deleted
+     *
+     * @param string $search
+     * @param int $offset
+     * @param int|null $limit
+     *
+     * @return array
+     */
+    public function searchUsersEvenIfDeleted(string $search, int $offset = 0, ?int $limit = null): array {
+        $stmt = $this->getConnection()->prepare("SELECT * FROM users WHERE username LIKE ?" . ($limit ? " LIMIT ?, ?" : ";"));
+        if ($limit) {
+            $stmt->bindParam(2, $offset, PDO::PARAM_INT);
+            $stmt->bindParam(3, $limit, PDO::PARAM_INT);
+        }
+        $stmt->execute(['%' . strtolower(trim($search)) . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllUsers(int $offset = 0, ?int $limit = null): array {
+        $stmt = $this->getConnection()->prepare("SELECT * FROM active_users" . ($limit ? " LIMIT ?, ?" : ";"));
+        if ($limit) {
+            $stmt->bindParam(1, $offset, PDO::PARAM_INT);
+            $stmt->bindParam(2, $limit, PDO::PARAM_INT);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllUsersEvenIfDeleted(int $offset = 0, ?int $limit = null): array {
+        $stmt = $this->getConnection()->prepare("SELECT * FROM users" . ($limit ? " LIMIT ?, ?" : ";"));
+        if ($limit) {
+            $stmt->bindParam(1, $offset, PDO::PARAM_INT);
+            $stmt->bindParam(2, $limit, PDO::PARAM_INT);
+        }
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -57,7 +100,7 @@ class UserRead extends User {
      *
      * @return array
      */
-    protected function getUserProfileEvenIfDeleted(string $username): array {
+    public function getUserProfileEvenIfDeleted(string $username): array {
         $username = !str_starts_with($username, "@") ? '@' . strtolower(trim($username)) : strtolower(trim($username));
         $stmt = $this->getConnection()->prepare("SELECT * FROM users WHERE username = ?");
         $stmt->execute([$username]);
