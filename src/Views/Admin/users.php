@@ -2,6 +2,9 @@
 /**
  * View: Admin
  * This file is responsible for displaying the admin users management page.
+ * It includes the header, main content, and footer.
+ * Contains a form to create a new user, search for users, and display all users in a table.
+ * Contains a form to update user information and delete users.
  *
  * @package Views\Admin
  *
