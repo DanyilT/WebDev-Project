@@ -84,6 +84,20 @@ use Models\Post\PostReaction;
 <?php endforeach; ?>
 
 <script>
+    // Store scroll position before leaving
+    window.addEventListener('beforeunload', () => {
+        localStorage.setItem('scrollPos', window.scrollY);
+    });
+
+    // Restore scroll position after reloading
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedPos = localStorage.getItem('scrollPos');
+        if (savedPos) {
+            window.scrollTo(0, parseInt(savedPos, 10));
+            localStorage.removeItem('scrollPos'); // Clear the saved position after restoring
+        }
+    });
+
     function toggleCreateComment(postId) {
         const form = document.getElementById('comment-form-' + postId);
         form.style.display = form.style.display === 'none' || form.style.display === '' ? 'flex' : 'none';
