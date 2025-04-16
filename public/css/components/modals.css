@@ -1,4 +1,5 @@
-/* Modals styles */
+/* Modals Component Styles */
+
 .modal {
     display: none;
     position: fixed;
@@ -18,8 +19,13 @@
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    border-radius: 5px;
+    max-width: 800px;
+    max-height: 60vh;
+    border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    scrollbar-color: rgba(51, 51, 51, 0.5) #00000000;
+    scrollbar-width: thin;
 }
 
 .modal .modal-header {
@@ -44,4 +50,17 @@
 .modal .close:hover, .close:focus {
     color: black;
     transition: color 0.3s;
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 20px rgb(255, 255, 255, 0.5); }
+    25% { box-shadow: 0 0 10px rgba(102, 0, 255, 0.5); }
+    50% { box-shadow: 0 0 20px rgb(255, 255, 255, 1.0); }
+    75% { box-shadow: 0 0 10px rgba(102, 0, 255, 0.5); }
+    100% { box-shadow: 0 0 20px rgb(255, 255, 255, 0.5); }
+}
+
+.modal .modal-content {
+    display: block;
+    animation: glow 5s infinite alternate;
 }

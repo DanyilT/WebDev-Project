@@ -1,3 +1,5 @@
+/* Pagination Component Styles */
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -14,18 +16,29 @@
     color: #333;
     background-color: #f8f8f8;
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s ease;
+    transition: background-color 0.3s, color 0.3s ease, transform 0.3s ease;
 }
 
 .pagination a:hover {
     background-color: #ddd;
+    transform: scale(1.02);
+}
+
+.pagination a:active {
+    transform: scale(0.98);
 }
 
 .pagination a:last-child {
     background-color: #2c3e50;
     color: #fff;
+    transition: background-color 0.3s, transform 0.3s ease;
 }
 
 .pagination a:last-child:hover {
     background-color: #444444;
+    transform: scale(1.03);
+}
+
+.pagination a:last-child:active {
+    transform: scale(0.95);
 }

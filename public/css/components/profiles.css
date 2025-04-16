@@ -1,15 +1,29 @@
+/* Profiles Component Styles */
+
 @import 'button.css';
 
-/* Profiles styles */
 .profile {
     text-align: center;
     padding-bottom: 20px;
     border-bottom: 2px solid #ddd;
+    transition: all 0.3s ease-in-out;
 }
 
 .profile .username {
     color: #333;
-    margin-bottom: 10px;
+    width: fit-content;
+    margin: 10px auto;
+    transition: color 0.3s ease-in-out, scale 0.3s ease-in-out;
+}
+
+.profile .username:hover {
+    color: #6600ff;
+    scale: 0.98;
+}
+
+.profile .username:active {
+    color: #330066;
+    scale: 0.95;
 }
 
 .profile .profile-pic {
@@ -19,40 +33,71 @@
     object-fit: cover;
     margin-bottom: 10px;
     border: 3px solid #6600ff;
+    transition: transform 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.profile .profile-pic:hover {
+    transform: scale(1.1);
+    border-color: #330066;
 }
 
 .profile .name {
     font-size: 18px;
     color: #333;
+    width: fit-content;
+    margin: 15px auto;
+    transition: color 0.3s ease-in-out;
+}
+
+.profile .name:hover {
+    color: #330066;
 }
 
 .profile .body {
     font-size: 16px;
     color: #555;
     margin: 5px 0;
+    transition: color 0.3s ease-in-out;
+}
+
+.profile .body:hover {
+    color: #333;
 }
 
 .profile .date {
     font-size: 12px;
     color: #777;
     margin-top: 5px;
+    transition: color 0.3s ease-in-out;
+}
+
+.profile .date:hover {
+    color: #555;
 }
 
 .profile .follow-ers-or-ing {
+    width: fit-content;
     font-size: 14px;
     color: #555;
-    margin: 5px 0;
+    margin: 5px auto;
+    padding: 5px 10px;
+    border-radius: 20px;
     cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.profile .follow-ers-or-ing:hover {
+    background-color: rgba(102, 0, 255, 0.2);
 }
 
 .profile .follow-btn, .profile .unfollow-btn {
     border: none;
     padding: 10px 20px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s;
     margin-top: 10px;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .profile .follow-btn {
@@ -62,7 +107,13 @@
 
 .profile .follow-btn:hover {
     background: #330066;
-    transition: 0.2s;
+    transform: scale(1.05);
+}
+
+.profile .follow-btn:active {
+    background: #330066;
+    box-shadow: 0 0 10px rgba(102, 0, 255, 0.5), 0 0 30px rgba(51, 0, 102, 0.7);
+    transform: scale(0.95);
 }
 
 .profile .unfollow-btn {
@@ -72,5 +123,11 @@
 
 .profile .unfollow-btn:hover {
     background: #555;
-    transition: 0.2s;
+    transform: scale(1.05);
+}
+
+.profile .unfollow-btn:active {
+    background: #555;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 30px rgba(51, 51, 51, 0.7);
+    transform: scale(0.95);
 }

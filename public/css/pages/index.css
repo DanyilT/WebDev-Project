@@ -5,8 +5,40 @@ h2 {
     font-size: 1.5rem;
     color: #222222;
     margin: 0;
+    transition: color 0.3s ease-in-out;
 }
 
 h2 span {
     color: #6600ff;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+h2 span:hover {
+    color: #330066;
+}
+
+a {
+    color: #6600ff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+    color: #330066;
+}
+
+.posts-container {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.posts-container:hover {
+    transform: scale(1.01);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.posts-container:has(*:hover) {
+    transform: none;
+    box-shadow: none;
 }
