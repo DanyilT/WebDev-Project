@@ -1,0 +1,58 @@
+@import '../components/forms.css';
+
+/* Header styling */
+header nav ul {
+    display: flex;
+    padding: 0;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px;
+}
+
+header nav .active {
+    font-weight: bold;
+    background-color: #222;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Table styling */
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #fff;
+}
+
+tr:nth-child(odd) {
+    background-color: #e9e9e9;
+}
+
+/* Form styling */
+form {
+    display: block;
+    padding: 0;
+}
+
+form input, form textarea {
+    padding: 5px;
+    margin-bottom: 0;
+}
+
+form button {
+    margin-top: 0;
+    padding: 5px;
+}
