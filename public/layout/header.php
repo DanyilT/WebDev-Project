@@ -25,7 +25,7 @@ if (session_status() == PHP_SESSION_NONE) session_start();
 </head>
 <body>
 <header>
-    <h1 class="title">QWERTY</h1>
+    <h1 class="title" onclick="location.href='/'">QWERTY</h1>
     <nav>
         <a href="index.php" class="nav-item">
             <img src="img/icons/nav/home-iconly.svg" alt="Home Icon" class="nav-icon">
