@@ -7,6 +7,26 @@
 
 This repository contains the code for the QWERTY social network project, which is a web application designed to facilitate social interactions and connections among users. The project is built using PHP and MySQL, following the MVC (Model-View-Controller) architecture.
 
+## Table of Contents
+
+- [WebDev-Project (QWERTY – The Social Network)](#webdev-project-qwerty--the-social-network)
+  - [Prerequisites](#prerequisites)
+  - [Quick Setup](#quick-setup)
+    - [Start MySQL Server](#start-mysql-server)
+    - [Initialize the Database](#initialize-the-database)
+    - [Populate the Database](#populate-the-database)
+    - [Start the PHP Built-in Server](#start-the-php-built-in-server)
+    - [Access the Application](#access-the-application)
+  - [Installation](#installation)
+  - [Running MySQL Server](#running-mysql-server)
+  - [Running the Project](#running-the-project)
+  - [Database Initialization](#database-initialization)
+  - [Project Structure](#project-structure)
+    - [Additional Information](#additional-information)
+  - [Contributing](#contributing)
+  - [License](#license)
+    - [Authors](#authors)
+
 ## Prerequisites
 - PHP (7.4 or higher I assume)
   - Extensions:
