@@ -66,7 +66,7 @@ $isFollowing = $sessionAuth && $userController->isFollowing($sessionAuth['user_i
     <p id="following-count" class="follow-ers-or-ing">Following: <span><?php echo $followingsCount; ?></span></p>
     <?php if (isset($sessionAuth) && $sessionAuth['username'] === $username): ?>
         <button id="edit-profile-btn">Edit Profile</button>
-        <form action="lib/auth/logout.php" method="post" style="width: 100px; justify-self: center;">
+        <form action="lib/auth/logout.php" method="post" style="width: fit-content; margin: 0 auto;">
             <button type="submit">Logout</button>
         </form>
     <?php else: ?>
