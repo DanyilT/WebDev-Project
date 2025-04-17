@@ -22,6 +22,10 @@
             <input type="text" id="name" name="name" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
+            <label for="accept-terms">
+                <input type="checkbox" id="accept-terms" name="accept-terms" required>
+                I accept the <a href="/terms/terms_and_conditions.php">Terms and Conditions</a>
+            </label>
             <button type="submit">Register</button>
         </form>
         <p>Already have an account? <a href="#login">Login</a></p>

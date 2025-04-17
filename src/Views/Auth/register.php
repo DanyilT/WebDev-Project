@@ -23,6 +23,10 @@ include 'layout/header.php';
             <input type="text" id="name" name="name" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
+            <label for="accept-terms" style="font-weight: 400">
+                <input type="checkbox" id="accept-terms" name="accept-terms" required>
+                I accept the <a href="/terms/terms_and_conditions.php">Terms and Conditions</a>
+            </label>
             <button type="submit">Register</button>
         </form>
         <p>Already have an account? <a href="/auth.php?login">Login</a></p>
