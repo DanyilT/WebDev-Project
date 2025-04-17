@@ -28,7 +28,7 @@ class Post {
      * @param string $title Post title
      * @param string $content Post content
      * @param string|null $media Post media (optional)
-     * @param array|null $likes Post likes (optional)
+     * @param array|null $likes Post likes - array of ints (optional)
      * @param string|null $createdAt Post creation date (optional)
      * @param bool $isDeleted Indicates if the post is deleted
      * @param string|null $creatorUsername Username of the post creator (optional)
@@ -39,7 +39,7 @@ class Post {
         $this->title = $title;
         $this->content = $content;
         $this->media = $media;
-        $this->likes = $likes;
+        $this->likes = $likes ? array_map('intval', $likes) : null;
         $this->createdAt = $createdAt;
         $this->isDeleted = $isDeleted;
         $this->creatorUsername = $creatorUsername;
