@@ -44,7 +44,7 @@ use Models\Post\PostReaction;
                 <form action="lib/process/process_post_reaction.php" method="post">
                     <input type="hidden" name="post_id" value="<?= htmlspecialchars($post->getPostId()) ?>">
                     <input type="hidden" name="user_id" value="<?= htmlspecialchars($sessionAuth['user_id']) ?>">
-                    <button class="like-btn <?= in_array($sessionAuth['user_id'], (new PostReaction())->getLikes($connection, $post->getPostId()) ?: []) ? 'unlike-style' : 'like-style' ?>" type="submit" name="like"><?= in_array($sessionAuth['user_id'], (new PostReaction())->getLikes($connection, $post->getPostId()) ?: []) ? 'Unlike 🩶' : 'Like ❤️' ?></button>
+                    <button class="like-btn <?= in_array($sessionAuth['user_id'], (new PostReaction())->getLikes($connection, $post->getPostId()) ?: []) ? 'unlike-style' : 'like-style' ?>" type="submit" name="like"><?= in_array($sessionAuth['user_id'], (new PostReaction())->getLikes($connection, $post->getPostId()) ?: []) ? 'Unlike 💔' : 'Like ❤️' ?></button>
                 </form>
                 <button class="comment-btn" type="button" onclick="toggleCreateComment(<?= htmlspecialchars($post->getPostId()) ?>)">Comment</button>
             <?php else: ?>
