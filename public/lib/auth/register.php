@@ -21,9 +21,12 @@ $name = $_POST['name'];
 $password = $_POST['password'];
 
 // Process registration
-if ((new AuthController($connection))->register($username, $password, $email, $name, true)['status'] === 'success') {
+$registrationResult = (new AuthController($connection))->register($username, $password, $email, $name, true);
+
+if ($registrationResult['status'] === 'success') {
     header('Location: /auth.php');
 } else {
-    header('Location: /auth.php?error=registration_failed');
+    $errorMessage = $registrationResult['message'];
+    header('Location: /auth.php?error=' . urlencode($errorMessage) . (str_contains($_SERVER['HTTP_REFERER'] ?? '', '?register')) ? '&register' : '#register');
 }
 exit();

@@ -16,13 +16,13 @@ require_once 'User.php';
  * @package Models\User
  */
 class UserCreate extends User {
-    private $username;
-    private $password;
-    private $email;
-    private $name;
-    private $bio;
-    private $profile_pic;
-    private $data_changes_history;
+    private string $username;
+    private string $password;
+    private string $email;
+    private string $name;
+    private ?string $bio;
+    private ?string $profile_pic;
+    private array $data_changes_history;
 
     /**
      * Creates a new user in the database if data is valid
@@ -77,6 +77,7 @@ class UserCreate extends User {
      * Validates all required data
      *
      * @return bool
+     * @throws Exception
      */
     private function validate(): bool {
         return $this->isValidUsername() && $this->isValidEmail() && $this->isValidPassword();
@@ -86,6 +87,7 @@ class UserCreate extends User {
      * Check if username is not empty, follows a valid pattern, and is not already taken or a reserved word
      *
      * @return bool
+     * @throws Exception
      */
     private function isValidUsername(): bool {
         // Check if username is not empty
@@ -98,7 +100,7 @@ class UserCreate extends User {
         }
         // Check if username already exists
         if ($this->isUsernameExist($this->username, $this->getConnection())) {
-            return false;
+            throw new Exception("Username already exists.");
         }
         // Check if username is not a reserved word
         $reservedWords = ['qwerty', 'dany', 'admin', 'root', 'user', 'test'];

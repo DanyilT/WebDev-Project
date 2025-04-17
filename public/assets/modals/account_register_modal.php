@@ -29,5 +29,8 @@
             <button type="submit">Register</button>
         </form>
         <p>Already have an account? <a href="#login">Login</a></p>
+        <?php if (isset($_GET['error'])): ?>
+            <p style="color:red;"><?php echo htmlspecialchars($_GET['error']); ?></p>
+        <?php endif; ?>
     </div>
 </dialog>

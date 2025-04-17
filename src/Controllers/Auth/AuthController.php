@@ -43,6 +43,9 @@ class AuthController {
      * @return array|string[] Return ['status' => 'success'] or ['status' => 'error']
      */
     public function register(string $username, string $password, string $email, string $name, bool $autologin = true): array {
+        if ($this->userController->isUsernameExist($username)) {
+            return ['status' => 'error', 'message' => 'Username already exists'];
+        }
         try {
             $username = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($username)));
             $this->userController->createUser($username, $password, $email, $name);
