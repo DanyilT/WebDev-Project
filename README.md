@@ -1,11 +1,82 @@
-# WebDev-Project
-Web Development Server-Side Final Project
+# WebDev-Project (QWERTY – The Social Network)
+
+> [!IMPORTANT]
+> This project is for educational purposes only and is not intended for production use.
+> Created as part of second year of university, also you can see more my works for university at [this repo](https://github.com/DanyilT/projects-in-university).
+> This is the Final Project for the Web Development Server-Side Module.
+
+This repository contains the code for the QWERTY social network project, which is a web application designed to facilitate social interactions and connections among users. The project is built using PHP and MySQL, following the MVC (Model-View-Controller) architecture.
 
 ## Prerequisites
 - PHP (7.4 or higher I assume)
+  - Extensions:
+    - `pdo_mysql` For MySQL database connection
+    - `gd` For image processing (if you want to use image upload feature)
 - MySQL (5.7 or higher I assume)
 
+## Quick Setup
+
+### Start MySQL Server
+Ensure your MySQL server is running. You can start it using the following command (depending on your system):
+> [!TIP]
+> - On Windows:
+>   ```shell
+>   # Start MySQL service
+>   net start mysql80
+>   
+>   # Stop MySQL service
+>   net stop mysql80
+>   ```
+
+### Initialize the Database
+Drop the existing database (if any) and run the `install.php` script to create the database and necessary tables:
+> [!TIP]
+> Run the following commands in your MySQL client (e.g., MySQL Workbench, phpMyAdmin, or command line - MySQL shell):
+>   ```shell
+>   mysql -u <your_database_user> -p
+>   enter password: <your_database_password>
+>   ```
+```sql
+DROP DATABASE IF EXISTS qwertyDB;
+CREATE DATABASE IF NOT EXISTS qwertyDB; -- (optional) becuse the database will be created automatically while running the install.php script
+```
+> [!TIP]
+> Run the `php install.php` command in root directory of the project to create the necessary tables and initial data:
+```sh
+php install.php
+```
+
+### Populate the Database
+You can populate the database with initial data by running the `populate.sql` script:
+> [!TIP]
+> (optional)
+```sql
+source data/populate.sql
+```
+
+### Start the PHP Built-in Server
+Start the PHP built-in server to run the application:
+> [!NOTE]
+> This start the localhost web server on port 8000.
+> Set /public as the document root.
+> [!TIP]
+> Run the following command in the root directory of the project:
+```sh
+php -S 127.0.0.1:8000 -t public
+```
+
+### Access the Application
+Navigate to `127.0.0.1:8000` in your web browser to access the application.
+
 ## Installation
+
+> [!NOTE]
+> Install PHP and MySQL on your local machine.
+> And make sure you have the necessary extensions enabled in your `php.ini` file.
+> And if you want to use PHPUnit for testing, you must install it separately.
+
+> [!TIP]
+> You can use [XAMPP](https://www.apachefriends.org) to set up a local development environment with PHP and MySQL.
 
 1. **Clone the repository:**
     ```sh
@@ -23,7 +94,16 @@ Web Development Server-Side Final Project
         # Stop MySQL service
         net stop mysql80
         ```
-    - Create a database and user with the necessary privileges.
+      - On MacOS:
+        - Check in system preferences if MySQL is running.
+    - Drop the existing database (if any):
+        ```sql
+        DROP DATABASE IF EXISTS qwertyDB;
+        ```
+    - Create a new database named `qwertyDB` (optional, the database will be created automatically while running the `install.php` script):
+        ```sql
+        CREATE DATABASE IF NOT EXISTS qwertyDB;
+        ```
 
 3. **Configure the database connection:**
     - If you are a contributor, you can download the `config.php` as **artifact** from the **GitHub Actions** (last successful `Create Config` job).
@@ -73,14 +153,7 @@ Ensure your MySQL server is running. You can start it using the following comman
 mysql -u <your_database_user> -p
 enter password: <your_database_password>
 ```
-```shell
-#if exist, drop the database
-DROP DATABASE IF EXISTS qwertyDB;
-```
-```shell
-#create the database
-CREATE DATABASE IF NOT EXISTS qwertyDB;
-```
+
 ```shell
 #creare database tables (schema) -- run the install.php script in another shell (or browser)
 php install.php
@@ -106,14 +179,58 @@ source data/populate.sql
         mysql -u your_database_user -p your_database_name < data/init.sql
         ```
 
-## Additional Information
-
-- **Database Initialization Script:**
-    The database initialization script is located in `data/init.sql`. It contains the necessary SQL commands to create the required tables and initial data.
+## Project Structure
 
 - **Project Structure:**
-    - `public/`: Contains the public-facing files, including the entry point `index.php`.
-    - `src/`: Contains the PHP source code.
-    - `data/`: Contains the database initialization script.
-    - `config.php`: Contains the database configuration.
-    - `install.php`: Script to initialize the database.
+  - `.github/`: Contains GitHub Actions workflows for CI/CD.
+  - `data/`: Contains the database initialization script.
+  - `public/`: Contains the public-facing files, including the entry point `index.php`.
+    - `assets/`: Contains the modal windows for the application. (modals/)
+    - `css/`: Contains the CSS files for styling.
+    - `images/`: Contains the images used in the application.
+    - `js/`: Contains the JavaScript files for interactivity.
+    - `layout/`: Contains the layout files for the application. (header, footer)
+    - `lib/`: Contains the library files for the application.
+    - `admin/`: Contains the admin panel files. (pages, lib)
+    - `terms/`: Contains the terms and conditions page.
+    - `index.php`: The main entry point for the application.
+  - `src/`: Contains the PHP source code.
+  - `tests/`: Contains the test files for the application. (PHPUnit tests)
+  - `config.php`: Contains the database configuration.
+  - `install.php`: Script to initialize the database.
+  - `README.md`: You are reading it now.
+
+### Additional Information
+
+- **Database Initialization Script:**
+  The database initialization script is located in `data/init.sql`. It contains the necessary SQL commands to create the required tables and initial data.
+
+## Contributing
+
+We welcome contributions to the project. To contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix:
+    ```sh
+    git checkout -b feature/your-feature-name
+    ```
+3. Commit your changes:
+    ```sh
+    git commit -m "Description of your changes"
+    ```
+4. Push to the branch:
+    ```sh
+    git push origin feature/your-feature-name
+    ```
+5. Create a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+### Authors
+
+The project was created by [Danyil Tymchuk](https://github.com/DanyilT) & [Artem Surzhenko](https://github.com/artemsa223)
+
+> [!NOTE]
+> [Project Repo](https://github.com/DanyilT/WebDev-Project)
