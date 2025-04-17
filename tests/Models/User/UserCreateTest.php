@@ -1,12 +1,11 @@
 <?php
 
-namespace User;
+namespace Models\User;
 
-use Models\User\UserCreate;
 use PHPUnit\Framework\TestCase;
 use PDO;
 
-require '../../src/Models/UserCreate.php';
+require '../../../src/Models/User/UserCreate.php';
 
 class UserCreateTest extends TestCase
 {
@@ -113,5 +112,98 @@ class UserCreateTest extends TestCase
 
         // Assert that the username doesn't exist
         $this->assertFalse($result);
+    }
+
+    public function testCreateUserWithInvalidUsername()
+    {
+        // Configure mocks
+        $this->mockPDO->expects($this->any())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $this->mockStmt->expects($this->any())
+            ->method('execute')
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->any())
+            ->method('fetchColumn')
+            ->willReturn(0); // Username doesn't exist
+
+        // Create a UserCreate instance with invalid username
+        $userCreate = new UserCreate(
+            $this->mockPDO,
+            'invalid username',
+            'password123',
+            'test@example.com',
+            'Test User',
+            'Test bio',
+            null
+        );
+
+        // Test the createUser method
+        $this->expectException(\Exception::class);
+        $userCreate->createUser();
+    }
+
+    public function testCreateUserWithInvalidEmail()
+    {
+        // Configure mocks
+        $this->mockPDO->expects($this->any())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $this->mockStmt->expects($this->any())
+            ->method('execute')
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->any())
+            ->method('fetchColumn')
+            ->willReturn(0); // Username doesn't exist
+
+        // Create a UserCreate instance with invalid email
+        $userCreate = new UserCreate(
+            $this->mockPDO,
+            'testuser',
+            'password123',
+            'invalid-email',
+            'Test User',
+            'Test bio',
+            null
+        );
+
+        // Test the createUser method
+        $this->expectException(\Exception::class);
+        $userCreate->createUser();
+    }
+
+    public function testCreateUserWithInvalidPassword()
+    {
+        // Configure mocks
+        $this->mockPDO->expects($this->any())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $this->mockStmt->expects($this->any())
+            ->method('execute')
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->any())
+            ->method('fetchColumn')
+            ->willReturn(0); // Username doesn't exist
+
+        // Create a UserCreate instance with invalid password
+        $userCreate = new UserCreate(
+            $this->mockPDO,
+            'testuser',
+            '123',
+            'test@example.com',
+            'Test User',
+            'Test bio',
+            null
+        );
+
+        // Test the createUser method
+        $this->expectException(\Exception::class);
+        $userCreate->createUser();
     }
 }
