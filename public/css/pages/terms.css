@@ -1,0 +1,37 @@
+/* Styles for the Terms page */
+
+h2 {
+    margin: 1rem 0;
+    color: #333;
+}
+
+section {
+    margin: 1rem auto;
+    max-width: 800px;
+    line-height: 1.5;
+}
+
+aside {
+    width: fit-content;
+    max-width: 500px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    border-left: 4px solid #333;
+    margin: 1rem 0;
+    transition: background-color 0.3s, scale 0.3s;
+}
+
+aside:hover {
+    background-color: #f0f0f0;
+    scale: 1.01;
+}
+
+aside a {
+    text-decoration: none;
+    color: #330066;
+}
+
+aside a:hover {
+    text-decoration: underline;
+}
