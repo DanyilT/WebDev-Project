@@ -7,13 +7,12 @@
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
-    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .page:hover {
     background-color: #f1f1f1;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transform: scale(1.01);
 }
 
 .page h2 {
