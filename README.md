@@ -206,6 +206,40 @@ source data/populate.sql
         mysql -u your_database_user -p your_database_name < data/init.sql
         ```
 
+## Unit Testing
+
+### Models
+
+- [Post](tests/Models/Post)
+  - **PostTest**
+      - [Test Cases](tests/Models/Post/PostTest.php)
+      - [Tested Class](src/Models/Post/Post.php)
+  - **PostCommentTest**
+      - [Test Cases](tests/Models/Post/PostCommentTest.php)
+      - [Tested Class](src/Models/Post/PostComment.php)
+  - **PostReactionTest**
+      - [Test Cases](tests/Models/Post/PostReactionTest.php)
+      - [Tested Class](src/Models/Post/PostReaction.php)
+  - ** PostRepository**
+      - [Test Cases](tests/Models/Post/PostRepositoryTest.php)
+      - [Tested Class](src/Models/Post/PostRepository.php)
+- [User](tests/Models/User)
+  - **UserTest**
+      - [Test Cases](tests/Models/User/UserTest.php)
+      - [Tested Class](src/Models/User/User.php)
+  - **UserCreateTest**
+      - [Test Cases](tests/Models/User/UserCreateTest.php)
+      - [Tested Class](src/Models/User/UserCreate.php)
+  - **UserDeleteTest**
+      - [Test Cases](tests/Models/User/UserDeleteTest.php)
+      - [Tested Class](src/Models/User/UserDelete.php)
+  - **UserReadTest**
+      - [Test Cases](tests/Models/User/UserReadTest.php)
+      - [Tested Class](src/Models/User/UserRead.php)
+  - **UserUpdateTest**
+      - [Test Cases](tests/Models/User/UserUpdateTest.php)
+      - [Tested Class](src/Models/User/UserUpdate.php)
+
 ## Project Structure
 
 - **Project Structure:**
