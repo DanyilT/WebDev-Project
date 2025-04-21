@@ -88,6 +88,13 @@ php -S 127.0.0.1:8000 -t public
 ### Access the Application
 Navigate to `127.0.0.1:8000` in your web browser to access the application.
 
+## Demo
+
+### Screenshots
+
+Home page, post view
+![Screenshot 1](demo/img/screenshot1.png)
+
 ## Installation
 
 > [!NOTE]
