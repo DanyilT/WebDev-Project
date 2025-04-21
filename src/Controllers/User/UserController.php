@@ -84,9 +84,12 @@ class UserController {
      * @param int $userId
      * @param array $fields
      *
-     * @return bool
+     * @return bool|array Returns true on success or an array with error message
      */
-    public function updateUser(int $userId, array $fields): bool {
+    public function updateUser(int $userId, array $fields): bool|array {
+        if ($fields['username'] && $this->isValidUsername($fields['username'])['status'] === 'error') {
+            return $this->isValidUsername($fields['username']);
+        }
         $userUpdate = new UserUpdate($this->connection);
         return $userUpdate->updateUser($userId, $fields);
     }
@@ -224,6 +227,22 @@ class UserController {
     public function isFollowing(int $followerId, int $followingId): bool {
         $userRead = new UserRead($this->connection);
         return $userRead->isFollowing($followerId, $followingId);
+    }
+
+    /**
+     * Checks if a username is valid.
+     *
+     * @param string $username
+     *
+     * @return array Transformed Exception to array
+     */
+    public function isValidUsername(string $username): array {
+        try {
+            $userCreate = new UserCreate($this->connection, $username, '', '', '');
+            return ['status' => 'success', 'valid' => $userCreate->isValidUsername()];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'message' => $e->getMessage()];
+        }
     }
 
     /**

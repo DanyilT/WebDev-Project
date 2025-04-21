@@ -85,6 +85,9 @@ $userId = $userProfile['user_id']; // or $userId = $userRead->getUserId($usernam
             </div>
             <button type="submit">Update Profile</button>
         </form>
+        <?php if (isset($_GET['error'])): ?>
+            <p style="color:red;"><?php echo htmlspecialchars($_GET['error']); ?></p>
+        <?php endif; ?>
         <hr>
         <h3>Change Password</h3>
         <form action="lib/process/process_update_profile.php" method="post">

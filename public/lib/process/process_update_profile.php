@@ -51,6 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit();
                 }
             } elseif ($editField === 'username') {
+                if ($userController->isValidUsername($_POST[$editField])['status'] === 'error') {
+                    header('Location: /profile.php?username=' . $_SESSION['auth']['username'] . '&error=' . urlencode($userController->isValidUsername($_POST[$editField])['message']));
+                    exit();
+                }
                 $userController->updateUser($userId, [$editField => $_POST[$editField]]);
                 $_SESSION['auth']['username'] = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($_POST[$editField])));
             } elseif ($editField === 'profile_pic') {

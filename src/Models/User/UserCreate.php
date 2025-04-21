@@ -89,14 +89,14 @@ class UserCreate extends User {
      * @return bool
      * @throws Exception
      */
-    private function isValidUsername(): bool {
+    public function isValidUsername(): bool {
         // Check if username is not empty
         if (empty($this->username)) {
-            return false;
+            throw new Exception("Username cannot be empty.");
         }
         // Allow only alphanumeric characters, numbers and underscores, 3 to 20 characters. At least one letter
         if (!preg_match('/^[a-zA-Z0-9_]{3,20}$/', $this->username) && !preg_match('/[a-zA-Z]/', $this->username)) {
-            return false;
+            throw new Exception("Username must be 3 to 20 characters long and can only contain letters, numbers, and underscores.");
         }
         // Check if username already exists
         if ($this->isUsernameExist($this->username, $this->getConnection())) {
@@ -105,7 +105,7 @@ class UserCreate extends User {
         // Check if username is not a reserved word
         $reservedWords = ['qwerty', 'dany', 'admin', 'root', 'user', 'test'];
         if (in_array($this->username, $reservedWords)) {
-            return false;
+            throw new Exception("Username is a reserved word.");
         }
         return true;
     }
