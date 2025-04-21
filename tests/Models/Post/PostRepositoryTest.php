@@ -99,17 +99,21 @@ class PostRepositoryTest extends TestCase {
     public function testCreatePost() {
         $post = new Post(1, 1, 'Test Title', 'Test Content', 'test.jpg', [1, 2], '2023-01-01 00:00:00', false, 'testuser');
 
-        $this->mockPDO->expects($this->once())
+        // We need to expect two different prepare calls
+        $this->mockPDO->expects($this->exactly(2))
             ->method('prepare')
-            ->willReturn($this->mockStmt);
+            ->willReturnCallback(function($sql) {
+                return $this->mockStmt;
+            });
 
-        $this->mockStmt->expects($this->once())
+        // Execute will be called twice - once for insert, once for select
+        $this->mockStmt->expects($this->exactly(2))
             ->method('execute')
             ->willReturn(true);
 
         $this->mockPDO->expects($this->once())
             ->method('lastInsertId')
-            ->willReturn(1);
+            ->willReturn('1');
 
         $this->mockStmt->expects($this->once())
             ->method('fetch')
@@ -123,11 +127,11 @@ class PostRepositoryTest extends TestCase {
     public function testUpdatePost() {
         $updates = ['title' => 'Updated Title', 'content' => 'Updated Content', 'media' => 'updated.jpg'];
 
-        $this->mockPDO->expects($this->exactly(2))
+        $this->mockPDO->expects($this->exactly(3))
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        $this->mockStmt->expects($this->exactly(2))
+        $this->mockStmt->expects($this->exactly(3))
             ->method('execute')
             ->willReturn(true);
 

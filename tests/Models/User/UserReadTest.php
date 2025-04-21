@@ -130,7 +130,7 @@ class UserReadTest extends TestCase
         // Configure mocks
         $this->mockPDO->expects($this->once())
             ->method('prepare')
-            ->with("SELECT * FROM active_users")
+            ->with("SELECT * FROM active_users;")
             ->willReturn($this->mockStmt);
 
         $this->mockStmt->expects($this->once())

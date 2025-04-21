@@ -227,19 +227,14 @@ class UserUpdateTest extends TestCase
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        // First call to check if record exists should return true
+        // Configure the mock to return different results for different execute calls
         $this->mockStmt->expects($this->exactly(2))
             ->method('execute')
-            ->willReturn(true);
+            ->willReturnOnConsecutiveCalls(true, false);
 
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn(['is_following' => 0, 'following_history' => json_encode([])]);
-
-        // Simulate database error on the second execute
-        $this->mockStmt->expects($this->once())
-            ->method('execute')
-            ->willReturn(false);
 
         // Create a UserUpdate instance
         $userUpdate = new UserUpdate($this->mockPDO);

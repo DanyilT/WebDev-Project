@@ -22,11 +22,11 @@ class UserDeleteTest extends TestCase
     public function testDeleteUser()
     {
         // Configure mocks
-        $this->mockPDO->expects($this->exactly(3))
+        $this->mockPDO->expects($this->exactly(4))
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        $this->mockStmt->expects($this->exactly(3))
+        $this->mockStmt->expects($this->exactly(4))
             ->method('execute')
             ->willReturn(true);
 
@@ -118,16 +118,16 @@ class UserDeleteTest extends TestCase
 
     public function testDeleteUserWithNonExistentUser()
     {
-        // Configure mocks
-        $this->mockPDO->expects($this->exactly(2))
+        // Configure mocks - first query returns null indicating user doesn't exist
+        $this->mockPDO->expects($this->exactly(1))
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        $this->mockStmt->expects($this->exactly(2))
+        $this->mockStmt->expects($this->exactly(1))
             ->method('execute')
             ->willReturn(true);
 
-        $this->mockStmt->expects($this->once())
+        $this->mockStmt->expects($this->exactly(1))
             ->method('fetchColumn')
             ->willReturn(false); // User does not exist
 
@@ -172,14 +172,19 @@ class UserDeleteTest extends TestCase
 
     public function testDeleteUserWithDatabaseError()
     {
-        // Configure mocks
+        // Configure mocks - only expecting 3 prepare calls when there's a database error
         $this->mockPDO->expects($this->exactly(3))
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        $this->mockStmt->expects($this->exactly(3))
-            ->method('execute')
-            ->willReturnOnConsecutiveCalls(true, true, false); // Simulate database error on the third execute
+        // Different approach for the execute calls
+        $executeCount = 0;
+        $this->mockStmt->method('execute')
+            ->willReturnCallback(function($params) use (&$executeCount) {
+                $executeCount++;
+                // Third execute call (updating the user) will fail
+                return $executeCount < 3;
+            });
 
         $this->mockStmt->expects($this->exactly(2))
             ->method('fetchColumn')
