@@ -81,15 +81,15 @@ class UserUpdate extends User {
      */
     public function updateFollowers(int $followerId, int $followingId): string {
         // Check if record exists for given follower and following
-        $stmt = $this->getConnection()->prepare("SELECT is_following, following_history FROM followers WHERE follower_id = ? AND following_id = ?");
-        $stmt->execute([$followerId, $followingId]);
-        $record = $stmt->fetch(PDO::FETCH_ASSOC);
+        $record = $this->isIs_FollowingRecordExist($followerId, $followingId);
 
         if (!$record) {
             // If there's no record, create a new one with a follow action
             $initialHistory = json_encode([["action" => "follow", "timestamp" => date('Y-m-d H:i:s')]]);
             $stmt = $this->getConnection()->prepare("INSERT INTO followers (follower_id, following_id, following_history) VALUES (?, ?, ?)");
-            $stmt->execute([$followerId, $followingId, $initialHistory]);
+            if (!$stmt->execute([$followerId, $followingId, $initialHistory])) {
+                return 'error';
+            }
             return 'new follow';
         } else {
             // If record exists, toggle is_following to its opposite value
@@ -105,9 +105,25 @@ class UserUpdate extends User {
             $newHistory = json_encode($history);
 
             $stmt = $this->getConnection()->prepare("UPDATE followers SET is_following = ?, following_history = ? WHERE follower_id = ? AND following_id = ?");
-            $stmt->execute([$newStatus, $newHistory, $followerId, $followingId]);
+            if (!$stmt->execute([$newStatus, $newHistory, $followerId, $followingId])) {
+                return 'error';
+            }
             return $newStatus ? 'followed' : 'unfollowed';
         }
+    }
+
+    /**
+     * Checks if a record exists for the given follower and following IDs
+     *
+     * @param int $followerId
+     * @param int $followingId
+     *
+     * @return array|false
+     */
+    private function isIs_FollowingRecordExist(int $followerId, int $followingId): array|false {
+        $stmt = $this->getConnection()->prepare("SELECT is_following, following_history FROM followers WHERE follower_id = ? AND following_id = ?");
+        $stmt->execute([$followerId, $followingId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     /**

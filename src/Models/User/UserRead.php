@@ -132,13 +132,13 @@ class UserRead extends User {
      *
      * @param string $username
      *
-     * @return int
+     * @return int|null If the user exists, return their ID, otherwise return null
      */
-    public function getUserId(string $username): int {
+    public function getUserId(string $username): ?int {
         $username = !str_starts_with($username, "@") ? '@' . strtolower(trim($username)) : strtolower(trim($username));
         $stmt = $this->getConnection()->prepare("SELECT user_id FROM active_users WHERE username = ?");
         $stmt->execute([$username]);
-        return $stmt->fetchColumn();
+        return $stmt->fetchColumn() ?: null;
     }
 
     /**

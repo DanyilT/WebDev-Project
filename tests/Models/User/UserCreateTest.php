@@ -132,7 +132,7 @@ class UserCreateTest extends TestCase
         // Create a UserCreate instance with invalid username
         $userCreate = new UserCreate(
             $this->mockPDO,
-            'invalid username',
+            'qwerty',
             'password123',
             'test@example.com',
             'Test User',

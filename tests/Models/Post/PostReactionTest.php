@@ -19,11 +19,13 @@ class PostReactionTest extends TestCase {
     }
 
     public function testLikePost() {
-        $this->mockPDO->expects($this->once())
+        // Need to expect 2 prepare calls - one for SELECT, one for UPDATE
+        $this->mockPDO->expects($this->exactly(2))
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        $this->mockStmt->expects($this->once())
+        // First execute for the SELECT query
+        $this->mockStmt->expects($this->exactly(2))
             ->method('execute')
             ->willReturn(true);
 
@@ -31,30 +33,24 @@ class PostReactionTest extends TestCase {
             ->method('fetch')
             ->willReturn(['likes' => json_encode([1, 2])]);
 
-        $this->mockStmt->expects($this->once())
-            ->method('execute')
-            ->willReturn(true);
-
         $result = $this->postReaction->likePost($this->mockPDO, 1, 3);
         $this->assertTrue($result);
     }
 
     public function testDislikePost() {
-        $this->mockPDO->expects($this->once())
+        // Need to expect 2 prepare calls - one for SELECT, one for UPDATE
+        $this->mockPDO->expects($this->exactly(2))
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        $this->mockStmt->expects($this->once())
+        // Execute will be called twice
+        $this->mockStmt->expects($this->exactly(2))
             ->method('execute')
             ->willReturn(true);
 
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn(['likes' => json_encode([1, 2, 3])]);
-
-        $this->mockStmt->expects($this->once())
-            ->method('execute')
-            ->willReturn(true);
 
         $result = $this->postReaction->dislikePost($this->mockPDO, 1, 3);
         $this->assertTrue($result);
@@ -78,15 +74,18 @@ class PostReactionTest extends TestCase {
     }
 
     public function testGetLikesCount() {
-        $this->mockPDO->expects($this->once())
+        // getLikesCount calls getLikes internally, so prepare is called twice
+        $this->mockPDO->expects($this->exactly(2))
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        $this->mockStmt->expects($this->once())
+        // Execute will be called twice
+        $this->mockStmt->expects($this->exactly(2))
             ->method('execute')
             ->willReturn(true);
 
-        $this->mockStmt->expects($this->once())
+        // Fetch will be called twice
+        $this->mockStmt->expects($this->exactly(2))
             ->method('fetch')
             ->willReturn(['likes' => json_encode([1, 2, 3])]);
 

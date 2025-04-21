@@ -37,27 +37,34 @@ class UserDelete extends User {
         $stmt->execute([$userId]);
         $currentUsername = $stmt->fetchColumn();
 
+        if (!$currentUsername) {
+            return false; // User does not exist
+        }
+
         // Remove '@' symbol if present and add '-' prefix
         $newUsername = '-' . str_replace('@', '', $currentUsername);
 
-        // Prepare statement for checking duplicate username
-        $checkStmt = $this->getConnection()->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
-
-        // Keep adding '-' until unique
-        while (true) {
+        // Check for unique username and update in a single query
+        do {
+            // Prepare statement for checking duplicate username
+            $checkStmt = $this->getConnection()->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
             $checkStmt->execute([$newUsername]);
-            if ($checkStmt->fetchColumn() == 0) {
-                break;
+            $isUnique = $checkStmt->fetchColumn() == 0;
+
+            // Keep adding '-' until unique
+            if (!$isUnique) {
+                $newUsername = '-' . $newUsername;
             }
-            $newUsername = '-' . $newUsername;
-        }
+        } while (!$isUnique);
 
         // Update user: mark as deleted and update username
         $stmt = $this->getConnection()->prepare("UPDATE users SET is_deleted = TRUE, username = ? WHERE user_id = ?");
-
         $result = $stmt->execute([$newUsername, $userId]);
 
-        $this->setDataChangesHistory($userId, ['delete' => ['is_deleted' => 1, 'username' => $newUsername, 'timestamp' => date('Y-m-d H:i:s')]]);
+        // Only record history and return true if the update was successful
+        if ($result) {
+            $this->setDataChangesHistory($userId, ['delete' => ['is_deleted' => 1, 'username' => $newUsername, 'timestamp' => date('Y-m-d H:i:s')]]);
+        }
 
         return $result;
     }

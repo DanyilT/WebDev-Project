@@ -19,13 +19,21 @@ class PostCommentTest extends TestCase {
     }
 
     public function testAddComment() {
-        $this->mockPDO->expects($this->once())
+        // The addComment method first inserts a comment, then calls getCommentById
+        // So we need to expect 2 prepare calls, not just one
+        $this->mockPDO->expects($this->exactly(2))
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        $this->mockStmt->expects($this->once())
+        // Execute will be called twice - once for insert, once for select
+        $this->mockStmt->expects($this->exactly(2))
             ->method('execute')
             ->willReturn(true);
+
+        // Mock the lastInsertId method, which is called in addComment
+        $this->mockPDO->expects($this->once())
+            ->method('lastInsertId')
+            ->willReturn('1');
 
         $this->mockStmt->expects($this->once())
             ->method('fetch')
