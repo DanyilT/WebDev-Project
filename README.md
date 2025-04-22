@@ -206,9 +206,11 @@ source data/populate.sql
         mysql -u your_database_user -p your_database_name < data/init.sql
         ```
 
-## Unit Testing
+## Tests
 
-### Models
+### Unit Testing
+
+#### Models
 
 - [Post](tests/Models/Post)
   - **PostTest**
@@ -239,6 +241,10 @@ source data/populate.sql
   - **UserUpdateTest**
       - [Test Cases](tests/Models/User/UserUpdateTest.php)
       - [Tested Class](src/Models/User/UserUpdate.php)
+
+### Validation Testing
+
+- [validation_tests.php](public/admin/lib/validation_tests.php)
 
 ## Project Structure
 
