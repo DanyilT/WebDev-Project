@@ -22,6 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 if (isset($_POST['update'])) {
+    // Validation logic for post updates
+    if (empty($_POST['title'])) {
+        header('Location: /admin/posts.php?error=Post title cannot be empty');
+        exit;
+    }
+    if (empty($_POST['content'])) {
+        header('Location: /admin/posts.php?error=Post content cannot be empty');
+        exit;
+    }
+
     // Handle post update
     (new AdminController($connection))->updatePost($_POST['post_id'], $_POST['user_id'], ['title' => $_POST['title'], 'content' => $_POST['content']]);
     header('Location: /admin/posts.php');
