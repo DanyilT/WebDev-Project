@@ -7,6 +7,16 @@ use PDO;
 
 require '../../../src/Models/User/UserCreate.php';
 
+/**
+ * Class: UserCreateTest.php
+ * Test: Models\User\UserCreate.php
+ *
+ * Description:
+ * This test class is responsible for testing the UserCreate class.
+ * It includes tests for creating a user and checking if a username exists.
+ *
+ * @package Models\User
+ */
 class UserCreateTest extends TestCase
 {
     private $mockPDO;

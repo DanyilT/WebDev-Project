@@ -7,6 +7,16 @@ use PDO;
 
 require '../../../src/Models/Post/PostReaction.php';
 
+/**
+ * Class: PostReactionTest.php
+ * Test: Models/Post/PostReactionTest.php
+ *
+ * Description:
+ * This test class is responsible for testing the PostReaction class.
+ * It includes tests for liking, disliking, and retrieving likes for a post.
+ *
+ * @package Models\Post
+ */
 class PostReactionTest extends TestCase {
     private $postReaction;
     private $mockPDO;

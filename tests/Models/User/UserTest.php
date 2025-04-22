@@ -8,6 +8,16 @@ use PDO;
 require '../../../src/Models/User/User.php';
 require '../../../src/Models/User/UserRead.php';
 
+/**
+ * Class: UserTest.php
+ * Test: Models\User\User.php
+ *
+ * Description:
+ * This test class is responsible for testing the User class.
+ * It includes tests for retrieving user information.
+ *
+ * @package Models\User
+ */
 class UserTest extends TestCase {
     private $user;
     private $mockPDO;

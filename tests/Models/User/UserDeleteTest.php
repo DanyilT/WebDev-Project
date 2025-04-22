@@ -7,6 +7,16 @@ use PDO;
 
 require '../../../src/Models/User/UserDelete.php';
 
+/**
+ * Class: UserDeleteTest.php
+ * Test: Models\User\UserDelete.php
+ *
+ * Description:
+ * This test class is responsible for testing the UserDelete class.
+ * It includes tests for deleting a user and checking if a username exists.
+ *
+ * @package Models\User
+ */
 class UserDeleteTest extends TestCase
 {
     private $mockPDO;
