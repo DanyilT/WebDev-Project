@@ -6,6 +6,16 @@ use PHPUnit\Framework\TestCase;
 
 require '../../../src/Models/Post/Post.php';
 
+/**
+ * Class: PostTest.php
+ * Test: Models/Post/Post.php
+ *
+ * Description:
+ * This test class is responsible for testing the Post class.
+ * It includes tests for the constructor and getter methods.
+ *
+ * @package Models\Post
+ */
 class PostTest extends TestCase {
     private $post;
 

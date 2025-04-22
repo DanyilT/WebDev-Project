@@ -7,6 +7,16 @@ use PDO;
 
 require '../../../src/Models/Post/PostRepository.php';
 
+/**
+ * Class: PostRepositoryTest.php
+ * Test: Models/Post/PostRepository.php
+ *
+ * Description:
+ * This test class is responsible for testing the PostRepository class.
+ * It includes tests for retrieving, creating, updating, and deleting posts.
+ *
+ * @package Models\Post
+ */
 class PostRepositoryTest extends TestCase {
     private $postRepository;
     private $mockPDO;

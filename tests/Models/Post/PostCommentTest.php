@@ -7,6 +7,16 @@ use PDO;
 
 require '../../../src/Models/Post/PostComment.php';
 
+/**
+ * Class: PostCommentTest.php
+ * Test: Models\Post\PostComment.php
+ *
+ * Description:
+ * This test class is responsible for testing the PostComment model.
+ * It includes tests for adding, retrieving, and deleting comments.
+ *
+ * @package Models\Post
+ */
 class PostCommentTest extends TestCase {
     private $postComment;
     private $mockPDO;

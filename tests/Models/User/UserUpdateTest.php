@@ -7,6 +7,16 @@ use PDO;
 
 require '../../../src/Models/User/UserUpdate.php';
 
+/**
+ * Class: UseerUpdateTest.php
+ * Test: Models\User\UserUpdate.php
+ *
+ * Description:
+ * This test class is responsible for testing the UserUpdate class.
+ * It includes tests for updating user information,
+ *
+ * @package Models\User
+ */
 class UserUpdateTest extends TestCase
 {
     private $mockPDO;
