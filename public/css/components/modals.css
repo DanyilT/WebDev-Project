@@ -3,7 +3,7 @@
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
@@ -20,7 +20,7 @@
     border: 1px solid #888;
     width: 80%;
     max-width: 800px;
-    max-height: 60vh;
+    max-height: 80vh;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     overflow: auto;
@@ -34,10 +34,12 @@
     align-items: center;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .modal .modal-header h2 {
     margin: 0;
+    color: #333;
 }
 
 .modal .close {
@@ -63,4 +65,155 @@
 .modal .modal-content {
     display: block;
     animation: glow 5s infinite alternate;
+}
+
+/* Form Group Styles */
+.modal .form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.modal label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.modal .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.modal .form-control:focus {
+    border-color: #57426e;
+    outline: none;
+    box-shadow: 0 0 5px rgba(87, 66, 110, 0.5);
+}
+
+/* Validation Styles */
+.modal .form-control.is-invalid {
+    border: 1px solid #f44336;
+    background-color: #fff6f6;
+}
+
+.modal .form-control.is-valid {
+    border: 1px solid #4CAF50;
+    background-color: #f6fff6;
+}
+
+.modal .validation-message {
+    color: #f44336;
+    font-size: 14px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Form Error and Success Messages */
+.modal .form-error {
+    color: #f44336;
+    background-color: #ffebee;
+    border-left: 4px solid #f44336;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    display: none;
+}
+
+.modal .success-notification {
+    color: #2e7d32;
+    background-color: #e8f5e9;
+    border-left: 4px solid #4CAF50;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    display: none;
+}
+
+/* Loading Spinner */
+.modal .loading-spinner {
+    text-align: center;
+    margin: 20px 0;
+    display: none;
+}
+
+.modal .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #57426e;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Field Requirements */
+.modal .field-requirements {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+    padding-left: 15px;
+    list-style-type: circle;
+}
+
+.modal .field-requirements li {
+    margin-bottom: 3px;
+    transition: color 0.3s;
+}
+
+.modal .field-requirements li.met {
+    color: #4CAF50;
+    list-style-type: '✓ ';
+}
+
+.modal .field-requirements li.unmet {
+    color: #f44336;
+    list-style-type: '✗ ';
+}
+
+/* Required Field Indicator */
+.modal label.required:after {
+    content: " *";
+    color: #f44336;
+}
+
+/* Button Styles */
+.modal button[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.modal button[type="submit"]:hover {
+    background-color: #57426e;
+}
+
+.modal button[type="submit"]:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+/* Form animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal .validation-message,
+.modal .form-error,
+.modal .success-notification {
+    animation: fadeIn 0.3s;
 }

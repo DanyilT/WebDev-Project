@@ -41,7 +41,7 @@ class PostController {
      *
      * @return string The rendered HTML for the posts. (require the view file)
      */
-    public function index(int|array $userId = null, int $offset = 0, int $limit = null): string {
+    public function index(int|array|null $userId = null, int $offset = 0, ?int $limit = null): string {
         if ($userId) {
             if (is_array($userId)) {
                 $postsArray = $this->getUsersPosts($userId, $offset, $limit);
@@ -77,7 +77,7 @@ class PostController {
      *
      * @return array
      */
-    public function getAllPosts(int $offset = 0, int $limit = null): array {
+    public function getAllPosts(int $offset = 0, ?int $limit = null): array {
         return $this->postRepository->getAllPosts($this->connection, $offset, $limit);
     }
 
@@ -92,7 +92,7 @@ class PostController {
      *
      * @return array
      */
-    public function getUsersPosts(array $userIds, int $offset = 0, int $limit = null): array {
+    public function getUsersPosts(array $userIds, int $offset = 0, ?int $limit = null): array {
         $allPosts = [];
         foreach ($userIds as $userId) {
             $userPosts = $this->getUserPosts($userId);
@@ -119,7 +119,7 @@ class PostController {
      *
      * @return array
      */
-    public function getUserPosts(int $userId, int $offset = 0, int $limit = null): array {
+    public function getUserPosts(int $userId, int $offset = 0, ?int $limit = null): array {
         return $this->postRepository->getUserPosts($this->connection, $userId, $offset, $limit);
     }
 
@@ -144,7 +144,7 @@ class PostController {
      *
      * @return Post|null
      */
-    public function create(int $userId, string $title, string $content, string $media = null): ?Post {
+    public function create(int $userId, string $title, string $content, ?string $media = null): ?Post {
         $post = new Post((int)null, $userId, $title, $content, $media);
         return $this->postRepository->createPost($this->connection, $post);
     }
@@ -160,7 +160,7 @@ class PostController {
      *
      * @return Post|null
      */
-    public function update(int $postId, int $ownerId, string $title, string $content, string $media = null): ?Post {
+    public function update(int $postId, int $ownerId, string $title, string $content, ?string $media = null): ?Post {
         $updates = [
             'title' => $title,
             'content' => $content,
