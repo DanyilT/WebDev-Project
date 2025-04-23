@@ -19,9 +19,13 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 // Process login
-if ((new AuthController($connection))->login($username, $password)['status'] === 'success') {
+$loginResult = (new AuthController($connection))->login($username, $password);
+
+if ($loginResult['status'] === 'success') {
     header('Location: /auth.php');
 } else {
-    header('Location: /auth.php?error=invalid_credentials');
+    $page = (str_contains($_SERVER['HTTP_REFERER'] ?? '', 'login')) ? '&login' : '#login';
+    $errorMessage = $loginResult['message'];
+    header('Location: /auth.php?error=' . urlencode($errorMessage) . $page);
 }
 exit();

@@ -245,6 +245,15 @@ class UserController {
         }
     }
 
+    public function isValidPassword(string $password): array {
+        try {
+            $userCreate = new UserCreate($this->connection, '', $password, '', '');
+            return ['status' => 'success', 'valid' => $userCreate->isValidPassword()];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'message' => $e->getMessage()];
+        }
+    }
+
     /**
      * Checks if a username already exists in the database.
      *

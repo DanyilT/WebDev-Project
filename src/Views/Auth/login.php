@@ -25,6 +25,9 @@ include 'layout/header.php';
         <?php if (isset($_SESSION['auth'])): ?>
             <p>Logged in as: <strong onclick="location.href='/profile.php?username=<?php echo htmlspecialchars($_SESSION['auth']['username']); ?>'"><?php echo htmlspecialchars($_SESSION['auth']['username']); ?></strong> <a href="/auth.php?logout">Logout</a></p>
         <?php endif; ?>
+        <?php if (isset($_GET['error'])): ?>
+            <p style="color:red;"><?php echo htmlspecialchars($_GET['error']); ?></p>
+        <?php endif; ?>
     </section>
 </main>
 

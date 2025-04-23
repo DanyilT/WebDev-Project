@@ -21,5 +21,8 @@
             <button type="submit">Login</button>
         </form>
         <p>Don't have an account? <a href="#register">Register</a></p>
+        <?php if (isset($_GET['error'])): ?>
+            <p style="color:red;"><?php echo htmlspecialchars($_GET['error']); ?></p>
+        <?php endif; ?>
     </div>
 </dialog>

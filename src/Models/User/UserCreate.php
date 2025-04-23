@@ -128,14 +128,18 @@ class UserCreate extends User {
      * Check if password is not empty and meets the required strength
      *
      * @return bool
+     * @throws Exception
      */
-    private function isValidPassword(): bool {
+    public function isValidPassword(): bool {
         // Check if password is not empty
         if (empty($this->password)) {
-            return false;
+            throw new Exception("Password cannot be empty.");
         }
         // One Rule: At least 6 characters long
-        return strlen($this->password) >= 6;
+        if (strlen($this->password) < 6) {
+            throw new Exception("Password must be at least 6 characters long.");
+        }
+        return true;
     }
 
     /**

@@ -46,6 +46,9 @@ class AuthController {
         if ($this->userController->isValidUsername($username)['status'] === 'error') {
             return $this->userController->isValidUsername($username);
         }
+        if ($this->userController->isValidPassword($password)['status'] === 'error') {
+            return $this->userController->isValidPassword($password);
+        }
         try {
             $username = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($username)));
             $this->userController->createUser($username, $password, $email, $name);
@@ -71,13 +74,20 @@ class AuthController {
      */
     public function login(string $username, string $password): array {
         $username = preg_replace('/[^a-z0-9_]/', '', strtolower(trim($username)));
-        if ($this->validateLogin($username, $password)) {
-            if (session_status() == PHP_SESSION_NONE) session_start();
-            $_SESSION['auth']['user_id'] = $this->userController->getUserId($username);
-            $_SESSION['auth']['username'] = $username;
-            return ['status' => 'success', 'message' => 'Login successful'];
-        } else {
-            return ['status' => 'error', 'message' => 'Invalid credentials'];
+        if ($this->userController->isUsernameExist($username) === false) {
+            return ['status' => 'error', 'message' => 'Username does not exist'];
+        }
+        try {
+            if ($this->validateLogin($username, $password)) {
+                if (session_status() == PHP_SESSION_NONE) session_start();
+                $_SESSION['auth']['user_id'] = $this->userController->getUserId($username);
+                $_SESSION['auth']['username'] = $username;
+                return ['status' => 'success', 'message' => 'Login successful'];
+            } else {
+                return ['status' => 'error', 'message' => 'Invalid credentials'];
+            }
+        } catch (Exception $e) {
+            return ['status' => 'error', 'message' => $e->getMessage()];
         }
     }
 
@@ -101,6 +111,7 @@ class AuthController {
      * @param string $password
      *
      * @return bool
+     * @throws Exception
      */
     private function validateLogin(string $username, string $password): bool {
         if (empty($username) || empty($password)) {
@@ -113,6 +124,10 @@ class AuthController {
         if (!$userProfile) {
             return false;
         }
-        return password_verify($password, $this->userController->getUserPassword($username));
+        if (password_verify($password, $this->userController->getUserPassword($username))) {
+            return true;
+        } else {
+            throw new Exception("Invalid password");
+        }
     }
 }

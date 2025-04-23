@@ -27,7 +27,6 @@ if ($registrationResult['status'] === 'success') {
     header('Location: /auth.php');
 } else {
     $page = (str_contains($_SERVER['HTTP_REFERER'] ?? '', 'register')) ? '&register' : '#register';
-//    (str_contains($_SERVER['HTTP_REFERER'] ?? '', '?register')) ? '&register' : '#register'
     $errorMessage = $registrationResult['message'];
     header('Location: /auth.php?error=' . urlencode($errorMessage) . $page);
 }
