@@ -62,7 +62,7 @@ class UserCreate extends User {
      * @param string|null $bio Bio of the user
      * @param string|null $profile_pic Profile picture of the user
      */
-    public function __construct(PDO $connection, string $username, string $password, string $email, string $name, string $bio = null, string $profile_pic = null) {
+    public function __construct(PDO $connection, string $username, string $password, string $email, string $name, ?string $bio = null, ?string $profile_pic = null) {
         parent::__construct($connection);
         $this->username = strtolower(trim($username));
         $this->password = $password;
@@ -166,7 +166,7 @@ class UserCreate extends User {
      * @param int|null $userId
      * @param array|null $fields
      */
-    protected function setDataChangesHistory(int $userId = null, array $fields = null): void {
+    protected function setDataChangesHistory(?int $userId = null, ?array $fields = null): void {
         $this->data_changes_history = [
             'origin' => [
                 'username'    => $this->username,

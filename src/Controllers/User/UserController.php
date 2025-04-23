@@ -47,7 +47,7 @@ class UserController {
      * @return bool
      * @throws \Exception if data validation fails (in $userCreate->createUser())
      */
-    public function createUser(string $username, string $password, string $email, string $name, string $bio = null, string $profile_pic = null): bool {
+    public function createUser(string $username, string $password, string $email, string $name, ?string $bio = null, ?string $profile_pic = null): bool {
         $userCreate = new UserCreate($this->connection, $username, $password, $email, $name, $bio, $profile_pic);
         return $userCreate->createUser();
     }
@@ -61,7 +61,7 @@ class UserController {
      *
      * @return array
      */
-    public function searchUsers(string $search, int $offset = 0, int $limit = null): array {
+    public function searchUsers(string $search, int $offset = 0, ?int $limit = null): array {
         $userRead = new UserRead($this->connection);
         return $userRead->searchUsers($search, $offset, $limit);
     }

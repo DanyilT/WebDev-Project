@@ -33,7 +33,7 @@ class Post {
      * @param bool $isDeleted Indicates if the post is deleted
      * @param string|null $creatorUsername Username of the post creator (optional)
      */
-    public function __construct(int $postId, int $userId, string $title, string $content, string $media = null, array $likes = null, string $createdAt = null, bool $isDeleted = false, string $creatorUsername = null) {
+    public function __construct(int $postId, int $userId, string $title, string $content, ?string $media = null, ?array $likes = null, ?string $createdAt = null, bool $isDeleted = false, ?string $creatorUsername = null) {
         $this->postId = $postId;
         $this->userId = $userId;
         $this->title = $title;
