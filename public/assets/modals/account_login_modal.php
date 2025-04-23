@@ -48,7 +48,7 @@
 
         <p>Don't have an account? <a href="#register">Register</a></p>
 
-        <?php if (isset($_GET['error']) && !empty($_GET['error'])): ?>
+        <?php if (!empty($_GET['error'])): ?>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     const errorContainer = document.getElementById('login-error');

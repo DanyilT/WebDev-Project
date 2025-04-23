@@ -17,12 +17,13 @@ require '../../../src/Controllers/Auth/AuthController.php';
 
 // Set up variables
 $username = isset($_POST['username']) ? trim($_POST['username']) : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
+$password = $_POST['password'] ?? '';
 
 // Validate inputs
 if (empty($username) || empty($password)) {
+    $page = (str_contains($_SERVER['HTTP_REFERER'] ?? '', 'login')) ? '&login' : '#login';
     $errorMessage = 'Username and password are required.';
-    header('Location: /auth.php?error=' . urlencode($errorMessage) . '#login');
+    header('Location: /auth.php?error=' . urlencode($errorMessage) . $page);
     exit();
 }
 
@@ -49,8 +50,9 @@ try {
     error_log('Login error: ' . $e->getMessage());
 
     // Return generic error message
+    $page = (str_contains($_SERVER['HTTP_REFERER'] ?? '', 'login')) ? '&login' : '#login';
     $errorMessage = 'An error occurred during login. Please try again.';
-    header('Location: /auth.php?error=' . urlencode($errorMessage) . '#login');
+    header('Location: /auth.php?error=' . urlencode($errorMessage) . $page);
 }
 
 exit();
