@@ -241,6 +241,10 @@ source data/populate.sql
   - **UserUpdateTest**
       - [Test Cases](tests/Models/User/UserUpdateTest.php)
       - [Tested Class](src/Models/User/UserUpdate.php)
+- [Auth](tests/Contests/Controllers/Auth)
+  - **AuthControllerTest**
+    - [Test Cases](tests/Controllers/Auth/AuthControllerTest.php)
+    - [Tested Class](src/Controllers/Auth/AuthController.php)
 
 ### Validation Testing
 
