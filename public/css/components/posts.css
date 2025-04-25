@@ -215,3 +215,19 @@
     background-color: #e0e0e0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Mobile Styles */
+@media screen and (max-width: 768px) {
+    .posts-container {
+        padding: 0;
+        margin: 20px 0;
+    }
+
+    .post {
+        padding: 10px;
+    }
+
+    .post .create-comment {
+        width: auto;
+    }
+}

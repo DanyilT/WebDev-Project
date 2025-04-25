@@ -24,6 +24,13 @@ header nav .active:hover {
     background-color: #444;
 }
 
+/* For mobile view */
+@media screen and (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+    }
+}
+
 /* Table Styling */
 table {
     border-collapse: collapse;

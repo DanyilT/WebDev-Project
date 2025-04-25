@@ -26,6 +26,11 @@ if (session_status() == PHP_SESSION_NONE) session_start();
 <body>
 <header>
     <h1 class="title" onclick="location.href='/'">QWERTY</h1>
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
     <nav>
         <a href="index.php" class="nav-item">
             <img src="img/icons/nav/home-iconly.svg" alt="Home Icon" class="nav-icon">
@@ -55,3 +60,21 @@ if (session_status() == PHP_SESSION_NONE) session_start();
         <?php endif; ?>
     </nav>
 </header>
+
+<script>
+    const nav = document.querySelector('header nav');
+    const hamburger = document.querySelector('.hamburger');
+
+    hamburger.addEventListener('click', function () {
+        if (nav.classList.contains('open')) {
+            nav.classList.remove('open');
+            nav.classList.add('closing');
+            setTimeout(() => {nav.classList.remove('closing'); nav.style.display = 'none';}, 300); // Match animation duration
+        } else {
+            nav.style.display = 'flex';
+            nav.classList.add('open');
+        }
+        this.classList.toggle('active');
+        document.body.classList.toggle('no-scroll');
+    });
+</script>

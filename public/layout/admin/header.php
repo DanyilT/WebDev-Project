@@ -25,6 +25,11 @@ if (session_status() == PHP_SESSION_NONE) session_start();
 <body>
 <header>
     <h1 class="title">Admin Dashboard</h1>
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
     <nav>
         <ul>
             <li class="nav-item nav-text <?php echo $_SERVER['PHP_SELF'] == '/admin/index.php' ? 'active' : ''; ?>"><a href="/admin/index.php">Dashboard</a></li>
@@ -35,3 +40,21 @@ if (session_status() == PHP_SESSION_NONE) session_start();
         </ul>
     </nav>
 </header>
+
+<script>
+    const nav = document.querySelector('header nav');
+    const hamburger = document.querySelector('.hamburger');
+
+    hamburger.addEventListener('click', function () {
+        if (nav.classList.contains('open')) {
+            nav.classList.remove('open');
+            nav.classList.add('closing');
+            setTimeout(() => {nav.classList.remove('closing'); nav.style.display = 'none';}, 300); // Match animation duration
+        } else {
+            nav.style.display = 'flex';
+            nav.classList.add('open');
+        }
+        this.classList.toggle('active');
+        document.body.classList.toggle('no-scroll');
+    });
+</script>

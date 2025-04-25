@@ -63,7 +63,7 @@ include 'layout/header.php';
             <label for="search">Search for users:</label>
             <input type="text" id="search" name="search" placeholder="Enter username..." value="<?php echo htmlentities($_GET['search'] ?? '', ENT_QUOTES); ?>">
             <div class="search-options">
-                <label for="limit">Limit:<input type="number" id="limit" name="limit" value="<?php echo htmlentities($_GET['limit'] ?? '10', ENT_QUOTES); ?>" min="1"></label>
+                <label for="limit">Limit:<input type="number" id="limit" name="limit" value="<?php echo htmlentities($_GET['limit'] ?? '10', ENT_QUOTES); ?>" min="1" style="width: 100px;"></label>
                 <label for="sort">Sort by:
                     <select id="sort" name="sort">
                         <option value="username_asc" <?php echo (isset($_GET['sort']) && $_GET['sort'] === 'username_asc') ? 'selected' : ''; ?>>Username (A-Z)</option>

@@ -5,6 +5,7 @@ header {
     color: #fff;
     padding: 10px 0;
     text-align: center;
+    position: relative;
 }
 
 header .title {
@@ -65,4 +66,105 @@ header hr {
 
 header hr:hover {
     margin: 0 20px;
+}
+
+/* Hamburger menu - initially hidden */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 1000;
+}
+
+.hamburger span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    margin: 5px 0;
+    background-color: #fff;
+    transition: 0.3s;
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 768px) {
+    header nav {
+        display: none; /* Hide the regular nav */
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100dvh;
+        background-color: #333;
+        z-index: 999;
+        padding-top: 100px;
+    }
+
+    /* When nav is open */
+    body.no-scroll {
+        overflow: hidden;
+    }
+
+    header nav.open {
+        display: flex;
+        justify-content: flex-start;
+        animation: slideDown 0.3s ease-in-out forwards;
+    }
+
+    @keyframes slideDown {
+        0% {
+            transform: translateY(-100%);
+        } 100% {
+              transform: translateY(0);
+          }
+    }
+
+    header nav.closing {
+        animation: slideUp 0.3s ease-in-out forwards;
+    }
+
+    @keyframes slideUp {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-100%);
+        }
+    }
+
+    header .nav-item {
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 2em;
+        border-bottom: 1px solid #444;
+    }
+
+    header .nav-icon {
+        margin-right: 15px;
+        filter: invert(1); /* Make icons white (they're black) */
+    }
+
+    header hr {
+        display: none; /* Hide dividers on mobile */
+    }
+
+    .hamburger {
+        display: block; /* Show hamburger on mobile */
+    }
+
+    /* Hamburger animation when active */
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
 }

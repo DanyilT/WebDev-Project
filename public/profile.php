@@ -26,7 +26,7 @@ include 'layout/header.php';
 ?>
 
 <main>
-    <button onclick="window.location.href='/auth.php?login';" style="position: absolute; top: 10px; right: 10px;">Login</button>
+    <button onclick="window.location.href='/auth.php?login';" style="position: absolute; top: 35px; right: 10px;">Login</button>
 
     <?php include '../src/Views/User/profile.php'; ?>
 
